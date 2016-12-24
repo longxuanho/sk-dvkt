@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="container clearfix">
+    <h3 class="d-inline-block">Quản lý người dùng</h3>
+    <a href="" class="btn btn-outline-primary float-xs-right" [routerLink]="['/admin/nguoi-dung/tao-moi']">Thêm mới</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="container">
+    <div class="list-group mt-2" *ngIf="users">
+      <a href="" class="list-group-item list-group-item-action" *ngFor="let user of users" [routerLink]="['/admin/nguoi-dung', user.$key]">
+        <h5 class="list-group-item-heading">{{user.displayName}}</h5>
+        <p class="list-group-item-text">{{user.email}}</p>
+        <p class="list-group-item-text">{{user.description}}</p>
+      </a>
+    </div>
+  </div>
+</div>

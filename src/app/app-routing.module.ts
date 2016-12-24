@@ -9,7 +9,7 @@ const routes: Routes = [
     { path: 'dang-nhap', component: LoginComponent },
     { path: 'thiet-lap', loadChildren: 'app/+preferences/preferences.module#PreferencesModule' },
     { path: 'nhap-lieu', loadChildren: 'app/+nhap-lieu/nhap-lieu.module#NhapLieuModule'},   
-    // { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule' },
+    { path: 'admin', loadChildren: 'app/+admin/admin.module#AdminModule' },
 ];
 
 @NgModule({
