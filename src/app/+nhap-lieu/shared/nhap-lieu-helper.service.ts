@@ -54,9 +54,8 @@ export class NhapLieuHelperService {
 
   getViTris() {
     return this.http.get(this.apis.viTris)
-      .map((res: Response) => {         
-        return _.groupBy(res.json().viTris, 'khuVuc'); 
-      })
+      .map((res: Response) => res.json().viTris)
+      .map((res: any) => _.groupBy(res, 'khuVuc'))
       .catch(this.handleError);
   }
 

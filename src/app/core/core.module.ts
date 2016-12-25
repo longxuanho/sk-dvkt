@@ -9,6 +9,8 @@ import { ToastrModule } from 'toastr-ng2';
 import { AuthService } from './shared/auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
+import { SuaChuaService } from './shared/sua-chua.service';
+import { DateTimeConverterService } from './shared/date-time-converter.service';
 
 import { throwIfAlreadyLoaded } from './shared/module-import-guard';
 
@@ -26,7 +28,9 @@ import { throwIfAlreadyLoaded } from './shared/module-import-guard';
     LoginComponent
   ],
   providers: [
-    AuthService
+    AuthService,
+    SuaChuaService,
+    DateTimeConverterService
   ],
   exports: [
     NavbarComponent,
