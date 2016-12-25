@@ -54,6 +54,9 @@ export class NhapLieuAddNewComponent implements OnInit {
   }
 
   subscribeFormChanges() {
+    this.suaChuaNewForm.get('khu_vuc').valueChanges.subscribe(
+      newValue => this.suaChuaNewForm.get('vi_tri').reset()
+    );
     this.suaChuaNewForm.get('thoi_gian_ket_thuc_dk').valueChanges.subscribe(
       newDateTime => {
         this.calcStartTimeRef = moment(this.suaChuaNewForm.get('thoi_gian_bat_dau').value, dateTimeDefaultFormat);
