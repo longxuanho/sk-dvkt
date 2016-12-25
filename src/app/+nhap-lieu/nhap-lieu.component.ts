@@ -39,7 +39,7 @@ export class NhapLieuComponent implements OnInit {
   }
 
   getMaThietBis() {
-    this.subscriptions.MaThietBis = this.nhapLieuHelperService.getMaThietBis().subscribe(
+    this.subscriptions.maThietBis = this.nhapLieuHelperService.getMaThietBis().subscribe(
       maThietBis => this.nhapLieuHelperService.setDataHelper({ maThietBis }),
       error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!') 
     );
