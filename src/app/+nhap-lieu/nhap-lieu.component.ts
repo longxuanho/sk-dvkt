@@ -15,7 +15,7 @@ export class NhapLieuComponent implements OnInit {
     loaiSuaChuas: [],
     loaiThietBis: [],
     khuVucs: [],
-    viTris: []
+    viTris: {}
   };
   errorMessage: string = '';
 
@@ -44,7 +44,7 @@ export class NhapLieuComponent implements OnInit {
 
   getViTris() {
     this.subscriptions.viTris = this.nhapLieuHelperService.getViTris().subscribe(
-      viTris => this.nhapLieuHelperService.setDataHelper({ viTris }),
+      viTris => { this.nhapLieuHelperService.setDataHelper({ viTris }); console.log('dataHelper: ', this.nhapLieuHelperService.getDataHelper())},
       error => this.errorMessage = <any>error
     );
   }

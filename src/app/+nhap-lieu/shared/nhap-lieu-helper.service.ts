@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import * as _ from 'lodash';
+
 import { GSheetsConfig } from './gsheets.config';
-import { LoaiSuaChua, LoaiThietBi, KhuVuc, ViTri } from './nhap-lieu-helper.model'; 
+import { LoaiSuaChua, LoaiThietBi, KhuVuc, ViTri } from './nhap-lieu-helper.model';
 
 
 @Injectable()
@@ -19,10 +21,15 @@ export class NhapLieuHelperService {
   }
 
   dataHelper: any = {
-    data: {}
+    data: {
+      loaiSuaChuas: [],
+      loaiThietBis: [],
+      khuVucs: [],
+      viTris: {}
+    }
   };
 
-  constructor(private http: Http) {}
+  constructor(private http: Http) { }
 
   getLoaiSuaChuas() {
     return this.http.get(this.apis.loaiSuaChuas)
@@ -47,7 +54,9 @@ export class NhapLieuHelperService {
 
   getViTris() {
     return this.http.get(this.apis.viTris)
-      .map((res: Response) => res.json().viTris)
+      .map((res: Response) => {         
+        return _.groupBy(res.json().viTris, 'khuVuc'); 
+      })
       .catch(this.handleError);
   }
 
