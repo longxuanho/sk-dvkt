@@ -5,11 +5,11 @@
   <div class="container clearfix">
     <h3 class="d-inline-block align-middle">Đang sửa chữa</h3>
     <a href="" class="btn btn-outline-primary float-xs-right" [routerLink]="['/admin/nguoi-dung/tao-moi']">Tất cả</a>
-    <small class="d-block text-muted">Hiện có 7 lượt sửa chữa. Sức chứa xưởng đạt 7% (14/72)</small>
+    <small class="d-block text-muted">Hiện có 7 lượt sửa chữa. Năng suất xưởng đạt 7% (14/72)</small>
   </div>
 </div>
 
-<div class="row" *ngIf="suachuas.length">
+<div class="row mt-2" *ngIf="suachuas.length">
   <div class="container">
     <div class="list-group mt-2">
       <a href="" class="list-group-item list-group-item-action" *ngFor="let suachua of suachuas" [routerLink]="['/nhap-lieu', suachua.$key]">
@@ -21,9 +21,9 @@
     </div>
   </div>
 </div>
-<div class="row" *ngIf="!suachuas.length">
+<div class="row mt-2" *ngIf="!suachuas.length">
   <div class="container">
-    <br><br><hr/>
+    <hr/>
     <p>Không có lượt sửa chữa tại thời điểm này.</p>
   </div>
 </div>
