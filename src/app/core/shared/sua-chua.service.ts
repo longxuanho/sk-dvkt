@@ -9,13 +9,18 @@ import { SuaChua, refSuaChuas } from './sua-chua.model';
 @Injectable()
 export class SuaChuaService {
 
+  suachuas: { data: SuaChua[] | null } = {
+    data: null
+  }
+
   handles: {
     suaChuasList?: FirebaseListObservable<SuaChua[]>,
-    suaChuasCurrent?: FirebaseObjectObservable<SuaChua>
+    suaChuasCurrent?: FirebaseListObservable<SuaChua[]>
   } = {}
 
   constructor(private af: AngularFire) {
     this.handles.suaChuasList = this.af.database.list(refSuaChuas.suaChuasList + refSuaChuas.zone);
+    this.handles.suaChuasCurrent = this.af.database.list(refSuaChuas.suaChuasCurrent + refSuaChuas.zone);
   }
 
   addNew(newSuaChua: SuaChua) {
@@ -44,9 +49,8 @@ export class SuaChuaService {
     });
   }
 
-  getSuaChuas() {
-    // this.items = this._af.database.list('/items') as FirebaseListObservable<Item[]>;
-    // return this.items;
+  getSuaChuasCurrent() {
+    return this.handles.suaChuasCurrent;
   }
 
 }

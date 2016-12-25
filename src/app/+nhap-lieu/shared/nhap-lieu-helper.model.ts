@@ -1,16 +1,23 @@
-export interface LoaiSuaChua {
-    loaiSuaChua: string
+export class LoaiSuaChua {
+    loaiSuaChua: string;
 }
 
-export interface LoaiThietBi {
-    loaiThietBi: string
+export class LoaiThietBi {
+    loaiThietBi: string;
 }
 
-export interface KhuVuc {
-    khuVuc: string
+export class KhuVuc {
+    khuVuc: string;
 }
 
-export interface ViTri {
-    khuVuc: string,
-    viTri: string
+export class ViTri {
+    khuVuc: string;
+    viTri: string;
+}
+
+export class MaThietBi {
+    loaiThietBi: string;
+    maThietBi: string;
+    hangSanXuat: string;
+    dvQuanLy: string;
 }

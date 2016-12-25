@@ -5,10 +5,10 @@ import { ToastrService } from 'toastr-ng2';
 import { NhapLieuHelperService } from '../shared/nhap-lieu-helper.service';
 import { SuaChua } from '../../core/shared/sua-chua.model';
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
-import { DateTimeConverterService } from '../../core/shared/date-time-converter.service';
 import { dateTimeDisplayFormat, dateTimeStringFormat } from '../../core/shared/date-time-format.model';
 import { dateTimeValidator, dateTimeRangeValidator } from '../shared/date-time-validation.directive';
-import { MetadataService } from '../shared/metadata.service';
+import { MaThietBi } from '../shared/nhap-lieu-helper.model';
+import { SuaChuaModelBuilderService } from '../../core/shared/sua-chua-model-builder.service';
 
 declare var moment: any;
 
@@ -32,8 +32,7 @@ export class NhapLieuAddNewComponent implements OnInit {
     private toastrService: ToastrService,
     private nhapLieuHelperService: NhapLieuHelperService,
     private suaChuaService: SuaChuaService,
-    private dateTimeConverterService: DateTimeConverterService,
-    private metadataService: MetadataService
+    private suaChuaModelBuilderService: SuaChuaModelBuilderService
   ) { }
 
   buildForm() {
@@ -84,27 +83,17 @@ export class NhapLieuAddNewComponent implements OnInit {
     this.suaChuaNewForm.get('thoi_gian_ket_thuc_dk').setValue(moment().add(3, 'h').format(dateTimeDisplayFormat));
   }
 
-
-  transformBeforeSubmit(rawData: SuaChua): SuaChua {
-    let result = Object.assign({}, rawData) as SuaChua;
-    this.metadataService.setMetadata(result);
-    result.thoi_gian_bat_dau_str = this.dateTimeConverterService.from(result.thoi_gian_bat_dau, dateTimeDisplayFormat).convertToString();
-    result.thoi_gian_bat_dau_unix = this.dateTimeConverterService.convertToUnix();
-    result.thoi_gian_ket_thuc_dk_str = this.dateTimeConverterService.from(result.thoi_gian_ket_thuc_dk, dateTimeDisplayFormat).convertToString();
-    result.thoi_gian_ket_thuc_dk_unix = this.dateTimeConverterService.convertToUnix();
-    return result;
-  }
-
-  transformBeforeSync(rawData: SuaChua): any {
-    const { vi_tri, ma_thiet_bi, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str } = rawData;
-    return { vi_tri, ma_thiet_bi, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str }
-  }
-
   onSubmit() {
+    let rawData = {};
+    Object.assign(rawData, this.suaChuaNewForm.value);
+
+    this.suaChuaModelBuilderService.flattenFields(rawData as { ma_thiet_bi: MaThietBi });
+    this.suaChuaModelBuilderService.transformBeforeSubmit(rawData as SuaChua);
     this.submitting = true;
-    this.suaChuaService.addNew(this.transformBeforeSubmit(this.suaChuaNewForm.value))
+    this.suaChuaService.addNew(rawData as SuaChua)
       .then(success => {
-        this.suaChuaService.syncSuaChuasCurrent(success.key, this.transformBeforeSync(success.data))
+        let syncData = this.suaChuaModelBuilderService.transformBeforeSync(rawData as SuaChua);
+        this.suaChuaService.syncSuaChuasCurrent(success.key, syncData)
           .then(success => {
             this.submitting = false;
             this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');

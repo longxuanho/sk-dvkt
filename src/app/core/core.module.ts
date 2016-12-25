@@ -11,6 +11,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { SuaChuaService } from './shared/sua-chua.service';
 import { DateTimeConverterService } from './shared/date-time-converter.service';
+import { SuaChuaModelBuilderService } from './shared/sua-chua-model-builder.service';
 
 import { throwIfAlreadyLoaded } from './shared/module-import-guard';
 
@@ -29,8 +30,9 @@ import { throwIfAlreadyLoaded } from './shared/module-import-guard';
   ],
   providers: [
     AuthService,
-    SuaChuaService,
-    DateTimeConverterService
+    DateTimeConverterService,
+    SuaChuaService,    
+    SuaChuaModelBuilderService
   ],
   exports: [
     NavbarComponent,

@@ -8,7 +8,7 @@ import 'rxjs/add/observable/throw';
 import * as _ from 'lodash';
 
 import { GSheetsConfig } from './gsheets.config';
-import { LoaiSuaChua, LoaiThietBi, KhuVuc, ViTri } from './nhap-lieu-helper.model';
+import { LoaiSuaChua, LoaiThietBi, KhuVuc, ViTri, MaThietBi } from './nhap-lieu-helper.model';
 
 
 @Injectable()
@@ -79,7 +79,7 @@ export class NhapLieuHelperService {
 
   resetDataHelper() {
     this.dataHelper.data = {}
-  }
+  }  
 
   private handleError(error: any) {
     console.log(error);
@@ -91,5 +91,4 @@ export class NhapLieuHelperService {
     }
     return Observable.throw(error || 'Không thể truy vấn từ backend server.');
   }
-
 }
