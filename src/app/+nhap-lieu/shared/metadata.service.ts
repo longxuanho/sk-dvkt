@@ -18,14 +18,12 @@ export class MetadataService {
     }
 
     setMetadata(rawData) {
-        console.log('preparing...');
         if (!!this.auth.data) {
             rawData.created_by = this.auth.data.$key;
             rawData.created_by_name = this.auth.data.displayName;
             rawData.created_by_email = this.auth.data.email;
         }
         rawData.created_when = moment().format(dateTimeStringFormat);
-        console.log('after... ', rawData);
     }
 
 }

@@ -16,6 +16,7 @@ export class NhapLieuHelperService {
   apis = {
     loaiSuaChuas: GSheetsConfig.master + GSheetsConfig.root + GSheetsConfig.loaiSuaChuas,
     loaiThietBis: GSheetsConfig.master + GSheetsConfig.root + GSheetsConfig.loaiThietBis,
+    maThietBis: GSheetsConfig.master + GSheetsConfig.root + GSheetsConfig.maThietBis,
     khuVucs: GSheetsConfig.master + GSheetsConfig.root + GSheetsConfig.khuVucs,
     viTris: GSheetsConfig.master + GSheetsConfig.root + GSheetsConfig.viTris
   }
@@ -24,6 +25,7 @@ export class NhapLieuHelperService {
     data: {
       loaiSuaChuas: [],
       loaiThietBis: [],
+      maThietBis: {},
       khuVucs: [],
       viTris: {}
     }
@@ -42,6 +44,13 @@ export class NhapLieuHelperService {
     return this.http.get(this.apis.loaiThietBis)
       .map((res: Response) => res.json().loaiThietBis)
       .map((data: LoaiThietBi[]) => data.map(item => item.loaiThietBi))
+      .catch(this.handleError);
+  }
+
+  getMaThietBis() {
+    return this.http.get(this.apis.maThietBis)
+      .map((res: Response) => res.json().maThietBis)
+      .map((res: any) => _.groupBy(res, 'loaiThietBi'))
       .catch(this.handleError);
   }
 

@@ -3,6 +3,7 @@ export const GSheetsConfig = {
   root: '?id=1LkcsN26D2LKe6wnLTle7Zjxc3mM2Fqan8btO9iIElJI',
   loaiSuaChuas: '&sheet=loaiSuaChuas',
   loaiThietBis: '&sheet=loaiThietBis',
+  maThietBis: '&sheet=maThietBis',
   khuVucs: '&sheet=khuVucs',
   viTris: '&sheet=viTris'
 };

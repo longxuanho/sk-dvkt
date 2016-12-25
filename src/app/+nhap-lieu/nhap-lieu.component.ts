@@ -35,6 +35,13 @@ export class NhapLieuComponent implements OnInit {
     );
   }
 
+  getMaThietBis() {
+    this.subscriptions.MaThietBis = this.nhapLieuHelperService.getMaThietBis().subscribe(
+      maThietBis => { this.nhapLieuHelperService.setDataHelper({ maThietBis }); console.log('dataHelper: ', this.nhapLieuHelperService.getDataHelper())},
+      error => this.errorMessage = <any>error
+    );
+  }
+
   getKhuVucs() {
     this.subscriptions.khuVucs = this.nhapLieuHelperService.getKhuVucs().subscribe(
       khuVucs => this.nhapLieuHelperService.setDataHelper({ khuVucs }),
@@ -52,6 +59,7 @@ export class NhapLieuComponent implements OnInit {
   ngOnInit() {
     this.getLoaiSuaChuas();
     this.getLoaiThietBis();
+    this.getMaThietBis();
     this.getKhuVucs();
     this.getViTris();
   }
@@ -59,6 +67,7 @@ export class NhapLieuComponent implements OnInit {
   ngOnDestroy() {
     this.subscriptions.loaiSuaChuas.unsubscribe();
     this.subscriptions.loaiThietBis.unsubscribe();
+    this.subscriptions.maThietBis.unsubscribe();
     this.subscriptions.khuVucs.unsubscribe();
     this.subscriptions.viTris.unsubscribe();
   }

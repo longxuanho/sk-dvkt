@@ -82,7 +82,6 @@ export class NhapLieuAddNewComponent implements OnInit {
     result.thoi_gian_bat_dau_unix = this.dateTimeConverterService.convertToUnix();
     result.thoi_gian_ket_thuc_dk_str = this.dateTimeConverterService.from(result.thoi_gian_ket_thuc_dk, dateTimeDisplayFormat).convertToString();
     result.thoi_gian_ket_thuc_dk_unix = this.dateTimeConverterService.convertToUnix();
-    console.log('after: ', result);
     return result;
   }
 
