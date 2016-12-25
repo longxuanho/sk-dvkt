@@ -19,8 +19,8 @@ export class DateTimeConverterService {
     return !!this.timeStampAsMoment ? this.timeStampAsMoment.format(dateTimeStringFormat) : '';
   }
 
-  convertToUnix(): string {
-    return !!this.timeStampAsMoment ? this.timeStampAsMoment.valueOf() : '';
+  convertToUnix(): number {
+    return !!this.timeStampAsMoment ? this.timeStampAsMoment.valueOf() : 0;
   }
 
   convertToDisplay(): string {
