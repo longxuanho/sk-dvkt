@@ -8,6 +8,7 @@ import { SuaChuaService } from '../../core/shared/sua-chua.service';
 import { DateTimeConverterService } from '../../core/shared/date-time-converter.service';
 import { dateTimeDisplayFormat, dateTimeStringFormat } from '../../core/shared/date-time-format.model';
 import { dateTimeValidator, dateTimeRangeValidator } from '../shared/date-time-validation.directive';
+import { MetadataService } from '../shared/metadata.service';
 
 declare var moment: any;
 
@@ -31,7 +32,8 @@ export class NhapLieuAddNewComponent implements OnInit {
     private toastrService: ToastrService,
     private nhapLieuHelperService: NhapLieuHelperService,
     private suaChuaService: SuaChuaService,
-    private dateTimeConverterService: DateTimeConverterService
+    private dateTimeConverterService: DateTimeConverterService,
+    private metadataService: MetadataService
   ) {}
 
   buildForm() {
@@ -73,22 +75,27 @@ export class NhapLieuAddNewComponent implements OnInit {
     );
   }
 
-  transformBeforeSubmit() {
-    let result: SuaChua = Object.assign({}, this.suaChuaNewForm.value);
+  transformBeforeSubmit(rawData: SuaChua): SuaChua { 
+    let result = Object.assign({}, rawData) as SuaChua;
+    this.metadataService.setMetadata(result);
     result.thoi_gian_bat_dau_str = this.dateTimeConverterService.from(result.thoi_gian_bat_dau, dateTimeDisplayFormat).convertToString();
     result.thoi_gian_bat_dau_unix = this.dateTimeConverterService.convertToUnix();
     result.thoi_gian_ket_thuc_dk_str = this.dateTimeConverterService.from(result.thoi_gian_ket_thuc_dk, dateTimeDisplayFormat).convertToString();
     result.thoi_gian_ket_thuc_dk_unix = this.dateTimeConverterService.convertToUnix();
+    console.log('after: ', result);
+    return result;
+  }
 
-    console.log('result: ', result);
+  transformBeforeSync(rawData: SuaChua): any   {
+    const { vi_tri, ma_thiet_bi, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str } = rawData;
+    return { vi_tri, ma_thiet_bi, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str }
   }
 
   onSubmit() {
     this.submitting = true;
-    this.transformBeforeSubmit();
-    this.suaChuaService.addNew(Object.assign({}, this.suaChuaNewForm.value))
+    this.suaChuaService.addNew(this.transformBeforeSubmit(this.suaChuaNewForm.value))
       .then(success => {        
-        this.suaChuaService.syncSuaChuasCurrent(success.key, success.data)
+        this.suaChuaService.syncSuaChuasCurrent(success.key, this.transformBeforeSync(success.data))
           .then(success => {
             this.submitting = false;
             this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');

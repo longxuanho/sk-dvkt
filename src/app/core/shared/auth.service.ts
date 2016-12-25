@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFire, FirebaseAuthState } from 'angularfire2';
 
+import { UserProfile } from './user-profile.model';
+
 @Injectable()
 export class AuthService {
 
   uid: string = '';
-  auth: { data?: any } = {
+  auth: { data: UserProfile | null } = {
     data: null
   };
 
@@ -14,10 +16,9 @@ export class AuthService {
       if (auth) {
         this.uid = this.af.auth.getAuth().uid;
         this.af.database.object(`/accounts/users/${this.uid}`).subscribe(data => {
-          this.auth.data = data;
+          this.auth.data = <UserProfile>data;
           this.setAuthOnlineStatus(true);
-          this.setAuthPresenceStatus(true);
-          
+          this.setAuthPresenceStatus(true);          
         });
       } else {
         this.setAuthOnlineStatus(false);
@@ -45,6 +46,10 @@ export class AuthService {
   setAuthOnlineStatus(status: boolean) {
     if (this.uid)
       this.af.database.object(`/accounts/users/${this.uid}/online`).set(status);
+  }
+
+  getAuthProfile() {
+    return this.auth;
   }
 
   login(credential) {
