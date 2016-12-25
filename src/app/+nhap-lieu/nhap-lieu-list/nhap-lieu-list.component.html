@@ -5,19 +5,25 @@
   <div class="container clearfix">
     <h3 class="d-inline-block align-middle">Đang sửa chữa</h3>
     <a href="" class="btn btn-outline-primary float-xs-right" [routerLink]="['/admin/nguoi-dung/tao-moi']">Tất cả</a>
-    <small class="d-block text-muted">Hiện có 7 lượt sửa chữa. Sức chứa xưởng đạt 7% (14/72)</small>    
+    <small class="d-block text-muted">Hiện có 7 lượt sửa chữa. Sức chứa xưởng đạt 7% (14/72)</small>
   </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="suachuas.length">
   <div class="container">
     <div class="list-group mt-2">
-      <a href="" class="list-group-item list-group-item-action">
-        <h5 class="list-group-item-heading">NB106: XNCG</h5>
-        <p class="list-group-item-text">Chảy dầu ống xả nhớt, đang chờ kiểm tra</p>
-        <p class="list-group-item-text">Khu A: A1:01</p>
+      <a href="" class="list-group-item list-group-item-action" *ngFor="let suachua of suachuas" [routerLink]="['/nhap-lieu', suachua.$key]">
+        <h5 class="list-group-item-heading">{{suachua.ma_thiet_bi}}: {{suachua.dv_quan_ly}}</h5>
+        <p class="list-group-item-text">{{suachua.noi_dung}}</p>
+        <p class="list-group-item-text">{{suachua.khu_vuc}}: {{suachua.vi_tri}}</p>
         <small class="form-text text-muted">3 giờ trước • DK xong vào 4 giờ tới</small>
       </a>
     </div>
+  </div>
+</div>
+<div class="row" *ngIf="!suachuas.length">
+  <div class="container">
+    <br><br><hr/>
+    <p>Không có lượt sửa chữa tại thời điểm này.</p>
   </div>
 </div>

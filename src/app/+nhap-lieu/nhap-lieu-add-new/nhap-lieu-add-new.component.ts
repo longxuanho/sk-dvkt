@@ -3,11 +3,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'toastr-ng2';
 
 import { NhapLieuHelperService } from '../shared/nhap-lieu-helper.service';
-import { SuaChua } from '../../core/shared/sua-chua.model';
+import { SuaChua, MaThietBi } from '../../core/shared/sua-chua.model';
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
 import { dateTimeDisplayFormat, dateTimeStringFormat } from '../../core/shared/date-time-format.model';
 import { dateTimeValidator, dateTimeRangeValidator } from '../shared/date-time-validation.directive';
-import { MaThietBi } from '../shared/nhap-lieu-helper.model';
 import { SuaChuaModelBuilderService } from '../../core/shared/sua-chua-model-builder.service';
 
 declare var moment: any;

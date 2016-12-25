@@ -8,7 +8,7 @@ import 'rxjs/add/observable/throw';
 import * as _ from 'lodash';
 
 import { GSheetsConfig } from './gsheets.config';
-import { LoaiSuaChua, LoaiThietBi, KhuVuc, ViTri, MaThietBi } from './nhap-lieu-helper.model';
+import { LoaiSuaChua, LoaiThietBi, KhuVuc, ViTri, MaThietBi } from '../../core/shared/sua-chua.model';
 
 
 @Injectable()

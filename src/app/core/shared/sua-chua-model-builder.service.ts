@@ -44,8 +44,8 @@ export class SuaChuaModelBuilderService {
     }
 
     transformBeforeSync(rawData: SuaChua) {
-        const { vi_tri, ma_thiet_bi, dv_quan_ly, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str } = rawData;
-        return { vi_tri, ma_thiet_bi, dv_quan_ly, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str };
+        const { vi_tri, khu_vuc, ma_thiet_bi, dv_quan_ly, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str } = rawData;
+        return { vi_tri, khu_vuc, ma_thiet_bi, dv_quan_ly, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str };
     }
 
 

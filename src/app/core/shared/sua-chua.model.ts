@@ -7,7 +7,7 @@ export const refSuaChuas = {
 export class SuaChua {
   $key?: string;
   location_id?: string;
-  khu_vuc?: string;
+  khu_vuc: string;
   vi_tri: string;
   loai_sua_chua?: string;
   loai_thiet_bi?: string;
