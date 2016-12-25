@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { NhapLieuComponent } from './nhap-lieu.component';
 import { NavNhapLieuComponent } from './nav-nhap-lieu/nav-nhap-lieu.component';
 import { NhapLieuAddNewComponent } from './nhap-lieu-add-new/nhap-lieu-add-new.component';
+import { NhapLieuListComponent } from './nhap-lieu-list/nhap-lieu-list.component';
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
         path: '',
         component: NhapLieuComponent,
         children: [
+            { path: '', component: NhapLieuListComponent },
             { path: 'tao-moi', component: NhapLieuAddNewComponent },
         ]
     },
@@ -25,5 +27,6 @@ export class NhapLieuRoutingModule { }
 export const routedComponents = [
     NhapLieuComponent,
     NavNhapLieuComponent,
-    NhapLieuAddNewComponent
+    NhapLieuAddNewComponent,
+    NhapLieuListComponent
 ];
