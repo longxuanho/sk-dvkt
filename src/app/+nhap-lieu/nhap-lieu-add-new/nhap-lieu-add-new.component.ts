@@ -18,7 +18,7 @@ declare var moment: any;
   styleUrls: ['./nhap-lieu-add-new.component.scss']
 })
 export class NhapLieuAddNewComponent implements OnInit {
-  
+
   suaChuaNewForm: FormGroup;
   submitting: boolean = false;
   dataHelper: any = {
@@ -34,26 +34,26 @@ export class NhapLieuAddNewComponent implements OnInit {
     private suaChuaService: SuaChuaService,
     private dateTimeConverterService: DateTimeConverterService,
     private metadataService: MetadataService
-  ) {}
+  ) { }
 
   buildForm() {
     this.suaChuaNewForm = this.formBuilder.group({
       location_id: this.formBuilder.control('CLA_PXOTO', Validators.required),
-      loai_sua_chua: this.formBuilder.control('Sửa chữa cụm', Validators.required),
-      loai_thiet_bi: this.formBuilder.control('Đầu kéo chạy ngoài', Validators.required),
-      ma_thiet_bi: this.formBuilder.control('2', Validators.required),
-      khu_vuc: this.formBuilder.control('Khu A', Validators.required),
-      vi_tri: this.formBuilder.control('A1:01', Validators.required),
-      ma_wo: this.formBuilder.control('12345'),
-      noi_dung: this.formBuilder.control('Noi dung - Test', Validators.required),
+      loai_sua_chua: this.formBuilder.control('', Validators.required),
+      loai_thiet_bi: this.formBuilder.control('', Validators.required),
+      ma_thiet_bi: this.formBuilder.control('', Validators.required),
+      khu_vuc: this.formBuilder.control('', Validators.required),
+      vi_tri: this.formBuilder.control('', Validators.required),
+      ma_wo: this.formBuilder.control(''),
+      noi_dung: this.formBuilder.control('', Validators.required),
       thoi_gian_bat_dau: this.formBuilder.control(moment().format(dateTimeDisplayFormat), [
         Validators.required,
-        // Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/ig),
+        Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/ig),
         dateTimeValidator()
       ]),
-      thoi_gian_ket_thuc_dk: this.formBuilder.control(moment().add(3, 'h').format(dateTimeDisplayFormat),  [
+      thoi_gian_ket_thuc_dk: this.formBuilder.control(moment().add(3, 'h').format(dateTimeDisplayFormat), [
         Validators.required,
-        // Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/ig),
+        Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/ig),
         dateTimeRangeValidator(this.calcStartTimeRef)
       ]),
       trang_thai: this.formBuilder.control('Đang sửa chữa', Validators.required)
@@ -61,6 +61,9 @@ export class NhapLieuAddNewComponent implements OnInit {
   }
 
   subscribeFormChanges() {
+    this.suaChuaNewForm.get('loai_thiet_bi').valueChanges.subscribe(
+      newValue => this.suaChuaNewForm.get('ma_thiet_bi').reset()
+    );
     this.suaChuaNewForm.get('khu_vuc').valueChanges.subscribe(
       newValue => this.suaChuaNewForm.get('vi_tri').reset()
     );
@@ -70,12 +73,19 @@ export class NhapLieuAddNewComponent implements OnInit {
         let from = moment(this.calcStartTimeRef, dateTimeDisplayFormat);
         let to = moment(newDateTime, dateTimeDisplayFormat);
         if (from.isValid() && to.isValid())
-          this.calcThoiGianDK = `${moment.duration(to.diff(from)).asHours().toFixed(2)} giờ`;  
+          this.calcThoiGianDK = `${moment.duration(to.diff(from)).asHours().toFixed(2)} giờ`;
       }
     );
   }
 
-  transformBeforeSubmit(rawData: SuaChua): SuaChua { 
+  resetForm() {
+    this.suaChuaNewForm.reset();
+    this.suaChuaNewForm.get('thoi_gian_bat_dau').setValue(moment().format(dateTimeDisplayFormat));
+    this.suaChuaNewForm.get('thoi_gian_ket_thuc_dk').setValue(moment().add(3, 'h').format(dateTimeDisplayFormat));
+  }
+
+
+  transformBeforeSubmit(rawData: SuaChua): SuaChua {
     let result = Object.assign({}, rawData) as SuaChua;
     this.metadataService.setMetadata(result);
     result.thoi_gian_bat_dau_str = this.dateTimeConverterService.from(result.thoi_gian_bat_dau, dateTimeDisplayFormat).convertToString();
@@ -85,7 +95,7 @@ export class NhapLieuAddNewComponent implements OnInit {
     return result;
   }
 
-  transformBeforeSync(rawData: SuaChua): any   {
+  transformBeforeSync(rawData: SuaChua): any {
     const { vi_tri, ma_thiet_bi, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str } = rawData;
     return { vi_tri, ma_thiet_bi, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str }
   }
@@ -93,11 +103,12 @@ export class NhapLieuAddNewComponent implements OnInit {
   onSubmit() {
     this.submitting = true;
     this.suaChuaService.addNew(this.transformBeforeSubmit(this.suaChuaNewForm.value))
-      .then(success => {        
+      .then(success => {
         this.suaChuaService.syncSuaChuasCurrent(success.key, this.transformBeforeSync(success.data))
           .then(success => {
             this.submitting = false;
             this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
+            this.resetForm();
           })
           .catch(error => {
             this.submitting = false;

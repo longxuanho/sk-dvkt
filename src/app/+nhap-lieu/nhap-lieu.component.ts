@@ -14,45 +14,48 @@ export class NhapLieuComponent implements OnInit {
   dataHelper: any = {
     loaiSuaChuas: [],
     loaiThietBis: [],
+    maThietBis: {},
     khuVucs: [],
     viTris: {}
   };
-  errorMessage: string = '';
 
-  constructor(private nhapLieuHelperService: NhapLieuHelperService) { }
+  constructor(
+    private nhapLieuHelperService: NhapLieuHelperService,
+    private toastrService: ToastrService
+  ) { }
 
   getLoaiSuaChuas() {
     this.subscriptions.loaiSuaChuas = this.nhapLieuHelperService.getLoaiSuaChuas().subscribe(
       loaiSuaChuas => this.nhapLieuHelperService.setDataHelper({ loaiSuaChuas }),
-      error => this.errorMessage = <any>error
+      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!')      
     );
   }
 
   getLoaiThietBis() {
     this.subscriptions.loaiThietBis = this.nhapLieuHelperService.getLoaiThietBis().subscribe(
       loaiThietBis => this.nhapLieuHelperService.setDataHelper({ loaiThietBis }),
-      error => this.errorMessage = <any>error
+      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!') 
     );
   }
 
   getMaThietBis() {
     this.subscriptions.MaThietBis = this.nhapLieuHelperService.getMaThietBis().subscribe(
-      maThietBis => { this.nhapLieuHelperService.setDataHelper({ maThietBis }); console.log('dataHelper: ', this.nhapLieuHelperService.getDataHelper())},
-      error => this.errorMessage = <any>error
+      maThietBis => this.nhapLieuHelperService.setDataHelper({ maThietBis }),
+      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!') 
     );
   }
 
   getKhuVucs() {
     this.subscriptions.khuVucs = this.nhapLieuHelperService.getKhuVucs().subscribe(
       khuVucs => this.nhapLieuHelperService.setDataHelper({ khuVucs }),
-      error => this.errorMessage = <any>error
+      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!') 
     );
   }
 
   getViTris() {
     this.subscriptions.viTris = this.nhapLieuHelperService.getViTris().subscribe(
-      viTris => { this.nhapLieuHelperService.setDataHelper({ viTris }); console.log('dataHelper: ', this.nhapLieuHelperService.getDataHelper())},
-      error => this.errorMessage = <any>error
+      viTris => this.nhapLieuHelperService.setDataHelper({ viTris }),
+      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!') 
     );
   }
 

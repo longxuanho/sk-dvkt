@@ -33,10 +33,8 @@ export class SuaChuaService {
 
   syncSuaChuasCurrent(key, newSuaChua) {
     return new Promise((resolve, reject) => {
-      console.log('prepare: ', `${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`);
       this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(newSuaChua)
         .then(success => {
-          console.log('key: ', success);
           resolve({
             key: success,
             data: newSuaChua

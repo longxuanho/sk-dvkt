@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 import * as _ from 'lodash';
 
@@ -80,9 +81,15 @@ export class NhapLieuHelperService {
     this.dataHelper.data = {}
   }
 
-  private handleError(error: Response) {
+  private handleError(error: any) {
     console.log(error);
-    return Observable.throw(error.json().error || 'Server error');
+    if (error instanceof Response) {
+      return Observable.throw(error.json().error || 'Không thể truy vấn từ backend server.');
+      // if you're using lite-server, use the following line
+      // instead of the line above:
+      //return Observable.throw(err.text() || 'Không thể truy vấn từ backend server.');
+    }
+    return Observable.throw(error || 'Không thể truy vấn từ backend server.');
   }
 
 }
