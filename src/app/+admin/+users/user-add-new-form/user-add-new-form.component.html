@@ -1,0 +1,35 @@
+<form class="mb-2" [formGroup]="userAddNewForm" (ngSubmit)="onSubmit()">
+  <div class="mb-1">
+    <img src="assets/imgs/default_avatar.svg" alt="..." class="img-thumbnail">
+  </div>
+  <div class="form-group" [ngClass]="{'has-danger': userAddNewForm.controls.email.invalid && (userAddNewForm.controls.email.dirty || userAddNewForm.controls.email.touched)}">
+    <label for="exampleInputEmail1">Thông tin đăng nhập</label>
+    <input type="text" class="form-control" aria-describedby="emailHelp" id="exampleInputEmail1" placeholder="Nhập email đăng ký"
+      formControlName="email">
+    <small id="emailHelp" class="form-text text-muted">Email đăng ký chỉ được nhập một lần, không thể thay đổi về sau.</small>
+  </div>
+  <div class="form-group" [ngClass]="{'has-danger': userAddNewForm.controls.password.invalid && (userAddNewForm.controls.password.dirty || userAddNewForm.controls.password.touched)}">
+    <label for="exampleInputPassword1">Mật khẩu</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mật khẩu" formControlName="password">
+    <small id="emailHelp" class="form-text text-muted">Mật khẩu khởi tạo ban đầu ít nhất 8 ký tự, người dùng có thể dễ dàng thay đổi về sau.</small>
+  </div>
+  <div class="form-group" [ngClass]="{'has-danger': userAddNewForm.controls.displayName.invalid && (userAddNewForm.controls.displayName.dirty || userAddNewForm.controls.displayName.touched)}">
+    <label for="exampleInputName1">Tên hiển thị</label>
+    <input type="text" class="form-control" aria-describedby="emailHelp" id="exampleInputName1" placeholder="Họ và tên" formControlName="displayName">
+  </div>
+  <div class="form-group" [ngClass]="{'has-danger': userAddNewForm.controls.description.invalid && (userAddNewForm.controls.description.dirty || userAddNewForm.controls.description.touched)}">
+    <label for="exampleInputDesc1">Mô tả</label>
+    <input type="text" class="form-control" aria-describedby="emailHelp" id="exampleInputDesc1" placeholder="Đơn vị công tác"
+      formControlName="description">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPhoto1">Hình đại diện</label>
+    <input type="text" class="form-control" aria-describedby="emailHelp" id="exampleInputPhoto1" placeholder="Liên kết tới hình ảnh"
+      formControlName="photoUrl">
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="formError">
+    <p><strong>Thông điệp phản hồi từ server:</strong></p>
+    {{formError}}
+  </div>
+  <button type="submit" class="btn btn-outline-primary mt-1" [disabled]="userAddNewForm.invalid || submitting">Tạo tài khoản</button>
+</form>

@@ -1,0 +1,33 @@
+<form class="mb-2" [formGroup]="userBasicInfoForm" (ngSubmit)="onSubmit()">
+  <div class="mb-1">
+    <img src="assets/imgs/default_avatar.svg" alt="..." class="img-thumbnail">
+  </div>
+  <div class="form-group" [ngClass]="{'has-danger': userBasicInfoForm.controls.email.invalid && (userBasicInfoForm.controls.email.dirty || userBasicInfoForm.controls.email.touched)}">
+    <label for="inputEmail">Email đăng ký</label>
+    <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Nhập email đăng ký" formControlName="email">
+    <small id="emailHelp" class="form-text text-muted">Thông tin email đăng nhập người dùng.</small>
+  </div>
+  <div class="form-group" [ngClass]="{'has-danger': userBasicInfoForm.controls.displayName.invalid && (userBasicInfoForm.controls.displayName.dirty || userBasicInfoForm.controls.displayName.touched)}">
+    <label for="inputDisplayName">Tên hiển thị</label>
+    <input type="text" class="form-control" id="inputDisplayName" placeholder="Họ tên người dùng" formControlName="displayName">
+  </div>
+  <div class="form-group" [ngClass]="{'has-danger': userBasicInfoForm.controls.description.invalid && (userBasicInfoForm.controls.description.dirty || userBasicInfoForm.controls.description.touched)}">
+    <label for="inputDescription">Mô tả</label>
+    <input type="text" class="form-control" id="inputDescription" placeholder="Đơn vị công tác" formControlName="description">
+  </div>
+  <div class="form-group" [ngClass]="{'has-danger': userBasicInfoForm.controls.photoUrl.invalid && (userBasicInfoForm.controls.photoUrl.dirty || userBasicInfoForm.controls.photoUrl.touched)}">
+    <label for="exampleInputPhoto1">Hình đại diện</label>
+    <input type="text" class="form-control" aria-describedby="emailHelp" id="exampleInputPhoto1" placeholder="Liên kết tới hình ảnh" formControlName="photoUrl">
+  </div>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input" formControlName="requireNewPassword">
+      Yêu cầu đổi mật khẩu lần đầu tiên
+    </label>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="formError">
+    <p><strong>Thông điệp phản hồi từ server:</strong></p>
+    {{formError}}
+  </div>  
+  <button type="submit" class="btn btn-outline-primary mt-1 mb-1" [disabled]="userBasicInfoForm.invalid || submitting">Cập nhật</button>
+</form>

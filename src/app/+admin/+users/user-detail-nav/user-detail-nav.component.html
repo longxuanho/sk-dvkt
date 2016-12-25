@@ -1,0 +1,29 @@
+<form [formGroup]="userNavForm">
+  <fieldset class="form-group">
+    <legend>Tôi muốn...</legend>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="radio" class="form-check-input" value="basicInfo" formControlName="selectedForm">
+        Thay đổi các thông tin người dùng cơ bản
+      </label>
+    </div>
+    <div class="form-check">
+    <label class="form-check-label">
+        <input type="radio" class="form-check-input" value="userRights" formControlName="selectedForm">
+        Cập nhật phân quyền người dùng này
+      </label>
+    </div>
+    <div class="form-check">
+    <label class="form-check-label">
+        <input type="radio" class="form-check-input" value="resetPassword" formControlName="selectedForm">
+        Reset mật khẩu người dùng
+      </label>
+    </div>
+    <div class="form-check">
+    <label class="form-check-label">
+        <input type="radio" class="form-check-input" value="deactivateUser" formControlName="selectedForm">
+        Khóa tài khoản hoặc xóa vĩnh viễn người dùng khỏi hệ thống
+      </label>
+    </div>
+  </fieldset>
+</form>

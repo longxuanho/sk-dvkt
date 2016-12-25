@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserDetailComponent implements OnInit {
 
+  selectedForm: string = 'basicInfo';
+
   constructor() { }
+
+  onSelect(message: string) {
+    this.selectedForm = message;
+  }
 
   ngOnInit() {
   }

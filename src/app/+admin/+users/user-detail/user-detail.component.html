@@ -1,3 +1,27 @@
-<p>
-  user-detail works!
-</p>
+<div class="row">
+    <div class="container clearfix">
+        <h3 class="d-inline-block">Thiết lập người dùng</h3>
+        <a href="" class="btn btn-outline-primary float-xs-right" [routerLink]="['/admin/nguoi-dung']">Trở về</a>
+    </div>    
+</div>
+<div class="row mt-2">
+    <div class="container">
+        <sk-user-detail-nav (select)="onSelect($event)"></sk-user-detail-nav>       
+    </div>    
+</div>
+<div class="row">
+    <div class="container" *ngIf="selectedForm==='basicInfo'">
+        <sk-user-detail-basic-info></sk-user-detail-basic-info>        
+    </div>
+    <div class="container" *ngIf="selectedForm==='userRights'">
+        <sk-user-detail-rights></sk-user-detail-rights>        
+    </div>
+    <div class="container" *ngIf="selectedForm==='resetPassword'">
+        <sk-user-detail-reset-password></sk-user-detail-reset-password>        
+    </div>
+    <div class="container" *ngIf="selectedForm==='deactivateUser'">
+        <sk-user-detail-deactivate></sk-user-detail-deactivate>        
+    </div>
+</div>
+
+
