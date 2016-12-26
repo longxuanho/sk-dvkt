@@ -39,7 +39,7 @@ export class SuaChuaService {
   update(key: string, suaChua: SuaChua) {
     return new Promise<{ key: string, data: SuaChua }>((resolve, reject) => {
       if (key) {
-        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).update(suaChua).
+        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(suaChua).
           then(success => {
             resolve({
               key: key,

@@ -28,7 +28,7 @@ export class NhapLieuUpdateComponent implements OnInit {
   dataHelper: any = {
     data: {}
   };
-  cloneSuaChua: SuaChua | {} = {};
+  cloneSuaChua: SuaChua;
   display: { timeDiff: string } = {
     timeDiff: '0.00 giờ'
   }
@@ -39,7 +39,7 @@ export class NhapLieuUpdateComponent implements OnInit {
     private suaChuaService: SuaChuaService,
     private toastrService: ToastrService,
     private nhapLieuHelperService: NhapLieuHelperService,
-    private suaChuaModelBuilderService :SuaChuaModelBuilderService
+    private suaChuaModelBuilderService: SuaChuaModelBuilderService
   ) { }
 
   buildForm() {
@@ -70,7 +70,7 @@ export class NhapLieuUpdateComponent implements OnInit {
   }
 
   subscribeFormChanges() {
-    this.suaChuaUpdateForm.get('khu_vuc').valueChanges.subscribe(      
+    this.suaChuaUpdateForm.get('khu_vuc').valueChanges.subscribe(
       newValue => this.suaChuaUpdateForm.get('vi_tri').reset()
     );
     this.suaChuaUpdateForm.get('thoi_gian_ket_thuc_dk').valueChanges.subscribe(
@@ -85,8 +85,11 @@ export class NhapLieuUpdateComponent implements OnInit {
   }
 
   onSubmit() {
-    let rawData = Object.assign({}, this.cloneSuaChua);
-    Object.assign(rawData, this.suaChuaUpdateForm.value);
+
+    let rawData = Object.assign({}, this.suaChuaUpdateForm.value);
+    // Cập nhật thủ công các trường đã disable trong lúc tạo form.
+    let { loai_sua_chua, loai_thiet_bi, ma_thiet_bi } = this.cloneSuaChua
+    Object.assign(rawData, { loai_sua_chua, loai_thiet_bi, ma_thiet_bi })
 
     this.suaChuaModelBuilderService.transformBeforeUpdate(rawData as SuaChua);
     this.submitting = true;
@@ -132,9 +135,9 @@ export class NhapLieuUpdateComponent implements OnInit {
         this.cloneSuaChua = Object.assign({}, data);
         this.suaChuaId = data.$key;
         console.log('data: ', this.cloneSuaChua);
-        
+
         this.resetForm();
-      });    
+      });
   }
 
 }
