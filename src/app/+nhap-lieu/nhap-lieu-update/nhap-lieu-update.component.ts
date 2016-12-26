@@ -28,6 +28,7 @@ export class NhapLieuUpdateComponent implements OnInit {
   dataHelper: any = {
     data: {}
   };
+  cloneSuaChua: SuaChua | {} = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -50,7 +51,7 @@ export class NhapLieuUpdateComponent implements OnInit {
       thoi_gian_bat_dau: this.formBuilder.control(moment().format(dateTimeDisplayFormat), [
         Validators.required,
         Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/ig),
-        dateTimeValidator()
+        // dateTimeValidator()
       ]),
       thoi_gian_ket_thuc_dk: this.formBuilder.control(moment().add(3, 'h').format(dateTimeDisplayFormat), [
         Validators.required,
@@ -61,23 +62,48 @@ export class NhapLieuUpdateComponent implements OnInit {
     });
   }
 
+  subscribeFormChanges() {
+    this.suaChuaUpdateForm.get('khu_vuc').valueChanges.subscribe(
+      
+      newValue => {console.log('prepare to reset...');this.suaChuaUpdateForm.get('vi_tri').reset()}
+    );
+    // this.suaChuaUpdateForm.get('thoi_gian_ket_thuc_dk').valueChanges.subscribe(
+    //   newDateTime => {
+    //     this.calcStartTimeRef = moment(this.suaChuaUpdateForm.get('thoi_gian_bat_dau').value, dateTimeDisplayFormat);
+    //     let from = moment(this.calcStartTimeRef, dateTimeDisplayFormat);
+    //     let to = moment(newDateTime, dateTimeDisplayFormat);
+    //     if (from.isValid() && to.isValid())
+    //       this.calcThoiGianDK = `${moment.duration(to.diff(from)).asHours().toFixed(2)} giờ`;
+    //   }
+    // );
+  }
+
   onSubmit() {
 
+  }
+
+  setTrangThaiSuaChua(trangThai: string) {
+    this.suaChuaUpdateForm.get('trang_thai').setValue(trangThai);
+  }
+
+  resetForm() {
+    this.suaChuaUpdateForm.reset();
+    this.suaChuaUpdateForm.patchValue(this.cloneSuaChua);
   }
 
   ngOnInit() {
     this.dataHelper = this.nhapLieuHelperService.getDataHelper();
     this.buildForm();
+    this.subscribeFormChanges();
 
     this.route.params
       .switchMap((params: Params) => this.suaChuaService.getSuaChua(params['id']))
       .subscribe((data: SuaChua) => {
+        this.cloneSuaChua = Object.assign({}, data);
         this.suaChuaId = data.$key;
-        console.log('suaChuaId: ', this.suaChuaId);
-        console.log('data: ', data);
+        console.log('data: ', this.cloneSuaChua);
         
-        this.suaChuaUpdateForm.reset();
-        this.suaChuaUpdateForm.patchValue(data);
+        this.resetForm();
       });    
   }
 

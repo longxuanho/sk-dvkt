@@ -1,4 +1,24 @@
 <h3>Cập nhật sửa chữa</h3>
+<div class="row mt-2">
+  <div class="col-xs-12">
+    <button type="button" class="btn" 
+      (click)="setTrangThaiSuaChua('Đang sửa chữa')"
+      [ngClass]="{'btn-outline-info': cloneSuaChua.trang_thai !== 'Đang sửa chữa', 'btn-info': cloneSuaChua.trang_thai === 'Đang sửa chữa'}">
+      Đang tiến hành
+    </button>
+    <button type="button" class="btn"
+      (click)="setTrangThaiSuaChua('Chuẩn bị BG')"
+      [ngClass]="{'btn-outline-warning': cloneSuaChua.trang_thai !== 'Chuẩn bị BG', 'btn-warning': cloneSuaChua.trang_thai === 'Chuẩn bị BG'}">
+      Chuẩn bị BG
+    </button>
+    <button type="button" class="btn"
+      (click)="setTrangThaiSuaChua('Hoàn thành')"
+      [ngClass]="{'btn-outline-success': cloneSuaChua.trang_thai !== 'Hoàn thành', 'btn-success': cloneSuaChua.trang_thai === 'Hoàn thành'}">
+      Hoàn thành
+    </button>
+    <button type="button" class="btn btn-outline-danger">Hủy bỏ SC</button>
+  </div>
+</div>
 <form class="mt-2 mb-2" [formGroup]="suaChuaUpdateForm" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="col-sm-6 col-md-4">
@@ -26,7 +46,8 @@
       </div>
     </div>
     <div class="col-sm-6 col-md-4">
-      <div class="form-group" *ngIf="dataHelper.data.maThietBis.hasOwnProperty(suaChuaUpdateForm.controls.loai_thiet_bi.value)" [ngClass]="{'has-danger': suaChuaUpdateForm.controls.ma_thiet_bi.invalid && (suaChuaUpdateForm.controls.ma_thiet_bi.dirty || suaChuaUpdateForm.controls.ma_thiet_bi.touched)}">
+      <div class="form-group" *ngIf="dataHelper.data.maThietBis.hasOwnProperty(suaChuaUpdateForm.controls.loai_thiet_bi.value)"
+        [ngClass]="{'has-danger': suaChuaUpdateForm.controls.ma_thiet_bi.invalid && (suaChuaUpdateForm.controls.ma_thiet_bi.dirty || suaChuaUpdateForm.controls.ma_thiet_bi.touched)}">
         <label class="form-control-label" for="maThietBiSelect">Mã phương tiện</label>
         <select class="form-control" id="maThietBiSelect" formControlName="ma_thiet_bi">
           <option value=""></option>
@@ -122,7 +143,7 @@
   </div>
 
   <button type="submit" class="btn btn-outline-primary mt-2" [disabled]="suaChuaUpdateForm.invalid || submitting">Cập nhật</button>
-  <a class="btn btn-outline-danger mt-2" href="" [routerLink]="['/nhap-lieu']">Hủy bỏ</a>
+  <button type="button" class="btn btn-outline-warning mt-2" (click)="resetForm()">Khôi phục</button>  
 </form>
 
 <pre>{{suaChuaUpdateForm.value | json}}</pre>
