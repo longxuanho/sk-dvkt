@@ -33,12 +33,11 @@ export class NhapLieuUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('nhap-lieu-update-onInit')
     this.subscriptions.suaChua = this.route.params
       .switchMap((params: Params) => this.suaChuaService.getSuaChua(params['id']))
       .subscribe((data: SuaChua) => {
         // Chú ý thứ tự set suaChuaId trước cloneSuaChua để trigger change trong nest component.
-        console.log('subscribe data: ', data);
+        // console.log('subscribe data: ', data);
         this.suaChuaId = data.$key;
         this.cloneSuaChua = Object.assign({}, data);
       });

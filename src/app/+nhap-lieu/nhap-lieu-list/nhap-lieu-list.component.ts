@@ -23,7 +23,7 @@ export class NhapLieuListComponent implements OnInit {
     this.subscriptions.suachuas = this.suaChuaService.getSuaChuasCurrent().subscribe(
       snapshots => {
         this.suachuas = <SuaChua[]>snapshots;
-        console.log('data: ', this.suachuas);
+        // console.log('data: ', this.suachuas);
       }, (error: Error) => this.toastrService.error(`Không thể truy vấn dữ liệu. ${error.message}`, 'Opps!')
     )
   }

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'toastr-ng2';
 import 'rxjs/add/operator/switchMap';
+import { Subscription } from 'rxjs/Subscription';
 
 import { UserService } from '../shared/user.service';
 
@@ -17,6 +18,9 @@ export class UserDetailBasicInfoComponent implements OnInit {
   userId: string;
   formError: string = '';
   submitting: boolean = false;
+  subscriptions: {
+    userProfile?: Subscription
+  } = {}
   
   constructor(
     private route: ActivatedRoute,
@@ -54,19 +58,22 @@ export class UserDetailBasicInfoComponent implements OnInit {
           this.formError = error.message;
           this.toastrService.error('Cập nhật thông tin người dùng thất bại', 'Opps!');
         });
-
   }
 
   ngOnInit() {
     this.buildForm();
 
-    this.route.params
+    this.subscriptions.userProfile = this.route.params
       .switchMap((params: Params) => this.userService.getUserInfo(params['id']))
       .subscribe((data) => {
         this.userId = data.$key;
         this.userBasicInfoForm.reset();
         this.userBasicInfoForm.patchValue(Object.assign({}, data));
       });    
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.userProfile.unsubscribe();
   }
 
 }

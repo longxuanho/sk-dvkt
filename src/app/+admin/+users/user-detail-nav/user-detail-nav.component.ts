@@ -1,5 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'sk-user-detail-nav',
@@ -10,6 +12,9 @@ export class UserDetailNavComponent implements OnInit {
 
   @Output() select: EventEmitter<string> = new EventEmitter<string>();
   userNavForm: FormGroup;
+  subscriptions: {
+    selectedForm?: Subscription
+  } = {}
 
   constructor(
     private formBuilder: FormBuilder
@@ -27,6 +32,10 @@ export class UserDetailNavComponent implements OnInit {
 
   ngOnInit() {
     this.builForm();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.selectedForm.unsubscribe();
   }
 
 }

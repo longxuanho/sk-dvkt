@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'toastr-ng2';
+import { Subscription } from 'rxjs/Subscription';
 
 import { User } from '../shared/user.model';
 import { UserService } from '../shared/user.service';
@@ -12,6 +13,9 @@ import { UserService } from '../shared/user.service';
 export class UserListComponent implements OnInit {
 
   users: User[] = [];
+  subscriptions: {
+    users?: Subscription;
+  } = {}
   
   constructor(
     private userService: UserService,
@@ -20,7 +24,7 @@ export class UserListComponent implements OnInit {
 
   getUsers() {
     this.users = [];
-    this.userService.getUsers().subscribe(
+    this.subscriptions.users = this.userService.getUsers().subscribe(
       snapshots => {
         this.users = <User[]>snapshots;
       }, error => {
@@ -31,6 +35,10 @@ export class UserListComponent implements OnInit {
 
   ngOnInit() {
     this.getUsers();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.users.unsubscribe();
   }
 
 }
