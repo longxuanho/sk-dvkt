@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
 import { SuaChua } from '../../core/shared/sua-chua.model';
 import { Subscription } from 'rxjs/Subscription';
@@ -11,9 +11,7 @@ import { ToastrService } from 'toastr-ng2';
 })
 export class NhapLieuListComponent implements OnInit {
 
-  subscriptions: { suachuas?: Subscription | null } = {
-    suachuas: null
-  }
+  subscriptions: { suachuas?: Subscription } = {}
   suachuas: SuaChua[] = [];
 
   constructor(
@@ -28,6 +26,10 @@ export class NhapLieuListComponent implements OnInit {
         console.log('data: ', this.suachuas);
       }, (error: Error) => this.toastrService.error(`Không thể truy vấn dữ liệu. ${error.message}`, 'Opps!')
     )
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.suachuas.unsubscribe();
   }
 
 }

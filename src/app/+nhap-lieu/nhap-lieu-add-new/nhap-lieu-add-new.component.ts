@@ -54,7 +54,7 @@ export class NhapLieuAddNewComponent implements OnInit {
         Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/),
         dateTimeRangeValidator(this.calcStartTimeRef)
       ]),
-      trang_thai: this.formBuilder.control('Đang sửa chữa', Validators.required)
+      trang_thai: this.formBuilder.control('Đang thực hiện', Validators.required)
     });
   }
 

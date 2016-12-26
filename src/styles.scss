@@ -3,3 +3,27 @@
   opacity: 0.75;
   margin-top: 60px;
 }
+
+.bd-callout {
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid #eee;
+    border-left-width: .25rem;
+    border-radius: .25rem;
+    &-callout-warning {
+      border-left-color: #f0ad4e;
+      h4 {
+        color: #f0ad4e;
+      }      
+    }
+    code {
+        border-radius: .25rem;
+    }
+    h4 {
+      margin-top: 0;
+      margin-bottom: .25rem;
+    }
+}
+
+

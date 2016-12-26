@@ -16,7 +16,7 @@ import { NhapLieuHelperService } from './shared/nhap-lieu-helper.service';
     NhapLieuHelperService,
   ],
   declarations: [
-    routedComponents,
+    routedComponents
   ]
 })
 export class NhapLieuModule { }
