@@ -1,0 +1,138 @@
+<form class="mt-2 mb-2" [formGroup]="suaChuaUpdateForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <div class="form-group" [ngClass]="{'has-danger': suaChuaUpdateForm.controls.loai_sua_chua.invalid && (suaChuaUpdateForm.controls.loai_sua_chua.dirty || suaChuaUpdateForm.controls.loai_sua_chua.touched)}">
+        <label class="form-control-label" for="loaiSuaChuaSelect">Loại sửa chữa</label>
+        <select class="form-control" id="loaiSuaChuaSelect" formControlName="loai_sua_chua">
+          <option value=""></option>
+          <option *ngFor="let loaiSuaChua of dataHelper.data.loaiSuaChuas" [value]="loaiSuaChua">{{loaiSuaChua}}</option>
+        </select>
+        <div class="form-control-feedback" *ngIf="suaChuaUpdateForm.controls.loai_sua_chua.invalid && (suaChuaUpdateForm.controls.loai_sua_chua.dirty || suaChuaUpdateForm.controls.loai_sua_chua.touched)">
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.loai_sua_chua.errors.required">Chưa có thông tin về loại sửa chữa</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="form-group" [ngClass]="{'has-danger': suaChuaUpdateForm.controls.loai_thiet_bi.invalid && (suaChuaUpdateForm.controls.loai_thiet_bi.dirty || suaChuaUpdateForm.controls.loai_thiet_bi.touched)}">
+        <label class="form-control-label" for="loaiThietBiSelect">Loại phương tiện</label>
+        <select class="form-control" id="loaiThietBiSelect" formControlName="loai_thiet_bi">
+          <option value=""></option>
+          <option *ngFor="let loaiThietBi of dataHelper.data.loaiThietBis" [value]="loaiThietBi">{{loaiThietBi}}</option>
+        </select>
+        <div class="form-control-feedback" *ngIf="suaChuaUpdateForm.controls.loai_thiet_bi.invalid && (suaChuaUpdateForm.controls.loai_thiet_bi.dirty || suaChuaUpdateForm.controls.loai_thiet_bi.touched)">
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.loai_thiet_bi.errors.required">Chưa có thông tin về loại phương tiện</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="form-group" *ngIf="dataHelper.data.maThietBis.hasOwnProperty(suaChuaUpdateForm.controls.loai_thiet_bi.value)"
+        [ngClass]="{'has-danger': suaChuaUpdateForm.controls.ma_thiet_bi.invalid && (suaChuaUpdateForm.controls.ma_thiet_bi.dirty || suaChuaUpdateForm.controls.ma_thiet_bi.touched)}">
+        <label class="form-control-label" for="maThietBiSelect">Mã phương tiện</label>
+        <select class="form-control" id="maThietBiSelect" formControlName="ma_thiet_bi">
+          <option value=""></option>
+          <option *ngFor="let object of dataHelper.data.maThietBis[suaChuaUpdateForm.controls.loai_thiet_bi.value]" [ngValue]="object.maThietBi">{{object.maThietBi}}</option>
+        </select>
+        <div class="form-control-feedback" *ngIf="suaChuaUpdateForm.controls.ma_thiet_bi.invalid && (suaChuaUpdateForm.controls.ma_thiet_bi.dirty || suaChuaUpdateForm.controls.ma_thiet_bi.touched)">
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.ma_thiet_bi.errors.required">Chưa có thông tin về mã phương tiện</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group" [ngClass]="{'has-danger': suaChuaUpdateForm.controls.khu_vuc.invalid && (suaChuaUpdateForm.controls.khu_vuc.dirty || suaChuaUpdateForm.controls.khu_vuc.touched)}">
+        <label class="form-control-label" for="khuVucSelect">Khu vực</label>
+        <select class="form-control" id="khuVucSelect" formControlName="khu_vuc">
+          <option value=""></option>
+          <option *ngFor="let khuVuc of dataHelper.data.khuVucs" [value]="khuVuc">{{khuVuc}}</option>
+        </select>
+        <div class="form-control-feedback" *ngIf="suaChuaUpdateForm.controls.khu_vuc.invalid && (suaChuaUpdateForm.controls.khu_vuc.dirty || suaChuaUpdateForm.controls.khu_vuc.touched)">
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.khu_vuc.errors.required">Chưa có thông tin về khu vực xưởng</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group" *ngIf="dataHelper.data.viTris.hasOwnProperty(suaChuaUpdateForm.controls.khu_vuc.value)" [ngClass]="{'has-danger': suaChuaUpdateForm.controls.vi_tri.invalid && (suaChuaUpdateForm.controls.vi_tri.dirty || suaChuaUpdateForm.controls.vi_tri.touched)}">
+        <label class="form-control-label" for="viTriSelect">Vị trí</label>
+        <select class="form-control" id="viTriSelect" formControlName="vi_tri">
+          <option value=""></option>
+          <option *ngFor="let object of dataHelper.data.viTris[suaChuaUpdateForm.controls.khu_vuc.value]" [value]="object.viTri">{{object.viTri}}</option>
+        </select>
+        <div class="form-control-feedback" *ngIf="suaChuaUpdateForm.controls.vi_tri.invalid && (suaChuaUpdateForm.controls.vi_tri.dirty || suaChuaUpdateForm.controls.vi_tri.touched)">
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.vi_tri.errors.required">Chưa có thông tin về vị trí xưởng</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group" [ngClass]="{'has-danger': suaChuaUpdateForm.controls.ma_wo.invalid && (suaChuaUpdateForm.controls.ma_wo.dirty || suaChuaUpdateForm.controls.ma_wo.touched)}">
+        <label class="form-control-label" for="soWOInput">Số WO (Maximo)</label>
+        <input type="text" class="form-control" id="soWOInput" placeholder="Nhập số Work Order" formControlName="ma_wo">
+      </div>
+    </div>
+    <div class="col-sm-6 hidden-xs-down">
+      <div class="form-group">
+        <label></label>
+        <small class="form-text text-muted">Số WO cho phép liên kết và đối chiếu dữ liệu với chương trình quản lý Maximo</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group" [ngClass]="{'has-danger': suaChuaUpdateForm.controls.noi_dung.invalid && (suaChuaUpdateForm.controls.noi_dung.dirty || suaChuaUpdateForm.controls.noi_dung.touched)}">
+        <label class="form-control-label" for="noiDungSuaChuaInput">Nội dung sửa chữa</label>
+        <input type="text" class="form-control" id="noiDungSuaChuaInput" placeholder="Nhập nội dung" formControlName="noi_dung">
+        <div class="form-control-feedback" *ngIf="suaChuaUpdateForm.controls.noi_dung.invalid && (suaChuaUpdateForm.controls.noi_dung.dirty || suaChuaUpdateForm.controls.noi_dung.touched)">
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.noi_dung.errors.required">Chưa có thông tin về nội dung sửa chữa</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group" [ngClass]="{'has-danger': suaChuaUpdateForm.controls.thoi_gian_bat_dau.invalid && (suaChuaUpdateForm.controls.thoi_gian_bat_dau.dirty || suaChuaUpdateForm.controls.thoi_gian_bat_dau.touched)}">
+        <label class="form-control-label" for="thoiGianBatDauInput">Thời gian bắt đầu</label>
+        <input class="form-control" type="text" id="thoiGianBatDauInput" formControlName="thoi_gian_bat_dau">
+        <div class="form-control-feedback" *ngIf="suaChuaUpdateForm.controls.thoi_gian_bat_dau.invalid && (suaChuaUpdateForm.controls.thoi_gian_bat_dau.dirty || suaChuaUpdateForm.controls.thoi_gian_bat_dau.touched)">
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.thoi_gian_bat_dau.errors.required">Chưa có thông tin về thời gian bắt đầu</small>
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.thoi_gian_bat_dau.errors.pattern">Định dạng thời gian không hợp lệ</small>
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.thoi_gian_bat_dau.errors.dateTimeInvalid">Thông tin về thời gian không chính xác</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group" [ngClass]="{'has-danger': suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.invalid && (suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.dirty || suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.touched)}">
+        <label class="form-control-label" for="ThoiGianKetThucDKInput">Thời gian kết thúc DK</label>
+        <input class="form-control" type="text" id="ThoiGianKetThucDKInput" formControlName="thoi_gian_ket_thuc_dk">
+        <small class="form-text" *ngIf="suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.valid">Dự kiến sửa chữa: {{display.timeDiff}}</small>
+        <div class="form-control-feedback" *ngIf="suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.invalid && (suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.dirty || suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.touched)">
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.errors.required">Chưa có thông tin về thời gian bắt đầu</small>
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.errors.pattern">Định dạng thời gian không hợp lệ</small>
+          <small class="form-text" *ngIf="suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.errors.dateTimeRangeInvalid">Thông tin về thời gian không chính xác</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <button type="submit" class="btn btn-outline-primary mt-2" [disabled]="suaChuaUpdateForm.invalid || submitting">Cập nhật</button>
+      <button type="button" class="btn btn-outline-warning mt-2" (click)="resetForm()">Khôi phục</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <hr/>
+      <div class="form-group">
+        <label for="ghiChuInput">Ghi chú</label>
+        <textarea class="form-control" id="ghiChuInput" rows="3" formControlName="ghi_chu"></textarea>
+      </div>
+    </div>
+  </div>
+</form>

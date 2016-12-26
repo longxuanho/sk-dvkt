@@ -7,6 +7,8 @@ import { NhapLieuAddNewComponent } from './nhap-lieu-add-new/nhap-lieu-add-new.c
 import { NhapLieuListComponent } from './nhap-lieu-list/nhap-lieu-list.component';
 import { NhapLieuUpdateComponent } from './nhap-lieu-update/nhap-lieu-update.component';
 import { NhapLieuListStatusComponent } from './nhap-lieu-list-status/nhap-lieu-list-status.component';
+import { NhapLieuUpdateBasicInfoFormComponent } from './nhap-lieu-update-basic-info-form/nhap-lieu-update-basic-info-form.component';
+
 
 
 
@@ -35,4 +37,6 @@ export const routedComponents = [
     NhapLieuListComponent,
     NhapLieuUpdateComponent,
     NhapLieuListStatusComponent,
+    NhapLieuUpdateBasicInfoFormComponent,
+
 ];
