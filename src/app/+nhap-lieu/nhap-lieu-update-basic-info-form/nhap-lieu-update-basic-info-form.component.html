@@ -1,4 +1,4 @@
-<form class="mt-2 mb-2" [formGroup]="suaChuaUpdateForm" (ngSubmit)="onSubmit()">
+<form class="mt-2" [formGroup]="suaChuaUpdateForm" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="col-sm-6 col-md-4">
       <div class="form-group" [ngClass]="{'has-danger': suaChuaUpdateForm.controls.loai_sua_chua.invalid && (suaChuaUpdateForm.controls.loai_sua_chua.dirty || suaChuaUpdateForm.controls.loai_sua_chua.touched)}">
@@ -122,8 +122,8 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <button type="submit" class="btn btn-outline-primary mt-2" [disabled]="suaChuaUpdateForm.invalid || submitting">Cập nhật</button>
-      <button type="button" class="btn btn-outline-warning mt-2" (click)="resetForm()">Khôi phục</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="suaChuaUpdateForm.invalid || submitting">Cập nhật</button>
+      <button type="button" class="btn btn-outline-warning" (click)="resetForm()">Khôi phục</button>
     </div>
   </div>
   <div class="row">

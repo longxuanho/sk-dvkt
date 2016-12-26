@@ -11,12 +11,31 @@
     border: 1px solid #eee;
     border-left-width: .25rem;
     border-radius: .25rem;
-    &-callout-warning {
+    &-warning {
       border-left-color: #f0ad4e;
-      h4 {
+      h4, code {
         color: #f0ad4e;
-      }      
+      } 
     }
+    &-info {
+      border-left-color: #5bc0de;
+      h4, code {
+        color: #5bc0de;
+      }  
+    }
+    &-success {
+      border-left-color: #5cb85c;
+      h4, code {
+        color: #5cb85c;
+      }  
+    }
+    &-danger {
+      border-left-color: #d9534f;
+      h4, code {
+        color: #d9534f;
+      }  
+    }
+
     code {
         border-radius: .25rem;
     }
