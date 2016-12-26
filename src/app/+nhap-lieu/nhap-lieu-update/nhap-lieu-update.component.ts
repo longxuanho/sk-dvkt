@@ -29,6 +29,9 @@ export class NhapLieuUpdateComponent implements OnInit {
     data: {}
   };
   cloneSuaChua: SuaChua | {} = {};
+  display: { timeDiff: string } = {
+    timeDiff: '0.00 giờ'
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +39,7 @@ export class NhapLieuUpdateComponent implements OnInit {
     private suaChuaService: SuaChuaService,
     private toastrService: ToastrService,
     private nhapLieuHelperService: NhapLieuHelperService,
+    private suaChuaModelBuilderService :SuaChuaModelBuilderService
   ) { }
 
   buildForm() {
@@ -44,42 +48,68 @@ export class NhapLieuUpdateComponent implements OnInit {
       loai_sua_chua: this.formBuilder.control({ value: '', disabled: true }, Validators.required),
       loai_thiet_bi: this.formBuilder.control({ value: '', disabled: true }, Validators.required),
       ma_thiet_bi: this.formBuilder.control({ value: '', disabled: true }, Validators.required),
+      dv_quan_ly: this.formBuilder.control(''),
+      hang_san_xuat: this.formBuilder.control(''),
       khu_vuc: this.formBuilder.control('', Validators.required),
       vi_tri: this.formBuilder.control('', Validators.required),
       ma_wo: this.formBuilder.control(''),
       noi_dung: this.formBuilder.control('', Validators.required),
       thoi_gian_bat_dau: this.formBuilder.control(moment().format(dateTimeDisplayFormat), [
         Validators.required,
-        Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/ig),
-        // dateTimeValidator()
+        Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/),
+        dateTimeValidator()
       ]),
       thoi_gian_ket_thuc_dk: this.formBuilder.control(moment().add(3, 'h').format(dateTimeDisplayFormat), [
         Validators.required,
-        Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/ig),
-        // dateTimeRangeValidator(this.calcStartTimeRef)
+        Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/),
+        dateTimeValidator()
       ]),
-      trang_thai: this.formBuilder.control('Đang sửa chữa', Validators.required)
+      trang_thai: this.formBuilder.control('', Validators.required),
+      ghi_chu: this.formBuilder.control(''),
     });
   }
 
   subscribeFormChanges() {
-    this.suaChuaUpdateForm.get('khu_vuc').valueChanges.subscribe(
-      
-      newValue => {console.log('prepare to reset...');this.suaChuaUpdateForm.get('vi_tri').reset()}
+    this.suaChuaUpdateForm.get('khu_vuc').valueChanges.subscribe(      
+      newValue => this.suaChuaUpdateForm.get('vi_tri').reset()
     );
-    // this.suaChuaUpdateForm.get('thoi_gian_ket_thuc_dk').valueChanges.subscribe(
-    //   newDateTime => {
-    //     this.calcStartTimeRef = moment(this.suaChuaUpdateForm.get('thoi_gian_bat_dau').value, dateTimeDisplayFormat);
-    //     let from = moment(this.calcStartTimeRef, dateTimeDisplayFormat);
-    //     let to = moment(newDateTime, dateTimeDisplayFormat);
-    //     if (from.isValid() && to.isValid())
-    //       this.calcThoiGianDK = `${moment.duration(to.diff(from)).asHours().toFixed(2)} giờ`;
-    //   }
-    // );
+    this.suaChuaUpdateForm.get('thoi_gian_ket_thuc_dk').valueChanges.subscribe(
+      newDateTime => {
+        this.display.timeDiff = moment(this.suaChuaUpdateForm.get('thoi_gian_bat_dau').value, dateTimeDisplayFormat);
+        let from = moment(this.display.timeDiff, dateTimeDisplayFormat);
+        let to = moment(newDateTime, dateTimeDisplayFormat);
+        if (from.isValid() && to.isValid())
+          this.display.timeDiff = `${moment.duration(to.diff(from)).asHours().toFixed(2)} giờ`;
+      }
+    );
   }
 
   onSubmit() {
+    let rawData = Object.assign({}, this.cloneSuaChua);
+    Object.assign(rawData, this.suaChuaUpdateForm.value);
 
+    this.suaChuaModelBuilderService.transformBeforeUpdate(rawData as SuaChua);
+    this.submitting = true;
+    this.suaChuaService.update(this.suaChuaId, rawData as SuaChua)
+      .then(success => {
+        console.log('rawData: ', rawData)
+        let syncData = this.suaChuaModelBuilderService.transformBeforeSync(rawData as SuaChua);
+        console.log('key and syncData: ', this.suaChuaId, syncData);
+        this.suaChuaService.syncSuaChuasCurrent(this.suaChuaId, syncData)
+          .then(success => {
+            this.submitting = false;
+            this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
+            this.resetForm();
+          })
+          .catch(error => {
+            this.submitting = false;
+            this.toastrService.warning(`Đồng bộ dữ liệu thất bại. ${error}`, 'Opps!');
+          });
+      })
+      .catch((error) => {
+        this.submitting = false;
+        this.toastrService.error(`Cập nhật thất bại. ${error}`, 'Opps!');
+      });
   }
 
   setTrangThaiSuaChua(trangThai: string) {

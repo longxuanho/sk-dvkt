@@ -22,11 +22,18 @@ export class SuaChua {
   thoi_gian_ket_thuc_dk: string;
   thoi_gian_ket_thuc_dk_str?: string;  
   thoi_gian_ket_thuc_dk_unix?: number;
+  thoi_gian_ket_thuc?: string;
+  thoi_gian_ket_thuc_str?: string;  
+  thoi_gian_ket_thuc_unix?: number;
   trang_thai?: string;
   created_by_name?: string;
   created_by_email?: string;
   created_by?: string;
-  created_when?: string;  
+  created_when?: string;
+  last_update_by_name?: string;
+  last_update_by_email?: string;
+  last_update_by?: string;
+  last_update_when?: string;  
 }
 
 export class LoaiSuaChua {

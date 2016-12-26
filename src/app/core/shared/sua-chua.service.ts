@@ -24,7 +24,7 @@ export class SuaChuaService {
   }
 
   addNew(newSuaChua: SuaChua) {
-    
+
     return new Promise<{ key: string, data: SuaChua }>((resolve, reject) => {
       this.handles.suaChuasList.push(newSuaChua)
         .then(success => resolve({
@@ -36,13 +36,31 @@ export class SuaChuaService {
 
   }
 
-  syncSuaChuasCurrent(key, newSuaChua) {
+  update(key: string, suaChua: SuaChua) {
+    return new Promise<{ key: string, data: SuaChua }>((resolve, reject) => {
+      if (key) {
+        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).update(suaChua).
+          then(success => {
+            resolve({
+              key: key,
+              data: suaChua
+            })
+          })
+          .catch((error: Error) => reject(error.message));
+      } else {
+        reject('Khóa chính (key) không hợp lệ');
+      }
+    });
+
+  }
+
+  syncSuaChuasCurrent(key, suaChua) {
     return new Promise((resolve, reject) => {
-      this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(newSuaChua)
+      this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(suaChua)
         .then(success => {
           resolve({
             key: success,
-            data: newSuaChua
+            data: suaChua
           })
         })
         .catch((error: Error) => reject(error.message));

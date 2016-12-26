@@ -1,19 +1,13 @@
 <h3>Cập nhật sửa chữa</h3>
 <div class="row mt-2">
   <div class="col-xs-12">
-    <button type="button" class="btn" 
-      (click)="setTrangThaiSuaChua('Đang sửa chữa')"
-      [ngClass]="{'btn-outline-info': cloneSuaChua.trang_thai !== 'Đang sửa chữa', 'btn-info': cloneSuaChua.trang_thai === 'Đang sửa chữa'}">
+    <button type="button" class="btn" (click)="setTrangThaiSuaChua('Đang sửa chữa')" [ngClass]="{'btn-outline-info': cloneSuaChua.trang_thai !== 'Đang sửa chữa', 'btn-info': cloneSuaChua.trang_thai === 'Đang sửa chữa'}">
       Đang tiến hành
     </button>
-    <button type="button" class="btn"
-      (click)="setTrangThaiSuaChua('Chuẩn bị BG')"
-      [ngClass]="{'btn-outline-warning': cloneSuaChua.trang_thai !== 'Chuẩn bị BG', 'btn-warning': cloneSuaChua.trang_thai === 'Chuẩn bị BG'}">
+    <button type="button" class="btn" (click)="setTrangThaiSuaChua('Chuẩn bị BG')" [ngClass]="{'btn-outline-warning': cloneSuaChua.trang_thai !== 'Chuẩn bị BG', 'btn-warning': cloneSuaChua.trang_thai === 'Chuẩn bị BG'}">
       Chuẩn bị BG
     </button>
-    <button type="button" class="btn"
-      (click)="setTrangThaiSuaChua('Hoàn thành')"
-      [ngClass]="{'btn-outline-success': cloneSuaChua.trang_thai !== 'Hoàn thành', 'btn-success': cloneSuaChua.trang_thai === 'Hoàn thành'}">
+    <button type="button" class="btn" (click)="setTrangThaiSuaChua('Hoàn thành')" [ngClass]="{'btn-outline-success': cloneSuaChua.trang_thai !== 'Hoàn thành', 'btn-success': cloneSuaChua.trang_thai === 'Hoàn thành'}">
       Hoàn thành
     </button>
     <button type="button" class="btn btn-outline-danger">Hủy bỏ SC</button>
@@ -132,7 +126,7 @@
       <div class="form-group" [ngClass]="{'has-danger': suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.invalid && (suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.dirty || suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.touched)}">
         <label class="form-control-label" for="ThoiGianKetThucDKInput">Thời gian kết thúc DK</label>
         <input class="form-control" type="text" id="ThoiGianKetThucDKInput" formControlName="thoi_gian_ket_thuc_dk">
-        <small class="form-text" *ngIf="suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.valid">Dự kiến sửa chữa: {{calcThoiGianDK}}</small>
+        <small class="form-text" *ngIf="suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.valid">Dự kiến sửa chữa: {{display.timeDiff}}</small>
         <div class="form-control-feedback" *ngIf="suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.invalid && (suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.dirty || suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.touched)">
           <small class="form-text" *ngIf="suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.errors.required">Chưa có thông tin về thời gian bắt đầu</small>
           <small class="form-text" *ngIf="suaChuaUpdateForm.controls.thoi_gian_ket_thuc_dk.errors.pattern">Định dạng thời gian không hợp lệ</small>
@@ -141,9 +135,21 @@
       </div>
     </div>
   </div>
-
-  <button type="submit" class="btn btn-outline-primary mt-2" [disabled]="suaChuaUpdateForm.invalid || submitting">Cập nhật</button>
-  <button type="button" class="btn btn-outline-warning mt-2" (click)="resetForm()">Khôi phục</button>  
+  <div class="row">
+    <div class="col-xs-12">
+      <button type="submit" class="btn btn-outline-primary mt-2" [disabled]="suaChuaUpdateForm.invalid || submitting">Cập nhật</button>
+      <button type="button" class="btn btn-outline-warning mt-2" (click)="resetForm()">Khôi phục</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <hr/>
+      <div class="form-group">
+        <label for="ghiChuInput">Ghi chú</label>
+        <textarea class="form-control" id="ghiChuInput" rows="3" formControlName="ghi_chu"></textarea>
+      </div>
+    </div>
+  </div>
 </form>
 
 <pre>{{suaChuaUpdateForm.value | json}}</pre>

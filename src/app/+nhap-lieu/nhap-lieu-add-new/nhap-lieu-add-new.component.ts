@@ -46,12 +46,12 @@ export class NhapLieuAddNewComponent implements OnInit {
       noi_dung: this.formBuilder.control('', Validators.required),
       thoi_gian_bat_dau: this.formBuilder.control(moment().format(dateTimeDisplayFormat), [
         Validators.required,
-        Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/ig),
+        Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/),
         dateTimeValidator()
       ]),
       thoi_gian_ket_thuc_dk: this.formBuilder.control(moment().add(3, 'h').format(dateTimeDisplayFormat), [
         Validators.required,
-        Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/ig),
+        Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/),
         dateTimeRangeValidator(this.calcStartTimeRef)
       ]),
       trang_thai: this.formBuilder.control('Đang sửa chữa', Validators.required)
@@ -83,11 +83,10 @@ export class NhapLieuAddNewComponent implements OnInit {
   }
 
   onSubmit() {
-    let rawData = {};
-    Object.assign(rawData, this.suaChuaNewForm.value);
+    let rawData = Object.assign({}, this.suaChuaNewForm.value);
 
     this.suaChuaModelBuilderService.flattenFields(rawData as { ma_thiet_bi: MaThietBi });
-    this.suaChuaModelBuilderService.transformBeforeSubmit(rawData as SuaChua);
+    this.suaChuaModelBuilderService.transformBeforeAddnew(rawData as SuaChua);
     this.submitting = true;
     this.suaChuaService.addNew(rawData as SuaChua)
       .then(success => {
