@@ -2,7 +2,7 @@
 <hr/>
 <div class="row mt-2">
   <div class="col-xs-12" *ngIf="cloneSuaChua">
-    <button type="button" class="btn" (click)="setFormDisplay('Đang thực hiện')" [ngClass]="{'btn-outline-info': cloneSuaChua.trang_thai !== 'Đang thực hiện', 'btn-info': cloneSuaChua.trang_thai === 'Đang thực hiện'}">
+    <button type="button" class="btn" (click)="setFormDisplay('Đang thực hiện')" [ngClass]="{'btn-outline-primary': cloneSuaChua.trang_thai !== 'Đang thực hiện', 'btn-primary': cloneSuaChua.trang_thai === 'Đang thực hiện'}">
       Đang thực hiện
     </button>
     <button type="button" class="btn" (click)="setFormDisplay('Chuẩn bị BG')" [ngClass]="{'btn-outline-warning': cloneSuaChua.trang_thai !== 'Chuẩn bị BG', 'btn-warning': cloneSuaChua.trang_thai === 'Chuẩn bị BG'}">
@@ -11,7 +11,7 @@
     <button type="button" class="btn" (click)="setFormDisplay('Hoàn thành')" [ngClass]="{'btn-outline-success': cloneSuaChua.trang_thai !== 'Hoàn thành', 'btn-success': cloneSuaChua.trang_thai === 'Hoàn thành'}">
       Hoàn thành
     </button>
-    <button type="button" class="btn btn-outline-danger">Hủy bỏ SC</button>
+    <button type="button" class="btn btn-outline-danger" (click)="setFormDisplay('Hủy bỏ')">Hủy bỏ SC</button>
   </div>
 </div>
 
@@ -24,3 +24,11 @@
 <sk-nhap-lieu-update-chuan-bi-ban-giao-form
   *ngIf="formDisplay==='Chuẩn bị BG'" >
 </sk-nhap-lieu-update-chuan-bi-ban-giao-form>
+
+<sk-nhap-lieu-update-hoan-thanh-form
+  *ngIf="formDisplay==='Hoàn thành'" >
+</sk-nhap-lieu-update-hoan-thanh-form>
+
+<sk-nhap-lieu-update-huy-bo-form
+  *ngIf="formDisplay==='Hủy bỏ'" >
+</sk-nhap-lieu-update-huy-bo-form>

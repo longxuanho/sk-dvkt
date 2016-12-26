@@ -9,7 +9,8 @@ import { NhapLieuUpdateComponent } from './nhap-lieu-update/nhap-lieu-update.com
 import { NhapLieuListStatusComponent } from './nhap-lieu-list-status/nhap-lieu-list-status.component';
 import { NhapLieuUpdateBasicInfoFormComponent } from './nhap-lieu-update-basic-info-form/nhap-lieu-update-basic-info-form.component';
 import { NhapLieuUpdateChuanBiBanGiaoFormComponent } from './nhap-lieu-update-chuan-bi-ban-giao-form/nhap-lieu-update-chuan-bi-ban-giao-form.component';
-
+import { NhapLieuUpdateHoanThanhFormComponent } from './nhap-lieu-update-hoan-thanh-form/nhap-lieu-update-hoan-thanh-form.component';
+import { NhapLieuUpdateHuyBoFormComponent } from './nhap-lieu-update-huy-bo-form/nhap-lieu-update-huy-bo-form.component';
 
 const routes: Routes = [
     {
@@ -37,5 +38,7 @@ export const routedComponents = [
     NhapLieuUpdateComponent,
     NhapLieuListStatusComponent,
     NhapLieuUpdateBasicInfoFormComponent,
-    NhapLieuUpdateChuanBiBanGiaoFormComponent
+    NhapLieuUpdateChuanBiBanGiaoFormComponent,
+    NhapLieuUpdateHoanThanhFormComponent,
+    NhapLieuUpdateHuyBoFormComponent
 ];
