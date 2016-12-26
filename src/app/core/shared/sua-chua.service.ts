@@ -53,4 +53,8 @@ export class SuaChuaService {
     return this.handles.suaChuasCurrent;
   }
 
+  getSuaChua(key: string) {
+    return this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`);
+  }
+
 }

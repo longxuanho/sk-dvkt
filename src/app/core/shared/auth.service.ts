@@ -14,7 +14,7 @@ export class AuthService {
   constructor(private af: AngularFire) {
     this.af.auth.subscribe(auth => {
       if (auth) {
-        this.uid = this.af.auth.getAuth().uid;
+        this.uid = auth.uid;
         this.af.database.object(`/accounts/users/${this.uid}`).subscribe(data => {
           this.auth.data = <UserProfile>data;
           this.setAuthOnlineStatus(true);

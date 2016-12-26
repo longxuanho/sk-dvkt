@@ -25,7 +25,7 @@ export class NavNhapLieuComponent implements OnInit {
   ngOnInit() {
     this.subscriptions.routeEvent = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
       this.currentUrl = event.urlAfterRedirects;
-      this.currentUrlText = this.textRefs[this.currentUrl];
+      this.currentUrlText = this.textRefs[this.currentUrl]? this.textRefs[this.currentUrl]: 'Cập nhật';
     });
   }
 
