@@ -1,17 +1,17 @@
 <h3>Cập nhật sửa chữa</h3>
 <hr/>
-<div class="row mt-2">
+<div class="row">
   <div class="col-xs-12" *ngIf="cloneSuaChua">
-    <button type="button" class="btn" (click)="setFormDisplay('Đang thực hiện')" [ngClass]="{'btn-outline-primary': cloneSuaChua.trang_thai !== 'Đang thực hiện', 'btn-primary': cloneSuaChua.trang_thai === 'Đang thực hiện'}">
+    <button type="button" class="btn mt-1" (click)="setFormDisplay('Đang thực hiện')" [ngClass]="{'btn-outline-primary': cloneSuaChua.trang_thai !== 'Đang thực hiện', 'btn-primary': cloneSuaChua.trang_thai === 'Đang thực hiện'}">
       Đang thực hiện
     </button>
-    <button type="button" class="btn" (click)="setFormDisplay('Chuẩn bị BG')" [ngClass]="{'btn-outline-warning': cloneSuaChua.trang_thai !== 'Chuẩn bị BG', 'btn-warning': cloneSuaChua.trang_thai === 'Chuẩn bị BG'}">
+    <button type="button" class="btn mt-1" (click)="setFormDisplay('Chuẩn bị BG')" [ngClass]="{'btn-outline-warning': cloneSuaChua.trang_thai !== 'Chuẩn bị BG', 'btn-warning': cloneSuaChua.trang_thai === 'Chuẩn bị BG'}">
       Chuẩn bị BG
     </button>
-    <button type="button" class="btn" (click)="setFormDisplay('Hoàn thành')" [ngClass]="{'btn-outline-success': cloneSuaChua.trang_thai !== 'Hoàn thành', 'btn-success': cloneSuaChua.trang_thai === 'Hoàn thành'}">
+    <button type="button" class="btn mt-1" (click)="setFormDisplay('Hoàn thành')" [ngClass]="{'btn-outline-success': cloneSuaChua.trang_thai !== 'Hoàn thành', 'btn-success': cloneSuaChua.trang_thai === 'Hoàn thành'}">
       Hoàn thành
     </button>
-    <button type="button" class="btn btn-outline-danger" (click)="setFormDisplay('Hủy bỏ')">Hủy bỏ SC</button>
+    <button type="button" class="btn btn-outline-danger mt-1" (click)="setFormDisplay('Hủy bỏ')">Hủy bỏ SC</button>
   </div>
 </div>
 
