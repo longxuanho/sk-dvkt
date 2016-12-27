@@ -76,9 +76,15 @@ export class AuthService {
   }
 
   login(credential) {
-    return this.af.auth.login({
-      email: credential.email,
-      password: credential.password
+    return new Promise<string>((resolve, reject) => {
+      this.af.auth.login({
+        email: credential.email,
+        password: credential.password
+      })
+      .then((success: FirebaseAuthState) => {
+        resolve(success.uid);
+      })
+      .catch((error: Error) => reject(`Đăng nhập thất bại. ${error.message}`));
     });
   }
 

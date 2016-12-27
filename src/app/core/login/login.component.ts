@@ -32,12 +32,12 @@ export class LoginComponent implements OnInit {
 
   onLogIn(): void {
     this.authService.login(Object.assign({}, this.loginForm.value)).then(
-      success => {
-        this.toastrService.success('Welcome back!', 'Đăng nhập thành công');
+      (success: string) => {
         this.loginForm.reset();
+        this.toastrService.success('Welcome back!', 'Đăng nhập thành công');        
       }
     ).catch(
-      error => this.toastrService.error(`Đăng nhập thất bại: ${error.message}`, 'Opps!')
+      (error: string) => this.toastrService.error(error, 'Opps!')
     );
   }
 
