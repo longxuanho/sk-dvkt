@@ -9,8 +9,8 @@ import { SuaChua, refSuaChuas, TrangThaiSuaChua } from './sua-chua.model';
 @Injectable()
 export class SuaChuaService {
 
-  suachuas: { data: SuaChua[] | null } = {
-    data: null
+  suachuas: { data: SuaChua[] } = {
+    data: []
   }
 
   handles: {
@@ -24,77 +24,58 @@ export class SuaChuaService {
   }
 
   addNew(newSuaChua: SuaChua) {
-
-    return new Promise<{ key: string, data: SuaChua }>((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       this.handles.suaChuasList.push(newSuaChua)
-        .then(success => resolve({
-          key: success.key,
-          data: newSuaChua
-        }))
-        .catch((error: Error) => reject(error.message));
+        .then((success: { key: string }) => resolve(success.key))
+        .catch((error: Error) => reject('Tạo mới thất bại. ' + error.message));
     });
-
   }
 
   update(key: string, suaChua: SuaChua) {
-    return new Promise<{ key: string, data: SuaChua }>((resolve, reject) => {
-      if (key) {
-        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(suaChua).
-          then(success => {
-            resolve({
-              key: key,
-              data: suaChua
-            })
-          })
-          .catch((error: Error) => reject(error.message));
-      } else {
-        reject('Khóa chính (key) không hợp lệ');
-      }
+    if (key)
+      return new Promise<{}>((resolve, reject) => {
+        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(suaChua)
+          .then(success => resolve())
+          .catch((error: Error) => reject('Cập nhật thất bại. ' + error.message));
+      });
+    return new Promise((resolve, reject) => {
+      reject('Khóa chính (key) không hợp lệ');
     });
   }
 
   setTrangThaiChuanBiBanGiao(key: string) {
-    return new Promise((resolve, reject) => {
-      if (key) {
+    if (key)
+      return new Promise((resolve, reject) => {
         this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update({ trang_thai: TrangThaiSuaChua.ChuanBiBanGiao })
-          .then(success => {
-            resolve({
-              key: key
-            })
-          })
+          .then(success => resolve())
           .catch((error: Error) => reject(`Cập nhật trạng thái thất bại. ${error.message}`));
-      } else {
-        reject('Khóa chính (key) không hợp lệ');
-      }
+      });
+    return new Promise((resolve, reject) => {
+      reject('Khóa chính (key) không hợp lệ');
     });
   }
 
   syncTrangThaiChuanBiBanGiao(key: string) {
-    return new Promise((resolve, reject) => {
-      if (key) {
+    if (key)
+      return new Promise((resolve, reject) => {
         this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).update({ trang_thai: TrangThaiSuaChua.ChuanBiBanGiao })
-          .then(success => {
-            resolve({
-              key: key
-            })
-          })
+          .then(success => resolve())
           .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
-      } else {
-        reject('Khóa chính (key) không hợp lệ');
-      }
+      });
+    return new Promise((resolve, reject) => {
+      reject('Khóa chính (key) không hợp lệ');
     });
   }
 
   syncSuaChuasCurrent(key, suaChua) {
+    if (key)
+      return new Promise((resolve, reject) => {
+        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(suaChua)
+          .then(success => resolve())
+          .catch((error: Error) => reject(error.message));
+      });
     return new Promise((resolve, reject) => {
-      this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(suaChua)
-        .then(success => {
-          resolve({
-            key: success,
-            data: suaChua
-          })
-        })
-        .catch((error: Error) => reject(error.message));
+      reject('Khóa chính (key) không hợp lệ');
     });
   }
 

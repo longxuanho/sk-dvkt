@@ -14,6 +14,7 @@ import { DateTimeConverterService } from './shared/date-time-converter.service';
 import { SuaChuaModelBuilderService } from './shared/sua-chua-model-builder.service';
 
 import { throwIfAlreadyLoaded } from './shared/module-import-guard';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import { throwIfAlreadyLoaded } from './shared/module-import-guard';
   ],
   declarations: [
     NavbarComponent, 
-    LoginComponent
+    LoginComponent, LogoutComponent
   ],
   providers: [
     AuthService,

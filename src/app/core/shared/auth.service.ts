@@ -20,30 +20,30 @@ export class AuthService {
         this.uid = auth.uid;
         this.af.database.object(`/accounts/users/${this.uid}`).subscribe(data => {
           this.auth.data = <UserProfile>data;
-          this.syncUserOnlineStatus(true);
+          this.syncUserOnlineStatus(this.uid, true);
         });
       } else {
         this.uid = '';
         this.auth.data = null;
-        this.syncUserOnlineStatus(false);
       }
     });
   }
 
-  syncUserOnlineStatus(status: boolean) {
-    this.setAuthOnlineStatus(status)
-      .then(success => this.setAuthPresenceStatus(status))
+  syncUserOnlineStatus(uid: string, status: boolean) {
+    console.log('set data: ', uid, status);
+    this.setAuthOnlineStatus(uid, status)
+      .then(success => this.setAuthPresenceStatus(uid, status))
       .catch((error: string) => this.toastrService.error(error, 'Opps!'));
   }
 
-  setAuthPresenceStatus(status: boolean) {
-    if (!this.uid)
+  setAuthPresenceStatus(uid: string, status: boolean) {
+    if (!uid)
       return new Promise((resolve, reject) => {
         reject('Người dùng chưa đăng nhập');
       });
     if (status && !!this.auth.data) {
       return new Promise((resolve, reject) => {
-        this.af.database.object(`/accounts/userPresence/${this.uid}`).set({
+        this.af.database.object(`/accounts/userPresence/${uid}`).set({
           email: this.auth.data.email,
           displayName: this.auth.data.displayName,
           description: this.auth.data.description
@@ -53,19 +53,19 @@ export class AuthService {
       });
     }
     return new Promise((resolve, reject) => {
-      this.af.database.object(`/accounts/userPresence/${this.uid}`).remove()
+      this.af.database.object(`/accounts/userPresence/${uid}`).remove()
         .then(success => resolve())
         .catch((error: Error) => reject(`Gỡ bỏ giá trị userPresence thất bại. ${error.message}`));
     });
   }
 
-  setAuthOnlineStatus(status: boolean) {
-    if (!this.uid)
+  setAuthOnlineStatus(uid: string, status: boolean) {
+    if (!uid)
       return new Promise((resolve, reject) => {
         reject('Người dùng chưa đăng nhập');
       });
     return new Promise((resolve, reject) => {
-      this.af.database.object(`/accounts/users/${this.uid}/online`).set(status)
+      this.af.database.object(`/accounts/users/${uid}/online`).set(status)
         .then(success => resolve())
         .catch((error: Error) => reject(`Ghi giá trị userOnline thất bại. ${error.message}`));
     });
@@ -83,6 +83,7 @@ export class AuthService {
   }
 
   logout() {
+    this.syncUserOnlineStatus(this.uid, false);
     this.af.auth.logout();
   }
 

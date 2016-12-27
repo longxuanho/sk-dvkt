@@ -91,24 +91,36 @@ export class NhapLieuAddNewComponent implements OnInit {
     this.suaChuaModelBuilderService.flattenFields(rawData as { ma_thiet_bi: MaThietBi });
     this.suaChuaModelBuilderService.transformBeforeAddnew(rawData as SuaChua);
     this.submitting = true;
+
     this.suaChuaService.addNew(rawData as SuaChua)
+      .then((newKey: string) => this.suaChuaService.syncSuaChuasCurrent(newKey, this.suaChuaModelBuilderService.transformBeforeSync(rawData as SuaChua)))
       .then(success => {
-        let syncData = this.suaChuaModelBuilderService.transformBeforeSync(rawData as SuaChua);
-        this.suaChuaService.syncSuaChuasCurrent(success.key, syncData)
-          .then(success => {
-            this.submitting = false;
-            this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
-            this.resetForm();
-          })
-          .catch(error => {
-            this.submitting = false;
-            this.toastrService.warning(`Đồng bộ dữ liệu thất bại. ${error}`, 'Opps!');
-          });
-      })
-      .catch((error) => {
         this.submitting = false;
-        this.toastrService.error(`Tạo mới thông tin thất bại. ${error}`, 'Opps!');
+        this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
+      })
+      .catch((error: string) => {
+        this.submitting = false;
+        this.toastrService.error(error, 'Opps!');
       });
+
+    // this.suaChuaService.addNew(rawData as SuaChua)
+    //   .then(success => {
+    //     let syncData = this.suaChuaModelBuilderService.transformBeforeSync(rawData as SuaChua);
+    //     this.suaChuaService.syncSuaChuasCurrent(success.key, syncData)
+    //       .then(success => {
+    //         this.submitting = false;
+    //         this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
+    //         this.resetForm();
+    //       })
+    //       .catch(error => {
+    //         this.submitting = false;
+    //         this.toastrService.warning(`Đồng bộ dữ liệu thất bại. ${error}`, 'Opps!');
+    //       });
+    //   })
+    //   .catch((error) => {
+    //     this.submitting = false;
+    //     this.toastrService.error(`Tạo mới thông tin thất bại. ${error}`, 'Opps!');
+    //   });
   }
 
   ngOnInit() {
