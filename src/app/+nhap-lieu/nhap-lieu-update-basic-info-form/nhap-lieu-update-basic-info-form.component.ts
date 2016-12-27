@@ -36,7 +36,10 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
     private nhapLieuHelperService: NhapLieuHelperService,
     private suaChuaModelBuilderService: SuaChuaModelBuilderService,
     private toastrService: ToastrService,
-  ) { }
+  ) { 
+    this.buildForm();
+    this.subscribeFormChanges();
+  }
 
   buildForm() {
     this.suaChuaUpdateForm = this.formBuilder.group({
@@ -121,18 +124,10 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
 
   ngOnInit() {
     this.dataHelper = this.nhapLieuHelperService.getDataHelper();
-    if (!this.suaChuaUpdateForm) {
-      this.buildForm();
-      this.subscribeFormChanges();
-    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
     // Chú ý ngOnChanges xảy ra trước ngOnInit!
-    if (!this.suaChuaUpdateForm) {
-      this.buildForm();
-      this.subscribeFormChanges();
-    }
     if (changes.hasOwnProperty('suaChua')) {
       if (changes['suaChua'].currentValue)
         this.setFormValues(changes['suaChua'].currentValue)

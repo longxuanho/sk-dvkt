@@ -32,7 +32,10 @@ export class NhapLieuAddNewComponent implements OnInit {
     private nhapLieuHelperService: NhapLieuHelperService,
     private suaChuaService: SuaChuaService,
     private suaChuaModelBuilderService: SuaChuaModelBuilderService
-  ) { }
+  ) { 
+    this.buildForm();
+    this.subscribeFormChanges();
+  }
 
   buildForm() {
     this.suaChuaNewForm = this.formBuilder.group({
@@ -110,8 +113,6 @@ export class NhapLieuAddNewComponent implements OnInit {
 
   ngOnInit() {
     this.dataHelper = this.nhapLieuHelperService.getDataHelper();
-    this.buildForm();
-    this.subscribeFormChanges();
   }
 
 }
