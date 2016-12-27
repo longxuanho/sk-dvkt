@@ -3,5 +3,6 @@ export class UserProfile {
   email: string;
   displayName?: string;
   description?: string;
-  requireNewPassword?: boolean;  
+  requireNewPassword?: boolean; 
+  online?: boolean; 
 }

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 
-import { SuaChua, refSuaChuas } from './sua-chua.model';
+import { SuaChua, refSuaChuas, TrangThaiSuaChua } from './sua-chua.model';
 
 @Injectable()
 export class SuaChuaService {
@@ -51,7 +51,38 @@ export class SuaChuaService {
         reject('Khóa chính (key) không hợp lệ');
       }
     });
+  }
 
+  setTrangThaiChuanBiBanGiao(key: string) {
+    return new Promise((resolve, reject) => {
+      if (key) {
+        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update({ trang_thai: TrangThaiSuaChua.ChuanBiBanGiao })
+          .then(success => {
+            resolve({
+              key: key
+            })
+          })
+          .catch((error: Error) => reject(`Cập nhật trạng thái thất bại. ${error.message}`));
+      } else {
+        reject('Khóa chính (key) không hợp lệ');
+      }
+    });
+  }
+
+  syncTrangThaiChuanBiBanGiao(key: string) {
+    return new Promise((resolve, reject) => {
+      if (key) {
+        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).update({ trang_thai: TrangThaiSuaChua.ChuanBiBanGiao })
+          .then(success => {
+            resolve({
+              key: key
+            })
+          })
+          .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
+      } else {
+        reject('Khóa chính (key) không hợp lệ');
+      }
+    });
   }
 
   syncSuaChuasCurrent(key, suaChua) {

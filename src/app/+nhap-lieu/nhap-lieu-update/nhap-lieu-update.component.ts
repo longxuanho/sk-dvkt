@@ -5,7 +5,7 @@ import 'rxjs/add/operator/switchMap';
 import { Subscription } from 'rxjs/Subscription';
 
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
-import { SuaChua } from '../../core/shared/sua-chua.model';
+import { SuaChua, TrangThaiSuaChua } from '../../core/shared/sua-chua.model';
 
 declare var moment: any;
 
@@ -18,17 +18,21 @@ export class NhapLieuUpdateComponent implements OnInit {
 
   suaChuaId: string;
   cloneSuaChua: SuaChua;
-  formDisplay: string = 'Đang thực hiện';
+  formDisplay: number = TrangThaiSuaChua.DangThucHien;
+  trangThaiSuaChua: any;
+  
   subscriptions: {
     suaChua?: Subscription
-  } = {};
+  } = { };
 
   constructor(
     private route: ActivatedRoute,
     private suaChuaService: SuaChuaService,
-  ) { }
+  ) {
+    this.trangThaiSuaChua = TrangThaiSuaChua;
+  }
 
-  setFormDisplay(formDisplayName: string) {
+  setFormDisplay(formDisplayName: number) {
     this.formDisplay = formDisplayName;
   }
 

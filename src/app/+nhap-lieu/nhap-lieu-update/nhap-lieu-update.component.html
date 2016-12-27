@@ -2,31 +2,32 @@
 <hr/>
 <div class="row">
   <div class="col-xs-12" *ngIf="cloneSuaChua">
-    <button type="button" class="btn mt-1" (click)="setFormDisplay('Đang thực hiện')" [ngClass]="{'btn-outline-primary': cloneSuaChua.trang_thai !== 'Đang thực hiện', 'btn-primary': cloneSuaChua.trang_thai === 'Đang thực hiện'}">
+    <button type="button" class="btn mt-1" (click)="setFormDisplay(trangThaiSuaChua.DangThucHien)" [ngClass]="{'btn-outline-primary': cloneSuaChua.trang_thai !== trangThaiSuaChua.DangThucHien, 'btn-primary': cloneSuaChua.trang_thai === trangThaiSuaChua.DangThucHien}">
       Đang thực hiện
     </button>
-    <button type="button" class="btn mt-1" (click)="setFormDisplay('Chuẩn bị BG')" [ngClass]="{'btn-outline-warning': cloneSuaChua.trang_thai !== 'Chuẩn bị BG', 'btn-warning': cloneSuaChua.trang_thai === 'Chuẩn bị BG'}">
+    <button type="button" class="btn mt-1" (click)="setFormDisplay(trangThaiSuaChua.ChuanBiBanGiao)" [ngClass]="{'btn-outline-warning': cloneSuaChua.trang_thai !== trangThaiSuaChua.ChuanBiBanGiao, 'btn-warning': cloneSuaChua.trang_thai === trangThaiSuaChua.ChuanBiBanGiao}">
       Chuẩn bị BG
     </button>
-    <button type="button" class="btn mt-1" (click)="setFormDisplay('Hoàn thành')" [ngClass]="{'btn-outline-success': cloneSuaChua.trang_thai !== 'Hoàn thành', 'btn-success': cloneSuaChua.trang_thai === 'Hoàn thành'}">
-      Hoàn thành
+    <button type="button" class="btn mt-1" (click)="setFormDisplay(trangThaiSuaChua.HoanThanh)" [ngClass]="{'btn-outline-success': cloneSuaChua.trang_thai !== trangThaiSuaChua.HoanThanh, 'btn-success': cloneSuaChua.trang_thai === trangThaiSuaChua.HoanThanh}">
+      Hoàn Thành
     </button>
     <button type="button" class="btn btn-outline-danger mt-1" (click)="setFormDisplay('Hủy bỏ')">Hủy bỏ SC</button>
   </div>
 </div>
 
 <sk-nhap-lieu-update-basic-info-form 
-  *ngIf="formDisplay==='Đang thực hiện'" 
+  *ngIf="formDisplay===trangThaiSuaChua.DangThucHien" 
   [suaChua]="cloneSuaChua" 
   [suaChuaId]="suaChuaId">
 </sk-nhap-lieu-update-basic-info-form>
 
 <sk-nhap-lieu-update-chuan-bi-ban-giao-form
-  *ngIf="formDisplay==='Chuẩn bị BG'" >
+  *ngIf="formDisplay===trangThaiSuaChua.ChuanBiBanGiao"
+  [suaChuaId]="suaChuaId">
 </sk-nhap-lieu-update-chuan-bi-ban-giao-form>
 
 <sk-nhap-lieu-update-hoan-thanh-form
-  *ngIf="formDisplay==='Hoàn thành'" >
+  *ngIf="formDisplay===trangThaiSuaChua.HoanThanh" >
 </sk-nhap-lieu-update-hoan-thanh-form>
 
 <sk-nhap-lieu-update-huy-bo-form

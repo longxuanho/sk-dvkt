@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'toastr-ng2';
 
 import { NhapLieuHelperService } from '../shared/nhap-lieu-helper.service';
-import { SuaChua, MaThietBi } from '../../core/shared/sua-chua.model';
+import { SuaChua, MaThietBi, TrangThaiSuaChua } from '../../core/shared/sua-chua.model';
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
 import { dateTimeDisplayFormat, dateTimeStringFormat } from '../../core/shared/date-time-format.model';
 import { dateTimeValidator, dateTimeRangeValidator } from '../shared/date-time-validation.directive';
@@ -32,7 +32,7 @@ export class NhapLieuAddNewComponent implements OnInit {
     private nhapLieuHelperService: NhapLieuHelperService,
     private suaChuaService: SuaChuaService,
     private suaChuaModelBuilderService: SuaChuaModelBuilderService
-  ) { 
+  ) {
     this.buildForm();
     this.subscribeFormChanges();
   }
@@ -57,7 +57,7 @@ export class NhapLieuAddNewComponent implements OnInit {
         Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/),
         dateTimeRangeValidator(this.calcStartTimeRef)
       ]),
-      trang_thai: this.formBuilder.control('Đang thực hiện', Validators.required)
+      trang_thai: this.formBuilder.control(TrangThaiSuaChua.DangThucHien, Validators.required)
     });
   }
 
