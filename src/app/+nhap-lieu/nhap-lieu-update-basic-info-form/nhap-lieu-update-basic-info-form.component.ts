@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/cor
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'toastr-ng2';
 
-import { SuaChua } from '../../core/shared/sua-chua.model';
+import { SuaChua, TrangThaiSuaChua } from '../../core/shared/sua-chua.model';
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
 import { SuaChuaModelBuilderService } from '../../core/shared/sua-chua-model-builder.service';
 import { NhapLieuHelperService } from '../shared/nhap-lieu-helper.service';
@@ -19,7 +19,6 @@ declare var moment: any;
 export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
 
   @Input() suaChua: SuaChua;
-  @Input() suaChuaId: string;
 
   suaChuaUpdateForm: FormGroup;
   submitting: boolean = false;
@@ -36,7 +35,7 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
     private nhapLieuHelperService: NhapLieuHelperService,
     private suaChuaModelBuilderService: SuaChuaModelBuilderService,
     private toastrService: ToastrService,
-  ) { 
+  ) {
     this.buildForm();
     this.subscribeFormChanges();
   }
@@ -93,33 +92,41 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
     this.suaChuaUpdateForm.patchValue(this.suaChua);
   }
 
-  onSubmit() {
-
+  resolveData(): SuaChua {
     let rawData = Object.assign({}, this.suaChuaUpdateForm.value);
+
     // Cập nhật thủ công các trường đã disable trong lúc tạo form.
     let { loai_sua_chua, loai_thiet_bi, ma_thiet_bi } = this.suaChua
     Object.assign(rawData, { loai_sua_chua, loai_thiet_bi, ma_thiet_bi })
 
-    // this.suaChuaModelBuilderService.transformBeforeUpdate(rawData as SuaChua);
-    // this.submitting = true;
-    // this.suaChuaService.update(this.suaChuaId, rawData as SuaChua)
-    //   .then(success => {
-    //     let syncData = this.suaChuaModelBuilderService.resolveSyncData(rawData);
-    //     this.suaChuaService.syncSuaChuasCurrent(this.suaChuaId, syncData)
-    //       .then(success => {
-    //         this.submitting = false;
-    //         this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
-    //         this.resetForm();
-    //       })
-    //       .catch(error => {
-    //         this.submitting = false;
-    //         this.toastrService.warning(`Đồng bộ dữ liệu thất bại. ${error}`, 'Opps!');
-    //       });
-    //   })
-    //   .catch((error) => {
-    //     this.submitting = false;
-    //     this.toastrService.error(`Cập nhật thất bại. ${error}`, 'Opps!');
-    //   });
+    this.suaChuaModelBuilderService.setMetadata(rawData);
+    this.suaChuaModelBuilderService.setTimeStamp(rawData);
+
+    return <SuaChua>rawData;
+  }
+
+  onSubmit() {
+    this.submitting = true;
+    let fullData = this.resolveData();
+    let simpleData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
+
+    this.suaChuaService.update(this.suaChua.$key, fullData)
+      .then(success => {
+        if (this.suaChua.trang_thai === TrangThaiSuaChua.DangThucHien)
+          return this.suaChuaService.syncTrangThaiDangThucHien(this.suaChua.$key, simpleData);
+        if (this.suaChua.trang_thai === TrangThaiSuaChua.ChuanBiBanGiao)
+          return this.suaChuaService.syncTrangThaiChuanBiBanGiao(this.suaChua.$key, simpleData);
+        return this.suaChuaService.syncTrangThaiHoanThanh(this.suaChua.$key, simpleData);
+      })
+      .then(success => {
+        this.submitting = false;
+        this.toastrService.success('Dữ liệu của bạn đã được đồng bộ trên hệ thống', 'Cập nhật thành công');
+        this.resetForm();
+      })
+      .catch((error: string) => {
+        this.submitting = false;
+        this.toastrService.warning(`Đồng bộ dữ liệu thất bại. ${error}`, 'Opps!');
+      });
   }
 
   ngOnInit() {

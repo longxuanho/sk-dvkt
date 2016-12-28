@@ -88,7 +88,6 @@ export class NhapLieuAddNewComponent implements OnInit {
   }
 
   resolveData(): SuaChua {
-    this.submitting = true;
     let rawData = Object.assign({}, this.suaChuaNewForm.value);
     this.suaChuaModelBuilderService.flattenFields(rawData as { ma_thiet_bi: MaThietBi });
     this.suaChuaModelBuilderService.setMetadata(rawData, { addNew: true });
@@ -101,16 +100,15 @@ export class NhapLieuAddNewComponent implements OnInit {
 
   onSubmit() {
     this.submitting = true;
-    let fullData = this.resolveData(); 
+    let fullData = this.resolveData();
+    let simpleData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
 
     this.suaChuaService.addNew(fullData)
-      .then((newKey: string) => {
-        let syncData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
-        this.suaChuaService.syncTrangThaiDangThucHien(newKey, syncData)
-      })
+      .then((newKey: string) => this.suaChuaService.syncTrangThaiDangThucHien(newKey, simpleData))
       .then(success => {
         this.submitting = false;
         this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
+        this.resetForm();
       })
       .catch((error: string) => {
         this.submitting = false;
