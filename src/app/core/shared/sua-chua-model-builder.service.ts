@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { SuaChua, MaThietBi, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelTrangThaiChuanBiBG, DataModelTimeStamp, DataModelTrangThaiHoanThanh } from './sua-chua.model';
+import { SuaChua, MaThietBi, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelTrangThaiChuanBiBG, DataModelTimeStamp, DataModelTrangThaiHoanThanh, DataModelTrangThaiDangThucHien } from './sua-chua.model';
 
 import { AuthService } from './auth.service';
 import { UserProfile } from './user-profile.model';
@@ -55,11 +55,6 @@ export class SuaChuaModelBuilderService {
         }
     }
 
-    transformBeforeAddnew(rawData: SuaChua) {
-        this.setMetadata(rawData, { addNew: true });
-        this.setTimeStamp(rawData);
-    }
-
     transformBeforeUpdate(rawData: SuaChua) {
         // remove '$exists' and 'key' if it has any
         delete rawData['$exists'];
@@ -67,6 +62,11 @@ export class SuaChuaModelBuilderService {
         this.setMetadata(rawData);
         this.setTimeStamp(rawData)
     }
+
+    resolveTrangThaiDangThucHienData(rawData: SuaChua): DataModelTrangThaiDangThucHien {
+        const { thoi_gian_ket_thuc_dk, thoi_gian_ket_thuc_dk_str, thoi_gian_ket_thuc_dk_unix, trang_thai, last_update_by, last_update_when } = rawData;
+        return { thoi_gian_ket_thuc_dk, thoi_gian_ket_thuc_dk_str, thoi_gian_ket_thuc_dk_unix, trang_thai, last_update_by, last_update_when };
+    } 
 
     resolveTrangThaiChuanBiBGData(rawData: SuaChua): DataModelTrangThaiChuanBiBG {
         const { thoi_gian_ket_thuc_dk, thoi_gian_ket_thuc_dk_str, thoi_gian_ket_thuc_dk_unix, trang_thai, last_update_by, last_update_when } = rawData;

@@ -39,7 +39,7 @@ export class NhapLieuAddNewComponent implements OnInit {
 
   buildForm() {
     this.suaChuaNewForm = this.formBuilder.group({
-      location_id: this.formBuilder.control('CLA_PXOTO', Validators.required),
+      location_id: this.formBuilder.control('', Validators.required),
       loai_sua_chua: this.formBuilder.control('', Validators.required),
       loai_thiet_bi: this.formBuilder.control('', Validators.required),
       ma_thiet_bi: this.formBuilder.control('', Validators.required),
@@ -47,12 +47,12 @@ export class NhapLieuAddNewComponent implements OnInit {
       vi_tri: this.formBuilder.control('', Validators.required),
       ma_wo: this.formBuilder.control(''),
       noi_dung: this.formBuilder.control('', Validators.required),
-      thoi_gian_bat_dau: this.formBuilder.control(moment().format(dateTimeDisplayFormat), [
+      thoi_gian_bat_dau: this.formBuilder.control('', [
         Validators.required,
         Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/),
         dateTimeValidator()
       ]),
-      thoi_gian_ket_thuc_dk: this.formBuilder.control(moment().add(3, 'h').format(dateTimeDisplayFormat), [
+      thoi_gian_ket_thuc_dk: this.formBuilder.control('', [
         Validators.required,
         Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/),
         dateTimeRangeValidator(this.calcStartTimeRef)
@@ -81,21 +81,31 @@ export class NhapLieuAddNewComponent implements OnInit {
 
   resetForm() {
     this.suaChuaNewForm.reset();
+    this.suaChuaNewForm.get('location_id').setValue('CLA_PXOTO');    
     this.suaChuaNewForm.get('thoi_gian_bat_dau').setValue(moment().format(dateTimeDisplayFormat));
     this.suaChuaNewForm.get('thoi_gian_ket_thuc_dk').setValue(moment().add(3, 'h').format(dateTimeDisplayFormat));
   }
 
-  onSubmit() {
-    let rawData = Object.assign({}, this.suaChuaNewForm.value);
-
-    this.suaChuaModelBuilderService.flattenFields(rawData as { ma_thiet_bi: MaThietBi });
-    this.suaChuaModelBuilderService.transformBeforeAddnew(rawData as SuaChua);
+  resolveData(): SuaChua {
     this.submitting = true;
+    let rawData = Object.assign({}, this.suaChuaNewForm.value);
+    this.suaChuaModelBuilderService.flattenFields(rawData as { ma_thiet_bi: MaThietBi });
+    this.suaChuaModelBuilderService.setMetadata(rawData, { addNew: true });
+    this.suaChuaModelBuilderService.setTimeStamp(rawData);
 
-    this.suaChuaService.addNew(rawData as SuaChua)
+    rawData.trang_thai = TrangThaiSuaChua.DangThucHien;
+
+    return <SuaChua>rawData;
+  }
+
+  onSubmit() {
+    this.submitting = true;
+    let fullData = this.resolveData(); 
+
+    this.suaChuaService.addNew(fullData)
       .then((newKey: string) => {
-        let syncData = this.suaChuaModelBuilderService.resolveSyncData(rawData);
-        this.suaChuaService.syncSuaChuasCurrent(newKey, syncData);
+        let syncData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
+        this.suaChuaService.syncTrangThaiDangThucHien(newKey, syncData)
       })
       .then(success => {
         this.submitting = false;
@@ -109,6 +119,7 @@ export class NhapLieuAddNewComponent implements OnInit {
 
   ngOnInit() {
     this.dataHelper = this.nhapLieuHelperService.getDataHelper();
+    this.resetForm();
   }
 
 }

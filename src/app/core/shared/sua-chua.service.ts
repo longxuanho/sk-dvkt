@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 
-import { SuaChua, refSuaChuas, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelTrangThaiChuanBiBG, DataModelTrangThaiHoanThanh } from './sua-chua.model';
+import { SuaChua, refSuaChuas, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelTrangThaiChuanBiBG, DataModelTrangThaiHoanThanh, DataModelTrangThaiDangThucHien } from './sua-chua.model';
 
 @Injectable()
 export class SuaChuaService {
@@ -70,7 +70,6 @@ export class SuaChuaService {
   syncTrangThaiChuanBiBanGiao(key: string, preparedData: DataModelSuaChuaSimple) {
     if (key)
       return new Promise((resolve, reject) => {        
-        console.log('ref: ', refSuaChuas.suaChuasCurrent, refSuaChuas.zone, key, preparedData);
         this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(preparedData)
           .then(success => resolve())
           .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
@@ -116,10 +115,10 @@ export class SuaChuaService {
     });
   }
 
-  setTrangThaiDangThucHien(key: string) {
+  setTrangThaiDangThucHien(key: string, preparedData: DataModelTrangThaiDangThucHien) {
      if (key)
       return new Promise((resolve, reject) => {
-        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update({ trang_thai: TrangThaiSuaChua.DangThucHien })
+        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(preparedData)
           .then(success => resolve())
           .catch((error: Error) => reject(`Cập nhật trạng thái thất bại. ${error.message}`));
       });
@@ -128,10 +127,10 @@ export class SuaChuaService {
     });
   }
 
-  syncTrangThaiDangThucHien(key: string) {
+  syncTrangThaiDangThucHien(key: string, preparedData: DataModelSuaChuaSimple) {
     if (key)
       return new Promise((resolve, reject) => {
-        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).update({ trang_thai: TrangThaiSuaChua.DangThucHien })
+        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(preparedData)
           .then(success => resolve())
           .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
       });
