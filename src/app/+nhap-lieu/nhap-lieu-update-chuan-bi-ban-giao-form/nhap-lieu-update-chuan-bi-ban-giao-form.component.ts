@@ -5,8 +5,8 @@ import { CustomValidators } from 'ng2-validation';
 
 import { dateTimeDisplayFormat, dateTimeStringFormat } from '../../core/shared/date-time-format.model';
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
-import { TrangThaiSuaChua } from '../../core/shared/sua-chua.model';
-
+import { TrangThaiSuaChua, DataModelTrangThaiChuanBiBG, DataModelTimeStamp } from '../../core/shared/sua-chua.model';
+import { SuaChuaModelBuilderService } from '../../core/shared/sua-chua-model-builder.service';
 
 declare var moment: any;
 
@@ -18,6 +18,7 @@ declare var moment: any;
 export class NhapLieuUpdateChuanBiBanGiaoFormComponent implements OnInit {
 
   @Input() suaChuaId: string;
+  @Input() thoiGianBatDau: string;
 
   chuanBiBanGiaoForm: FormGroup;
   submitting: boolean = false;
@@ -25,7 +26,8 @@ export class NhapLieuUpdateChuanBiBanGiaoFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
-    private suaChuaService: SuaChuaService
+    private suaChuaService: SuaChuaService,
+    private suaChuaModelBuilderService: SuaChuaModelBuilderService
   ) {
     this.buildForm();
   }
@@ -36,10 +38,18 @@ export class NhapLieuUpdateChuanBiBanGiaoFormComponent implements OnInit {
     });
   }
 
+
+
   onSubmit() {
+    const duration = parseInt(this.chuanBiBanGiaoForm.get('duration').value);
+    let rawData: DataModelTimeStamp = { thoi_gian_bat_dau: this.thoiGianBatDau };
+
+    this.suaChuaModelBuilderService.transformBeforeUpdateTrangThaiChuanBiBG(rawData, duration);
+    console.log('rawData after: ', rawData);
+
     this.submitting = true;
-    this.suaChuaService.setTrangThaiChuanBiBanGiao(this.suaChuaId)
-      .then(success => this.suaChuaService.syncTrangThaiChuanBiBanGiao(this.suaChuaId))
+    this.suaChuaService.setTrangThaiChuanBiBanGiao(this.suaChuaId, <DataModelTrangThaiChuanBiBG>rawData)
+      .then(success => this.suaChuaService.syncTrangThaiChuanBiBanGiao(this.suaChuaId, <DataModelTrangThaiChuanBiBG>rawData))
       .then(success => {
         this.submitting = false;
         this.toastrService.success(`Phương tiện được dự kiến bàn giao trong ${this.chuanBiBanGiaoForm.get('duration').value} phút tới`, 'Cập nhật thành công');

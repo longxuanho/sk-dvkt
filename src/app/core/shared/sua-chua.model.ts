@@ -65,3 +65,34 @@ export class MaThietBi {
     hangSanXuat: string;
     dvQuanLy: string;
 }
+
+export class DataModelSuaChuaCurrent {
+    ma_thiet_bi: string;
+    dv_quan_ly: string;
+    khu_vuc: string;
+    noi_dung: string;
+    thoi_gian_bat_dau: string;
+    thoi_gian_ket_thuc_dk?: string;
+    trang_thai: number;
+    vi_tri: string;
+}
+
+export class DataModelTrangThaiChuanBiBG {
+    thoi_gian_ket_thuc_dk: string;
+    thoi_gian_ket_thuc_dk_str?: string;
+    thoi_gian_ket_thuc_dk_unix?: number;
+    trang_thai?: number;
+}
+
+export class DataModelTimeStamp {
+    thoi_gian_bat_dau?: string;
+    thoi_gian_bat_dau_str?: string;
+    thoi_gian_bat_dau_unix?: number;
+    thoi_gian_ket_thuc_dk?: string;
+    thoi_gian_ket_thuc_dk_str?: string;
+    thoi_gian_ket_thuc_dk_unix?: number;
+    thoi_gian_ket_thuc?: string;
+    thoi_gian_ket_thuc_str?: string;
+    thoi_gian_ket_thuc_unix?: number;
+    trang_thai?: number
+}

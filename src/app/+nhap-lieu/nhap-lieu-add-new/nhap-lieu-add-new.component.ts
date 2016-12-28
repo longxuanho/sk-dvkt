@@ -93,7 +93,10 @@ export class NhapLieuAddNewComponent implements OnInit {
     this.submitting = true;
 
     this.suaChuaService.addNew(rawData as SuaChua)
-      .then((newKey: string) => this.suaChuaService.syncSuaChuasCurrent(newKey, this.suaChuaModelBuilderService.transformBeforeSync(rawData as SuaChua)))
+      .then((newKey: string) => {
+        let syncData = this.suaChuaModelBuilderService.resolveSyncData(rawData);
+        this.suaChuaService.syncSuaChuasCurrent(newKey, syncData);
+      })
       .then(success => {
         this.submitting = false;
         this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
@@ -102,25 +105,6 @@ export class NhapLieuAddNewComponent implements OnInit {
         this.submitting = false;
         this.toastrService.error(error, 'Opps!');
       });
-
-    // this.suaChuaService.addNew(rawData as SuaChua)
-    //   .then(success => {
-    //     let syncData = this.suaChuaModelBuilderService.transformBeforeSync(rawData as SuaChua);
-    //     this.suaChuaService.syncSuaChuasCurrent(success.key, syncData)
-    //       .then(success => {
-    //         this.submitting = false;
-    //         this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
-    //         this.resetForm();
-    //       })
-    //       .catch(error => {
-    //         this.submitting = false;
-    //         this.toastrService.warning(`Đồng bộ dữ liệu thất bại. ${error}`, 'Opps!');
-    //       });
-    //   })
-    //   .catch((error) => {
-    //     this.submitting = false;
-    //     this.toastrService.error(`Tạo mới thông tin thất bại. ${error}`, 'Opps!');
-    //   });
   }
 
   ngOnInit() {

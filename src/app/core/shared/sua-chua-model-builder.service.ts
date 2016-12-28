@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { SuaChua, MaThietBi } from './sua-chua.model';
+import { SuaChua, MaThietBi, TrangThaiSuaChua, DataModelSuaChuaCurrent, DataModelTrangThaiChuanBiBG, DataModelTimeStamp } from './sua-chua.model';
 
 import { AuthService } from './auth.service';
 import { UserProfile } from './user-profile.model';
@@ -44,7 +44,7 @@ export class SuaChuaModelBuilderService {
         }
     }
 
-    setTimeStamp(rawData: SuaChua) {
+    setTimeStamp(rawData: DataModelTimeStamp) {
         rawData.thoi_gian_bat_dau_str = this.dateTimeConverterService.from(rawData.thoi_gian_bat_dau, dateTimeDisplayFormat).convertToString();
         rawData.thoi_gian_bat_dau_unix = this.dateTimeConverterService.convertToUnix();
         rawData.thoi_gian_ket_thuc_dk_str = this.dateTimeConverterService.from(rawData.thoi_gian_ket_thuc_dk, dateTimeDisplayFormat).convertToString();
@@ -68,9 +68,22 @@ export class SuaChuaModelBuilderService {
         this.setTimeStamp(rawData)
     }
 
-    transformBeforeSync(rawData: SuaChua) {
-        const { vi_tri, khu_vuc, ma_thiet_bi, dv_quan_ly, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str, trang_thai } = rawData;
-        return { vi_tri, khu_vuc, ma_thiet_bi, dv_quan_ly, noi_dung, thoi_gian_bat_dau_str, thoi_gian_ket_thuc_dk_str, trang_thai };
+    resolveSyncData(rawData): DataModelSuaChuaCurrent {
+        let { vi_tri, khu_vuc, ma_thiet_bi, dv_quan_ly, noi_dung, thoi_gian_bat_dau, thoi_gian_ket_thuc_dk, trang_thai } = rawData;
+        return { vi_tri, khu_vuc, ma_thiet_bi, dv_quan_ly, noi_dung, thoi_gian_bat_dau, thoi_gian_ket_thuc_dk, trang_thai };
+    }
+
+    transformBeforeUpdateTrangThaiChuanBiBG(rawData: DataModelTimeStamp, duration: number) {
+        const thoiGianKetThucDK = moment(rawData.thoi_gian_bat_dau, dateTimeDisplayFormat).add(duration, 'minutes');        
+
+        if (thoiGianKetThucDK.isValid()) {
+            rawData.thoi_gian_ket_thuc_dk = thoiGianKetThucDK.format(dateTimeDisplayFormat);
+            this.setTimeStamp(rawData);
+        }
+        delete rawData.thoi_gian_bat_dau;
+        delete rawData.thoi_gian_bat_dau_str;
+        delete rawData.thoi_gian_bat_dau_unix;
+        rawData.trang_thai = TrangThaiSuaChua.ChuanBiBanGiao
     }
 
 

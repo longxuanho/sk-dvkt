@@ -104,7 +104,7 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
     this.submitting = true;
     this.suaChuaService.update(this.suaChuaId, rawData as SuaChua)
       .then(success => {
-        let syncData = this.suaChuaModelBuilderService.transformBeforeSync(rawData as SuaChua);
+        let syncData = this.suaChuaModelBuilderService.resolveSyncData(rawData);
         this.suaChuaService.syncSuaChuasCurrent(this.suaChuaId, syncData)
           .then(success => {
             this.submitting = false;
