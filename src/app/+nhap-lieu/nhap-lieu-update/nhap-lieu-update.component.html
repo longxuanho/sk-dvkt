@@ -28,7 +28,8 @@
 </sk-nhap-lieu-update-chuan-bi-ban-giao-form>
 
 <sk-nhap-lieu-update-hoan-thanh-form
-  *ngIf="formDisplay===trangThaiSuaChua.HoanThanh" >
+  *ngIf="formDisplay===trangThaiSuaChua.HoanThanh"
+  [suaChua]="cloneSuaChua">
 </sk-nhap-lieu-update-hoan-thanh-form>
 
 <sk-nhap-lieu-update-huy-bo-form

@@ -45,7 +45,6 @@ export class NhapLieuUpdateChuanBiBanGiaoFormComponent implements OnInit {
     let rawData: DataModelTimeStamp = { thoi_gian_bat_dau: this.thoiGianBatDau };
 
     this.suaChuaModelBuilderService.transformBeforeUpdateTrangThaiChuanBiBG(rawData, duration);
-    console.log('rawData after: ', rawData);
 
     this.submitting = true;
     this.suaChuaService.setTrangThaiChuanBiBanGiao(this.suaChuaId, <DataModelTrangThaiChuanBiBG>rawData)
