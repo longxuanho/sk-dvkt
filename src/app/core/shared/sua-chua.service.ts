@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 
-import { SuaChua, refSuaChuas, TrangThaiSuaChua, DataModelSuaChuaCurrent, DataModelTrangThaiChuanBiBG } from './sua-chua.model';
+import { SuaChua, refSuaChuas, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelTrangThaiChuanBiBG, DataModelTrangThaiHoanThanh } from './sua-chua.model';
 
 @Injectable()
 export class SuaChuaService {
@@ -43,7 +43,7 @@ export class SuaChuaService {
     });
   }
 
-  syncSuaChuasCurrent(key, suaChua: DataModelSuaChuaCurrent) {
+  syncSuaChuasCurrent(key, suaChua: DataModelSuaChuaSimple) {
     if (key)
       return new Promise((resolve, reject) => {
         this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(suaChua)
@@ -55,10 +55,10 @@ export class SuaChuaService {
     });
   }
 
-  setTrangThaiChuanBiBanGiao(key: string, rawData: DataModelTrangThaiChuanBiBG) {
+  setTrangThaiChuanBiBanGiao(key: string, preparedData: DataModelTrangThaiChuanBiBG) {
     if (key)
       return new Promise((resolve, reject) => {
-        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(rawData)
+        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(preparedData)
           .then(success => resolve())
           .catch((error: Error) => reject(`Cập nhật trạng thái thất bại. ${error.message}`));
       });
@@ -67,13 +67,47 @@ export class SuaChuaService {
     });
   }
 
-  syncTrangThaiChuanBiBanGiao(key: string, rawData: DataModelTrangThaiChuanBiBG) {
+  syncTrangThaiChuanBiBanGiao(key: string, preparedData: DataModelSuaChuaSimple) {
+    if (key)
+      return new Promise((resolve, reject) => {        
+        console.log('ref: ', refSuaChuas.suaChuasCurrent, refSuaChuas.zone, key, preparedData);
+        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(preparedData)
+          .then(success => resolve())
+          .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
+      });
+    return new Promise((resolve, reject) => {
+      reject('Khóa chính (key) không hợp lệ');
+    });
+  }
+
+  removeTrangThaiChuanBiBanGiao(key: string) {
     if (key)
       return new Promise((resolve, reject) => {
-        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).update({ 
-            trang_thai: rawData.trang_thai,
-            thoi_gian_ket_thuc_dk: rawData.thoi_gian_ket_thuc_dk
-          })
+        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).remove()
+          .then(success => resolve())
+          .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
+      });
+    return new Promise((resolve, reject) => {
+      reject('Khóa chính (key) không hợp lệ');
+    });
+  }
+
+  setTrangThaiHoanThanh(key: string, preparedData: DataModelTrangThaiHoanThanh) {
+    if (key)
+      return new Promise((resolve, reject) => {
+        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(preparedData)
+          .then(success => resolve())
+          .catch((error: Error) => reject(`Cập nhật trạng thái thất bại. ${error.message}`));
+      });
+    return new Promise((resolve, reject) => {
+      reject('Khóa chính (key) không hợp lệ');
+    });
+  }
+
+  syncTrangThaiHoanThanh(key: string, preparedData: DataModelSuaChuaSimple) {
+    if (key)
+      return new Promise((resolve, reject) => {
+        this.af.database.object(`${refSuaChuas.suaChuasDone}${refSuaChuas.zone}/${key}`).set(preparedData)
           .then(success => resolve())
           .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
       });
@@ -105,8 +139,6 @@ export class SuaChuaService {
       reject('Khóa chính (key) không hợp lệ');
     });
   }
-
-  
 
   getSuaChuasCurrent() {
     return this.handles.suaChuasCurrent;

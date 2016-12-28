@@ -5,7 +5,7 @@ import { CustomValidators } from 'ng2-validation';
 
 import { dateTimeDisplayFormat, dateTimeStringFormat } from '../../core/shared/date-time-format.model';
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
-import { TrangThaiSuaChua, DataModelTrangThaiChuanBiBG, DataModelTimeStamp } from '../../core/shared/sua-chua.model';
+import { SuaChua, TrangThaiSuaChua, DataModelTrangThaiChuanBiBG, DataModelTimeStamp } from '../../core/shared/sua-chua.model';
 import { SuaChuaModelBuilderService } from '../../core/shared/sua-chua-model-builder.service';
 
 declare var moment: any;
@@ -17,8 +17,7 @@ declare var moment: any;
 })
 export class NhapLieuUpdateChuanBiBanGiaoFormComponent implements OnInit {
 
-  @Input() suaChuaId: string;
-  @Input() thoiGianBatDau: string;
+  @Input() suaChua: SuaChua;
 
   chuanBiBanGiaoForm: FormGroup;
   submitting: boolean = false;
@@ -38,32 +37,47 @@ export class NhapLieuUpdateChuanBiBanGiaoFormComponent implements OnInit {
     });
   }
 
+  resolveData(): SuaChua {
+    let rawData = Object.assign({}, this.suaChua);
+    let duration = parseInt(this.chuanBiBanGiaoForm.get('duration').value);
+    rawData.thoi_gian_ket_thuc_dk = moment().add(duration, 'minutes').format(dateTimeDisplayFormat);
+    rawData.trang_thai = TrangThaiSuaChua.ChuanBiBanGiao;
+
+    this.suaChuaModelBuilderService.setMetadata(rawData);
+    this.suaChuaModelBuilderService.setTimeStamp(rawData);
+
+    return rawData;
+  }
+
 
 
   onSubmit() {
-    const duration = parseInt(this.chuanBiBanGiaoForm.get('duration').value);
-    let rawData: DataModelTimeStamp = { thoi_gian_bat_dau: this.thoiGianBatDau };
-
-    this.suaChuaModelBuilderService.transformBeforeUpdateTrangThaiChuanBiBG(rawData, duration);
-
     this.submitting = true;
-    this.suaChuaService.setTrangThaiChuanBiBanGiao(this.suaChuaId, <DataModelTrangThaiChuanBiBG>rawData)
-      .then(success => this.suaChuaService.syncTrangThaiChuanBiBanGiao(this.suaChuaId, <DataModelTrangThaiChuanBiBG>rawData))
+    let fullData = <SuaChua>this.resolveData();
+    console.log('full Data: ', fullData);
+
+    let preparedData = this.suaChuaModelBuilderService.resolveTrangThaiChuanBiBGData(fullData);
+    console.log('preparedData: ', preparedData);
+    this.suaChuaService.setTrangThaiChuanBiBanGiao(this.suaChua.$key, preparedData)
+      .then(success => {
+        let simpleData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
+        this.suaChuaService.syncTrangThaiChuanBiBanGiao(this.suaChua.$key, simpleData)
+      })
       .then(success => {
         this.submitting = false;
-        this.toastrService.success(`Phương tiện được dự kiến bàn giao trong ${this.chuanBiBanGiaoForm.get('duration').value} phút tới`, 'Cập nhật thành công');
+        this.toastrService.success(`Phương tiện ${this.suaChua.ma_thiet_bi} được dự kiến bàn giao trong ${this.chuanBiBanGiaoForm.get('duration').value} phút tới`, 'Cập nhật thành công');
       })
       .catch((error: string) => {
         this.submitting = false;
-        this.toastrService.warning(error, 'Opps!');
-      })
+        this.toastrService.error(error, 'Opps!');
+      });
   }
 
   resetTrangThai() {
-    this.suaChuaService.setTrangThaiDangThucHien(this.suaChuaId)
-      .then(success => this.suaChuaService.syncTrangThaiDangThucHien(this.suaChuaId))
+    this.suaChuaService.setTrangThaiDangThucHien(this.suaChua.$key)
+      .then(success => this.suaChuaService.syncTrangThaiDangThucHien(this.suaChua.$key))
       .then(success => this.toastrService.success('Trạng thái phương tiện trở về <Đang thực hiện>', 'Cập nhật thành công'))
-      .catch((error: string) => this.toastrService.warning(error, 'Opps!'));
+      .catch((error: string) => this.toastrService.error(error, 'Opps!'));
   }
 
   ngOnInit() {

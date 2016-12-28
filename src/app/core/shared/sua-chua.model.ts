@@ -1,6 +1,7 @@
 export const refSuaChuas = {
     suaChuasList: '/sua-chuas',
     suaChuasCurrent: '/sua-chuas-current',
+    suaChuasDone: '/sua-chuas-done',
     zone: '/cla-pxoto'
 }
 
@@ -31,13 +32,10 @@ export class SuaChua {
     thoi_gian_ket_thuc?: string;
     thoi_gian_ket_thuc_str?: string;
     thoi_gian_ket_thuc_unix?: number;
+    thoi_gian_sua_chuas?: number;
     trang_thai?: number;
-    created_by_name?: string;
-    created_by_email?: string;
     created_by?: string;
     created_when?: string;
-    last_update_by_name?: string;
-    last_update_by_email?: string;
     last_update_by?: string;
     last_update_when?: string;
 }
@@ -66,13 +64,14 @@ export class MaThietBi {
     dvQuanLy: string;
 }
 
-export class DataModelSuaChuaCurrent {
+export class DataModelSuaChuaSimple {
     ma_thiet_bi: string;
     dv_quan_ly: string;
     khu_vuc: string;
     noi_dung: string;
     thoi_gian_bat_dau: string;
     thoi_gian_ket_thuc_dk?: string;
+    thoi_gian_ket_thuc?: string;
     trang_thai: number;
     vi_tri: string;
 }
@@ -82,6 +81,17 @@ export class DataModelTrangThaiChuanBiBG {
     thoi_gian_ket_thuc_dk_str?: string;
     thoi_gian_ket_thuc_dk_unix?: number;
     trang_thai?: number;
+    last_update_when?: string;
+    last_update_by?: string;
+}
+
+export class DataModelTrangThaiHoanThanh {
+    thoi_gian_ket_thuc: string;
+    thoi_gian_ket_thuc_str?: string;
+    thoi_gian_ket_thuc_unix?: number;
+    trang_thai?: number;
+    last_update_when?: string;
+    last_update_by?: string;
 }
 
 export class DataModelTimeStamp {
@@ -94,5 +104,6 @@ export class DataModelTimeStamp {
     thoi_gian_ket_thuc?: string;
     thoi_gian_ket_thuc_str?: string;
     thoi_gian_ket_thuc_unix?: number;
+    thoi_gian_sua_chua?: number;
     trang_thai?: number
 }
