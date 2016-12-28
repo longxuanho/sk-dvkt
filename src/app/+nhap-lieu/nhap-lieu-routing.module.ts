@@ -12,6 +12,9 @@ import { NhapLieuUpdateChuanBiBanGiaoFormComponent } from './nhap-lieu-update-ch
 import { NhapLieuUpdateHoanThanhFormComponent } from './nhap-lieu-update-hoan-thanh-form/nhap-lieu-update-hoan-thanh-form.component';
 import { NhapLieuUpdateHuyBoFormComponent } from './nhap-lieu-update-huy-bo-form/nhap-lieu-update-huy-bo-form.component';
 import { NhapLieuUpdateDangThucHienFormComponent } from './nhap-lieu-update-dang-thuc-hien-form/nhap-lieu-update-dang-thuc-hien-form.component';
+import { NhapLieuListDangThucHienComponent } from './nhap-lieu-list-dang-thuc-hien/nhap-lieu-list-dang-thuc-hien.component';
+import { NhapLieuListHoanThanhComponent } from './nhap-lieu-list-hoan-thanh/nhap-lieu-list-hoan-thanh.component';
+import { NhapLieuListAllComponent } from './nhap-lieu-list-all/nhap-lieu-list-all.component';
 
 
 const routes: Routes = [
@@ -43,5 +46,8 @@ export const routedComponents = [
     NhapLieuUpdateChuanBiBanGiaoFormComponent,
     NhapLieuUpdateHoanThanhFormComponent,
     NhapLieuUpdateHuyBoFormComponent,
-    NhapLieuUpdateDangThucHienFormComponent
+    NhapLieuUpdateDangThucHienFormComponent,
+    NhapLieuListDangThucHienComponent,
+    NhapLieuListHoanThanhComponent,
+    NhapLieuListAllComponent,
 ];

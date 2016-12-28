@@ -1,11 +1,16 @@
 <div class="row">
   <div class="container clearfix">
-    <h3 class="d-inline-block align-middle">Đang thực hiện</h3>
-    <a href="" class="btn btn-outline-primary float-xs-right" [routerLink]="['/admin/nguoi-dung/tao-moi']">Tất cả</a>
+    <h3 class="d-inline-block align-middle">{{currentTitle}}</h3>
+    <button class="btn btn-outline-primary float-xs-right" (click)="onComponentDisplayedChange()">{{currentComponentText}} »</button>
     <sk-nhap-lieu-list-status></sk-nhap-lieu-list-status>
   </div>
 </div>
 
+<div class="row mt-2" *ngIf="suachuas.length">
+  <sk-nhap-lieu-list-all *ngIf="componentDisplayed === display.All"></sk-nhap-lieu-list-all>
+  <sk-nhap-lieu-list-dang-thuc-hien *ngIf="componentDisplayed === display.DangThucHien"></sk-nhap-lieu-list-dang-thuc-hien>
+  <sk-nhap-lieu-list-hoan-thanh *ngIf="componentDisplayed === display.HoanThanh"></sk-nhap-lieu-list-hoan-thanh>
+</div>
 <div class="row mt-2" *ngIf="suachuas.length">
   <div class="container">
     <div class="list-group mt-2">
