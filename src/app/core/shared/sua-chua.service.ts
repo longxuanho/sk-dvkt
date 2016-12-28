@@ -101,6 +101,19 @@ export class SuaChuaService {
     });
   }
 
+  removeSuaChua(key: string) {
+    if (key) {
+      return new Promise<{}>((resolve, reject) => {
+        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).remove()
+          .then(success => resolve())
+          .catch((error: Error) => reject('Gỡ bỏ sửa chữa thất bại. ' + error.message));
+      });
+    }
+    return new Promise((resolve, reject) => {
+      reject('Khóa chính (key) không hợp lệ');
+    });
+  }
+
 
 
   getSuaChuasCurrent() {

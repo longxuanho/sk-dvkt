@@ -1,7 +1,7 @@
 export const refSuaChuas = {
-    suaChuasList: '/sua-chuas',
-    suaChuasCurrent: '/sua-chuas-current',
-    suaChuasDone: '/sua-chuas-done',
+    suaChuasList: 'sua-chuas/sua-chuas-list',
+    suaChuasCurrent: 'sua-chuas/sua-chuas-current',
+    suaChuasDone: 'sua-chuas/sua-chuas-done',
     zone: '/cla-pxoto'
 }
 

@@ -1,6 +1,6 @@
 <div class="row mt-2"></div>
 <div class="mt-2 bd-callout bd-callout-danger">
-  <h4>Chuyển đổi trạng thái</h4>
+  <h4>Hủy bỏ lượt sửa chữa</h4>
   <p>
     Thông tin về lượt sửa chữa này của phương tiện <code>NB121 (XNCG)</code> sẽ bị hủy bỏ và xóa khỏi hệ thống. Bạn có muốn
     tiếp tục?
@@ -12,6 +12,6 @@
     <li>Tại vị trí: <code>Khu A, A01</code></li>
   </ul>
 
-  <button type="button" class="btn btn-outline-primary" autofocus>Không, trở về</button>
-  <button type="button" class="btn btn-outline-danger">OK, xóa mục này!</button>
+  <button type="button" class="btn btn-outline-primary" autofocus (click)="onGoBack()">Không, trở về</button>
+  <button type="button" class="btn btn-outline-danger" (click)="onRemove()">OK, xóa mục này!</button>
 </div>

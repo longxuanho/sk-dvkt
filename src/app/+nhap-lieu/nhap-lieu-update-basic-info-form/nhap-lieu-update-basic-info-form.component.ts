@@ -106,8 +106,6 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
     let simpleData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
     let preparedData = this.suaChuaModelBuilderService.resolveUpdateBasicInfoData(fullData);
 
-    console.log('preparedData: ', preparedData);    
-
     this.suaChuaService.update(this.suaChua.$key, preparedData)
       .then(success => this.suaChuaService.syncTrangThai(this.suaChua.$key, simpleData, { trang_thai: this.suaChua.trang_thai }))
       .then(success => {

@@ -30,9 +30,14 @@
     [suaChua]="cloneSuaChua">
   </sk-nhap-lieu-update-hoan-thanh-form>
 
-  <sk-nhap-lieu-update-huy-bo-form *ngIf="formDisplay==='Hủy bỏ'">
+  <sk-nhap-lieu-update-huy-bo-form 
+    *ngIf="formDisplay==='Hủy bỏ'"
+    [suaChua]="cloneSuaChua"
+    (goBack)="onGoBack($event)">
   </sk-nhap-lieu-update-huy-bo-form>
 
-  <sk-nhap-lieu-update-basic-info-form *ngIf="formDisplay===cloneSuaChua.trang_thai" [suaChua]="cloneSuaChua">
+  <sk-nhap-lieu-update-basic-info-form 
+    *ngIf="formDisplay===cloneSuaChua.trang_thai"
+    [suaChua]="cloneSuaChua">
   </sk-nhap-lieu-update-basic-info-form>
 </div>

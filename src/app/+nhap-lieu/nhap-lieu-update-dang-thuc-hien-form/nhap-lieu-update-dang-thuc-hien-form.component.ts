@@ -22,7 +22,6 @@ export class NhapLieuUpdateDangThucHienFormComponent implements OnInit {
 
   dangThucHienForm: FormGroup;
   submitting: boolean = false;
-  timeOverall: string = '-- giờ';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,8 +40,6 @@ export class NhapLieuUpdateDangThucHienFormComponent implements OnInit {
     omitKeys.forEach(omitKey => {
       delete rawData[omitKey];
     });
-
-    console.log('rawData after delete keys: ', rawData);
 
     rawData.trang_thai = TrangThaiSuaChua.DangThucHien;
 
@@ -76,8 +73,6 @@ export class NhapLieuUpdateDangThucHienFormComponent implements OnInit {
         this.toastrService.error(error, 'Opps!');
       });
   }
-
-
 
   ngOnInit() {
   }

@@ -36,6 +36,10 @@ export class NhapLieuUpdateComponent implements OnInit {
     this.formDisplay = formDisplayName;
   }
 
+  onGoBack(event) {
+    this.formDisplay = this.cloneSuaChua.trang_thai;
+  }
+
   ngOnInit() {
     this.subscriptions.suaChua = this.route.params
       .switchMap((params: Params) => this.suaChuaService.getSuaChua(params['id']))
