@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'toastr-ng2';
 
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
@@ -18,6 +19,7 @@ export class NhapLieuUpdateHuyBoFormComponent implements OnInit {
   removing: boolean = false;
 
   constructor(
+    private router: Router,
     private toastrService: ToastrService,
     private suaChuaService: SuaChuaService
   ) { }
@@ -35,6 +37,7 @@ export class NhapLieuUpdateHuyBoFormComponent implements OnInit {
       .then(success => {
         this.removing = false;
         this.toastrService.info('Tất cả dữ liệu về lượt sửa chữa đã được gỡ bỏ khỏi hệ thống.', 'Gỡ bỏ thành công');
+        this.router.navigate(['/nhap-lieu']);
       })
       .catch((error: string) => {
         this.removing = false;
