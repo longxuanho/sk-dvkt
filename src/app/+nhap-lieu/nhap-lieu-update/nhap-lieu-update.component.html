@@ -2,7 +2,7 @@
 <hr/>
 <div class="row">
   <div class="col-xs-12" *ngIf="cloneSuaChua">
-    <button type="button" class="btn mt-1" (click)="setFormDisplay(trangThaiSuaChua.DangThucHien)" [ngClass]="{'btn-outline-primary': cloneSuaChua.trang_thai !== trangThaiSuaChua.DangThucHien, 'btn-primary': cloneSuaChua.trang_thai === trangThaiSuaChua.DangThucHien}">
+    <button type="button" class="btn mt-1" (click)="setFormDisplay(trangThaiSuaChua.DangThucHien)" [ngClass]="{'btn-outline-info': cloneSuaChua.trang_thai !== trangThaiSuaChua.DangThucHien, 'btn-info': cloneSuaChua.trang_thai === trangThaiSuaChua.DangThucHien}">
       Đang thực hiện
     </button>
     <button type="button" class="btn mt-1" (click)="setFormDisplay(trangThaiSuaChua.ChuanBiBanGiao)" [ngClass]="{'btn-outline-warning': cloneSuaChua.trang_thai !== trangThaiSuaChua.ChuanBiBanGiao, 'btn-warning': cloneSuaChua.trang_thai === trangThaiSuaChua.ChuanBiBanGiao}">
@@ -14,22 +14,25 @@
     <button type="button" class="btn btn-outline-danger mt-1" (click)="setFormDisplay('Hủy bỏ')">Hủy bỏ SC</button>
   </div>
 </div>
+<div *ngIf="cloneSuaChua">
+  <sk-nhap-lieu-update-dang-thuc-hien-form 
+    *ngIf="formDisplay===trangThaiSuaChua.DangThucHien && cloneSuaChua.trang_thai!==trangThaiSuaChua.DangThucHien"
+    [suaChua]="cloneSuaChua">
+  </sk-nhap-lieu-update-dang-thuc-hien-form>
 
-<sk-nhap-lieu-update-basic-info-form 
-  *ngIf="formDisplay===trangThaiSuaChua.DangThucHien" 
-  [suaChua]="cloneSuaChua">
-</sk-nhap-lieu-update-basic-info-form>
+  <sk-nhap-lieu-update-chuan-bi-ban-giao-form 
+    *ngIf="formDisplay===trangThaiSuaChua.ChuanBiBanGiao && cloneSuaChua.trang_thai!==trangThaiSuaChua.ChuanBiBanGiao"
+    [suaChua]="cloneSuaChua">
+  </sk-nhap-lieu-update-chuan-bi-ban-giao-form>
 
-<sk-nhap-lieu-update-chuan-bi-ban-giao-form
-  *ngIf="formDisplay===trangThaiSuaChua.ChuanBiBanGiao"
-  [suaChua]="cloneSuaChua">  
-</sk-nhap-lieu-update-chuan-bi-ban-giao-form>
+  <sk-nhap-lieu-update-hoan-thanh-form 
+    *ngIf="formDisplay===trangThaiSuaChua.HoanThanh && cloneSuaChua.trang_thai!==trangThaiSuaChua.HoanThanh"
+    [suaChua]="cloneSuaChua">
+  </sk-nhap-lieu-update-hoan-thanh-form>
 
-<sk-nhap-lieu-update-hoan-thanh-form
-  *ngIf="formDisplay===trangThaiSuaChua.HoanThanh"
-  [suaChua]="cloneSuaChua">
-</sk-nhap-lieu-update-hoan-thanh-form>
+  <sk-nhap-lieu-update-huy-bo-form *ngIf="formDisplay==='Hủy bỏ'">
+  </sk-nhap-lieu-update-huy-bo-form>
 
-<sk-nhap-lieu-update-huy-bo-form
-  *ngIf="formDisplay==='Hủy bỏ'" >
-</sk-nhap-lieu-update-huy-bo-form>
+  <sk-nhap-lieu-update-basic-info-form *ngIf="formDisplay===cloneSuaChua.trang_thai" [suaChua]="cloneSuaChua">
+  </sk-nhap-lieu-update-basic-info-form>
+</div>

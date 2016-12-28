@@ -43,101 +43,65 @@ export class SuaChuaService {
     });
   }
 
-  syncSuaChuasCurrent(key, suaChua: DataModelSuaChuaSimple) {
-    if (key)
-      return new Promise((resolve, reject) => {
-        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(suaChua)
-          .then(success => resolve())
-          .catch((error: Error) => reject(error.message));
-      });
-    return new Promise((resolve, reject) => {
-      reject('Khóa chính (key) không hợp lệ');
-    });
-  }
-
-  setTrangThaiChuanBiBanGiao(key: string, preparedData: DataModelSuaChuaTrangThai) {
-    if (key)
+  setTrangThai(key: string, preparedData: DataModelSuaChuaTrangThai) {
+    if (key) {
       return new Promise((resolve, reject) => {
         this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(preparedData)
           .then(success => resolve())
           .catch((error: Error) => reject(`Cập nhật trạng thái thất bại. ${error.message}`));
       });
+    }
     return new Promise((resolve, reject) => {
       reject('Khóa chính (key) không hợp lệ');
     });
   }
 
-  syncTrangThaiChuanBiBanGiao(key: string, preparedData: DataModelSuaChuaSimple) {
-    if (key)
-      return new Promise((resolve, reject) => {        
-        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(preparedData)
-          .then(success => resolve())
-          .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
-      });
+  syncTrangThai(key: string, preparedData: DataModelSuaChuaSimple, options: { trang_thai?: number }) {
+    if (key) {
+      let ref = '';
+      if (options.trang_thai === TrangThaiSuaChua.DangThucHien)
+        ref = `${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`;
+      if (options.trang_thai === TrangThaiSuaChua.ChuanBiBanGiao)
+        ref = `${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`;
+      if (options.trang_thai === TrangThaiSuaChua.HoanThanh)
+        ref = `${refSuaChuas.suaChuasDone}${refSuaChuas.zone}/${key}`;
+
+      if (ref)
+        return new Promise((resolve, reject) => {
+          this.af.database.object(ref).set(preparedData)
+            .then(success => resolve())
+            .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
+        });
+    }
     return new Promise((resolve, reject) => {
-      reject('Khóa chính (key) không hợp lệ');
+      reject('Khóa chính (key) hoặc trạng thái không hợp lệ');
     });
   }
 
-  removeTrangThaiChuanBiBanGiao(key: string) {
-    if (key)
-      return new Promise((resolve, reject) => {
-        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).remove()
-          .then(success => resolve())
-          .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
-      });
+  removeSyncTrangThai(key: string, options: { trang_thai?: number } = {}) {
+    if (key) {
+      let ref: string = '';
+
+      if (options.trang_thai === TrangThaiSuaChua.ChuanBiBanGiao)
+        ref = `${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`;
+      if (options.trang_thai === TrangThaiSuaChua.DangThucHien)
+        ref = `${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`;
+      if (options.trang_thai === TrangThaiSuaChua.HoanThanh)
+        ref = `${refSuaChuas.suaChuasDone}${refSuaChuas.zone}/${key}`;
+
+      if (ref)
+        return new Promise((resolve, reject) => {
+          this.af.database.object(ref).remove()
+            .then(success => resolve())
+            .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
+        });
+    }
     return new Promise((resolve, reject) => {
-      reject('Khóa chính (key) không hợp lệ');
+      reject('Khóa chính (key) hoặc trạng thái không hợp lệ');
     });
   }
 
-  setTrangThaiHoanThanh(key: string, preparedData: DataModelSuaChuaTrangThai) {
-    if (key)
-      return new Promise((resolve, reject) => {
-        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(preparedData)
-          .then(success => resolve())
-          .catch((error: Error) => reject(`Cập nhật trạng thái thất bại. ${error.message}`));
-      });
-    return new Promise((resolve, reject) => {
-      reject('Khóa chính (key) không hợp lệ');
-    });
-  }
 
-  syncTrangThaiHoanThanh(key: string, preparedData: DataModelSuaChuaSimple) {
-    if (key)
-      return new Promise((resolve, reject) => {
-        this.af.database.object(`${refSuaChuas.suaChuasDone}${refSuaChuas.zone}/${key}`).set(preparedData)
-          .then(success => resolve())
-          .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
-      });
-    return new Promise((resolve, reject) => {
-      reject('Khóa chính (key) không hợp lệ');
-    });
-  }
-
-  setTrangThaiDangThucHien(key: string, preparedData: DataModelSuaChuaTrangThai) {
-     if (key)
-      return new Promise((resolve, reject) => {
-        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(preparedData)
-          .then(success => resolve())
-          .catch((error: Error) => reject(`Cập nhật trạng thái thất bại. ${error.message}`));
-      });
-    return new Promise((resolve, reject) => {
-      reject('Khóa chính (key) không hợp lệ');
-    });
-  }
-
-  syncTrangThaiDangThucHien(key: string, preparedData: DataModelSuaChuaSimple) {
-    if (key)
-      return new Promise((resolve, reject) => {
-        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).set(preparedData)
-          .then(success => resolve())
-          .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
-      });
-    return new Promise((resolve, reject) => {
-      reject('Khóa chính (key) không hợp lệ');
-    });
-  }
 
   getSuaChuasCurrent() {
     return this.handles.suaChuasCurrent;

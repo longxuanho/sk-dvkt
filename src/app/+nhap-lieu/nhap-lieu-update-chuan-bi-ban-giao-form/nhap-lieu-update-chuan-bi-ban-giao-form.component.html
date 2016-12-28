@@ -3,7 +3,7 @@
   <h4>Chuyển đổi trạng thái</h4>
   <form [formGroup]="chuanBiBanGiaoForm" (ngSubmit)="onSubmit()">
     <p>
-      Dự kiến phương tiện <code>NB121 (XNCG)</code> sẽ được bàn giao trong
+      Dự kiến phương tiện <code>{{suaChua.ma_thiet_bi}} ({{suaChua.dv_quan_ly}})</code> sẽ được bàn giao trong
       <input type="number" style="display: inline-block;width: 5rem;" class="form-control" formControlName="duration"> phút tới?
     </p>
     <p *ngIf="chuanBiBanGiaoForm.controls.duration.invalid">
@@ -11,6 +11,5 @@
       <code class="text-danger" *ngIf="chuanBiBanGiaoForm.controls.duration.errors.required">Chưa có thông tin về khoảng thời gian</code>
     </p>
     <button type="submit" class="btn btn-outline-warning" [disabled]="chuanBiBanGiaoForm.invalid">Tiếp tục</button>
-    <button type="button" class="btn btn-secondary" (click)="resetTrangThai()">Về trạng thái trước</button>
   </form>
 </div>

@@ -1,0 +1,16 @@
+<div class="row mt-2"></div>
+<div class="mt-2 bd-callout bd-callout-info">
+  <h4>Chuyển đổi trạng thái</h4>
+  <form [formGroup]="dangThucHienForm" (ngSubmit)="onSubmit()">
+    <p>
+      Tiếp tục thực hiện sửa chữa phương tiện <code>{{suaChua.ma_thiet_bi}} ({{suaChua.dv_quan_ly}})</code>?
+    </p>
+    <ul *ngIf="suaChua">
+      <li>Nội dung: <code>{{suaChua.noi_dung}}</code></li>
+      <li>Bắt đầu lúc: <code>{{suaChua.thoi_gian_bat_dau}}</code></li>
+      <li>Tại vị trí: <code>{{suaChua.khu_vuc}}, {{suaChua.vi_tri}}</code></li>
+      <li>Thời gian sửa chữa: <code>{{timeOverall}}</code></li>
+    </ul>
+    <button type="submit" class="btn btn-outline-info" [disabled]="submitting">Chấp nhận</button>
+  </form>
+</div>

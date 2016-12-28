@@ -55,12 +55,12 @@ export class SuaChuaModelBuilderService {
         }
     }
 
-    transformBeforeUpdate(rawData: SuaChua) {
-        // remove '$exists' and 'key' if it has any
-        delete rawData['$exists'];
-        delete rawData['$key'];
-        this.setMetadata(rawData);
-        this.setTimeStamp(rawData)
+    resolveUpdateBasicInfoData(rawData: SuaChua) {
+        let omitKeys: string[] = ['$exists', '$key'];
+        omitKeys.forEach(omitKey => {
+            delete rawData[omitKey];
+        });
+        return rawData;
     }
 
     resolveTrangThaiData(rawData: SuaChua, options: { trang_thai?: number } = {}) {
@@ -71,7 +71,7 @@ export class SuaChuaModelBuilderService {
         if (options.trang_thai === TrangThaiSuaChua.DangThucHien || options.trang_thai === TrangThaiSuaChua.ChuanBiBanGiao)
             keys = ['thoi_gian_ket_thuc_dk', 'thoi_gian_ket_thuc_dk_str', 'thoi_gian_ket_thuc_dk_unix', 'trang_thai', 'last_update_by', 'last_update_when' ];
         keys.forEach(key => {
-            if (rawData[key])
+            if (rawData[key] !== undefined)
                 Object.assign(result, { [key]: rawData[key] });
         });
         return result;
@@ -81,7 +81,7 @@ export class SuaChuaModelBuilderService {
         let result: DataModelSuaChuaSimple | {} = {};
         let keys: string[] = ['dv_quan_ly', 'khu_vuc', 'ma_thiet_bi', 'noi_dung', 'thoi_gian_bat_dau', 'thoi_gian_ket_thuc', 'thoi_gian_ket_thuc_dk', 'trang_thai', 'vi_tri'];
         keys.forEach(key => {
-            if (fullData[key])
+            if (fullData[key] !== undefined)
                 Object.assign(result, { [key]: fullData[key] });
         });
         return <DataModelSuaChuaSimple>result;

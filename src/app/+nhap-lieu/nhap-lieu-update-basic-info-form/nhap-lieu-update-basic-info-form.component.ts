@@ -62,7 +62,6 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
         Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/),
         dateTimeValidator()
       ]),
-      trang_thai: this.formBuilder.control('', Validators.required),
       ghi_chu: this.formBuilder.control(''),
     });
   }
@@ -87,14 +86,10 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
     this.suaChuaUpdateForm.patchValue(formValue);
   }
 
-  resetForm() {
-    this.suaChuaUpdateForm.reset();
-    this.suaChuaUpdateForm.patchValue(this.suaChua);
-  }
-
   resolveData(): SuaChua {
-    let rawData = Object.assign({}, this.suaChuaUpdateForm.value);
-
+    let rawData = Object.assign({}, this.suaChua);
+    Object.assign(rawData, this.suaChuaUpdateForm.value);
+    
     // Cập nhật thủ công các trường đã disable trong lúc tạo form.
     let { loai_sua_chua, loai_thiet_bi, ma_thiet_bi } = this.suaChua
     Object.assign(rawData, { loai_sua_chua, loai_thiet_bi, ma_thiet_bi })
@@ -109,19 +104,15 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
     this.submitting = true;
     let fullData = this.resolveData();
     let simpleData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
+    let preparedData = this.suaChuaModelBuilderService.resolveUpdateBasicInfoData(fullData);
 
-    this.suaChuaService.update(this.suaChua.$key, fullData)
-      .then(success => {
-        if (this.suaChua.trang_thai === TrangThaiSuaChua.DangThucHien)
-          return this.suaChuaService.syncTrangThaiDangThucHien(this.suaChua.$key, simpleData);
-        if (this.suaChua.trang_thai === TrangThaiSuaChua.ChuanBiBanGiao)
-          return this.suaChuaService.syncTrangThaiChuanBiBanGiao(this.suaChua.$key, simpleData);
-        return this.suaChuaService.syncTrangThaiHoanThanh(this.suaChua.$key, simpleData);
-      })
+    console.log('preparedData: ', preparedData);    
+
+    this.suaChuaService.update(this.suaChua.$key, preparedData)
+      .then(success => this.suaChuaService.syncTrangThai(this.suaChua.$key, simpleData, { trang_thai: this.suaChua.trang_thai }))
       .then(success => {
         this.submitting = false;
         this.toastrService.success('Dữ liệu của bạn đã được đồng bộ trên hệ thống', 'Cập nhật thành công');
-        this.resetForm();
       })
       .catch((error: string) => {
         this.submitting = false;

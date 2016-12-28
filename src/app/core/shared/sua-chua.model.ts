@@ -32,7 +32,7 @@ export class SuaChua {
     thoi_gian_ket_thuc?: string;
     thoi_gian_ket_thuc_str?: string;
     thoi_gian_ket_thuc_unix?: number;
-    thoi_gian_sua_chuas?: number;
+    thoi_gian_sua_chua?: number;
     trang_thai?: number;
     created_by?: string;
     created_when?: string;

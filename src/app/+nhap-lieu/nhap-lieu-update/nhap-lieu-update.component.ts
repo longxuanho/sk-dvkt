@@ -44,6 +44,7 @@ export class NhapLieuUpdateComponent implements OnInit {
         // console.log('subscribe data: ', data);
         this.suaChuaId = data.$key;
         this.cloneSuaChua = Object.assign({}, data);
+        this.formDisplay = data.trang_thai;
       });
   }
 

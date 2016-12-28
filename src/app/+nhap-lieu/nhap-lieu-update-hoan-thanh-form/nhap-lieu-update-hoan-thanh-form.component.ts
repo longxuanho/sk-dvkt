@@ -65,6 +65,10 @@ export class NhapLieuUpdateHoanThanhFormComponent implements OnInit {
   resolveData(): SuaChua {
     let rawData = <SuaChua>Object.assign({}, this.suaChua);
     rawData.thoi_gian_ket_thuc = this.hoanThanhForm.get('thoi_gian_ket_thuc').value;
+    rawData.thoi_gian_sua_chua = moment.duration( 
+      moment(rawData.thoi_gian_ket_thuc, dateTimeDisplayFormat).diff( 
+        moment(rawData.thoi_gian_bat_dau, dateTimeDisplayFormat)
+      )).asMilliseconds();
     rawData.trang_thai = TrangThaiSuaChua.HoanThanh;
 
     this.suaChuaModelBuilderService.setMetadata(rawData);
@@ -76,14 +80,13 @@ export class NhapLieuUpdateHoanThanhFormComponent implements OnInit {
   onSubmit() {
     this.submitting = true;
     let fullData = <SuaChua>this.resolveData();
-
+    let simpleData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
     let preparedData = this.suaChuaModelBuilderService.resolveTrangThaiData(fullData, { trang_thai: TrangThaiSuaChua.HoanThanh });
-    this.suaChuaService.setTrangThaiHoanThanh(this.suaChua.$key, preparedData)
-      .then(success => this.suaChuaService.removeTrangThaiChuanBiBanGiao(this.suaChua.$key))
-      .then(success => {
-        let simpleData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
-        return this.suaChuaService.syncTrangThaiHoanThanh(this.suaChua.$key, simpleData);
-      })
+
+    this.suaChuaService.setTrangThai(this.suaChua.$key, preparedData)
+      .then(success => this.suaChuaService.removeSyncTrangThai(this.suaChua.$key, { trang_thai: TrangThaiSuaChua.DangThucHien }))
+      .then(success => this.suaChuaService.removeSyncTrangThai(this.suaChua.$key, { trang_thai: TrangThaiSuaChua.ChuanBiBanGiao }))
+      .then(success => this.suaChuaService.syncTrangThai(this.suaChua.$key, simpleData, { trang_thai: TrangThaiSuaChua.HoanThanh }))
       .then(success => {
         this.submitting = false;
         this.toastrService.success(`Lượt sửa chữa phương tiện ${fullData.ma_thiet_bi} đã hoàn thành.`, 'Cập nhật thành công');

@@ -104,7 +104,7 @@ export class NhapLieuAddNewComponent implements OnInit {
     let simpleData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
 
     this.suaChuaService.addNew(fullData)
-      .then((newKey: string) => this.suaChuaService.syncTrangThaiDangThucHien(newKey, simpleData))
+      .then((newKey: string) => this.suaChuaService.syncTrangThai(newKey, simpleData, { trang_thai: TrangThaiSuaChua.DangThucHien }))
       .then(success => {
         this.submitting = false;
         this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');

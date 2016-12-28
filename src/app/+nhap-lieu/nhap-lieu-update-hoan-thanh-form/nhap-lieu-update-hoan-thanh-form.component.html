@@ -3,7 +3,7 @@
   <h4>Chuyển đổi trạng thái</h4>
   <form [formGroup]="hoanThanhForm" (ngSubmit)="onSubmit()">
     <p>
-      Phương tiện <code>NB121 (XNCG)</code> đã sửa chữa xong lúc
+      Phương tiện <code>{{suaChua.ma_thiet_bi}} ({{suaChua.dv_quan_ly}})</code> đã sửa chữa xong lúc
       <input type="text" style="display: inline-block;width: 15rem;" class="form-control" formControlName="thoi_gian_ket_thuc"> ?
     </p>
     <p *ngIf="hoanThanhForm.controls.thoi_gian_ket_thuc.invalid">
