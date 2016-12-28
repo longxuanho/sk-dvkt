@@ -38,21 +38,23 @@ export class NhapLieuUpdateChuanBiBanGiaoFormComponent implements OnInit {
 
   onSubmit() {
     this.submitting = true;
-    console.log('submitting...');
     this.suaChuaService.setTrangThaiChuanBiBanGiao(this.suaChuaId)
+      .then(success => this.suaChuaService.syncTrangThaiChuanBiBanGiao(this.suaChuaId))
       .then(success => {
-        console.log('data level 1: ', success);
-        return this.suaChuaService.syncTrangThaiChuanBiBanGiao(this.suaChuaId)
-      })
-      .then(success => {
-        console.log('data level 2: ', success);
         this.submitting = false;
-        this.toastrService.success('Phương tiện NB121 được dự kiến bàn giao trong 20 phút tới', 'Cập nhật thành công');
+        this.toastrService.success(`Phương tiện được dự kiến bàn giao trong ${this.chuanBiBanGiaoForm.get('duration').value} phút tới`, 'Cập nhật thành công');
       })
       .catch((error: string) => {
         this.submitting = false;
         this.toastrService.warning(error, 'Opps!');
       })
+  }
+
+  resetTrangThai() {
+    this.suaChuaService.setTrangThaiDangThucHien(this.suaChuaId)
+      .then(success => this.suaChuaService.syncTrangThaiDangThucHien(this.suaChuaId))
+      .then(success => this.toastrService.success('Trạng thái phương tiện trở về <Đang thực hiện>', 'Cập nhật thành công'))
+      .catch((error: string) => this.toastrService.warning(error, 'Opps!'));
   }
 
   ngOnInit() {

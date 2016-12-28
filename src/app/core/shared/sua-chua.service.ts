@@ -67,6 +67,30 @@ export class SuaChuaService {
     });
   }
 
+  setTrangThaiDangThucHien(key: string) {
+     if (key)
+      return new Promise((resolve, reject) => {
+        this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update({ trang_thai: TrangThaiSuaChua.DangThucHien })
+          .then(success => resolve())
+          .catch((error: Error) => reject(`Cập nhật trạng thái thất bại. ${error.message}`));
+      });
+    return new Promise((resolve, reject) => {
+      reject('Khóa chính (key) không hợp lệ');
+    });
+  }
+
+  syncTrangThaiDangThucHien(key: string) {
+    if (key)
+      return new Promise((resolve, reject) => {
+        this.af.database.object(`${refSuaChuas.suaChuasCurrent}${refSuaChuas.zone}/${key}`).update({ trang_thai: TrangThaiSuaChua.DangThucHien })
+          .then(success => resolve())
+          .catch((error: Error) => reject(`Đồng bộ dữ liệu thất bại. ${error.message}`));
+      });
+    return new Promise((resolve, reject) => {
+      reject('Khóa chính (key) không hợp lệ');
+    });
+  }
+
   syncSuaChuasCurrent(key, suaChua) {
     if (key)
       return new Promise((resolve, reject) => {
