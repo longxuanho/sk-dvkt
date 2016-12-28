@@ -55,9 +55,9 @@ export class NhapLieuAddNewComponent implements OnInit {
       thoi_gian_ket_thuc_dk: this.formBuilder.control('', [
         Validators.required,
         Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d\d\d\d (00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]) (SA|CH)$/),
-        dateTimeRangeValidator(this.calcStartTimeRef)
+        dateTimeValidator()
       ]),
-      trang_thai: this.formBuilder.control(TrangThaiSuaChua.DangThucHien, Validators.required)
+      trang_thai: this.formBuilder.control('', Validators.required)
     });
   }
 
@@ -84,6 +84,7 @@ export class NhapLieuAddNewComponent implements OnInit {
     this.suaChuaNewForm.get('location_id').setValue('CLA_PXOTO');    
     this.suaChuaNewForm.get('thoi_gian_bat_dau').setValue(moment().format(dateTimeDisplayFormat));
     this.suaChuaNewForm.get('thoi_gian_ket_thuc_dk').setValue(moment().add(3, 'h').format(dateTimeDisplayFormat));
+    this.suaChuaNewForm.get('trang_thai').setValue(TrangThaiSuaChua.DangThucHien);
   }
 
   resolveData(): SuaChua {

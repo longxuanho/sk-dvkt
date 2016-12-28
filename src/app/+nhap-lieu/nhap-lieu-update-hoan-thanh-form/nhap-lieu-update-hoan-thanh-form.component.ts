@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'toastr-ng2';
 
-import { SuaChua, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelTrangThaiHoanThanh } from '../../core/shared/sua-chua.model';
+import { SuaChua, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelSuaChuaTrangThai } from '../../core/shared/sua-chua.model';
 import { dateTimeDisplayFormat, dateTimeStringFormat } from '../../core/shared/date-time-format.model';
 import { dateTimeValidator } from '../shared/date-time-validation.directive';
 import { SuaChuaModelBuilderService } from '../../core/shared/sua-chua-model-builder.service';
@@ -77,7 +77,7 @@ export class NhapLieuUpdateHoanThanhFormComponent implements OnInit {
     this.submitting = true;
     let fullData = <SuaChua>this.resolveData();
 
-    let preparedData = this.suaChuaModelBuilderService.resolveTrangThaiHoanThanhData(fullData);
+    let preparedData = this.suaChuaModelBuilderService.resolveTrangThaiData(fullData, { trang_thai: TrangThaiSuaChua.HoanThanh });
     this.suaChuaService.setTrangThaiHoanThanh(this.suaChua.$key, preparedData)
       .then(success => this.suaChuaService.removeTrangThaiChuanBiBanGiao(this.suaChua.$key))
       .then(success => {

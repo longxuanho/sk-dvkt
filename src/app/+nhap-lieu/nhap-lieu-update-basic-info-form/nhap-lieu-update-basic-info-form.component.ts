@@ -100,26 +100,26 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
     let { loai_sua_chua, loai_thiet_bi, ma_thiet_bi } = this.suaChua
     Object.assign(rawData, { loai_sua_chua, loai_thiet_bi, ma_thiet_bi })
 
-    this.suaChuaModelBuilderService.transformBeforeUpdate(rawData as SuaChua);
-    this.submitting = true;
-    this.suaChuaService.update(this.suaChuaId, rawData as SuaChua)
-      .then(success => {
-        let syncData = this.suaChuaModelBuilderService.resolveSyncData(rawData);
-        this.suaChuaService.syncSuaChuasCurrent(this.suaChuaId, syncData)
-          .then(success => {
-            this.submitting = false;
-            this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
-            this.resetForm();
-          })
-          .catch(error => {
-            this.submitting = false;
-            this.toastrService.warning(`Đồng bộ dữ liệu thất bại. ${error}`, 'Opps!');
-          });
-      })
-      .catch((error) => {
-        this.submitting = false;
-        this.toastrService.error(`Cập nhật thất bại. ${error}`, 'Opps!');
-      });
+    // this.suaChuaModelBuilderService.transformBeforeUpdate(rawData as SuaChua);
+    // this.submitting = true;
+    // this.suaChuaService.update(this.suaChuaId, rawData as SuaChua)
+    //   .then(success => {
+    //     let syncData = this.suaChuaModelBuilderService.resolveSyncData(rawData);
+    //     this.suaChuaService.syncSuaChuasCurrent(this.suaChuaId, syncData)
+    //       .then(success => {
+    //         this.submitting = false;
+    //         this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
+    //         this.resetForm();
+    //       })
+    //       .catch(error => {
+    //         this.submitting = false;
+    //         this.toastrService.warning(`Đồng bộ dữ liệu thất bại. ${error}`, 'Opps!');
+    //       });
+    //   })
+    //   .catch((error) => {
+    //     this.submitting = false;
+    //     this.toastrService.error(`Cập nhật thất bại. ${error}`, 'Opps!');
+    //   });
   }
 
   ngOnInit() {

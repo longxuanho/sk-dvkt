@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 
-import { SuaChua, refSuaChuas, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelTrangThaiChuanBiBG, DataModelTrangThaiHoanThanh, DataModelTrangThaiDangThucHien } from './sua-chua.model';
+import { SuaChua, refSuaChuas, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelSuaChuaTrangThai } from './sua-chua.model';
 
 @Injectable()
 export class SuaChuaService {
@@ -55,7 +55,7 @@ export class SuaChuaService {
     });
   }
 
-  setTrangThaiChuanBiBanGiao(key: string, preparedData: DataModelTrangThaiChuanBiBG) {
+  setTrangThaiChuanBiBanGiao(key: string, preparedData: DataModelSuaChuaTrangThai) {
     if (key)
       return new Promise((resolve, reject) => {
         this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(preparedData)
@@ -91,7 +91,7 @@ export class SuaChuaService {
     });
   }
 
-  setTrangThaiHoanThanh(key: string, preparedData: DataModelTrangThaiHoanThanh) {
+  setTrangThaiHoanThanh(key: string, preparedData: DataModelSuaChuaTrangThai) {
     if (key)
       return new Promise((resolve, reject) => {
         this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(preparedData)
@@ -115,7 +115,7 @@ export class SuaChuaService {
     });
   }
 
-  setTrangThaiDangThucHien(key: string, preparedData: DataModelTrangThaiDangThucHien) {
+  setTrangThaiDangThucHien(key: string, preparedData: DataModelSuaChuaTrangThai) {
      if (key)
       return new Promise((resolve, reject) => {
         this.af.database.object(`${refSuaChuas.suaChuasList}${refSuaChuas.zone}/${key}`).update(preparedData)

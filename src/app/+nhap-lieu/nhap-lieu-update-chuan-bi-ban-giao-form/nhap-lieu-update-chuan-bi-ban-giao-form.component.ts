@@ -5,7 +5,7 @@ import { CustomValidators } from 'ng2-validation';
 
 import { dateTimeDisplayFormat, dateTimeStringFormat } from '../../core/shared/date-time-format.model';
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
-import { SuaChua, TrangThaiSuaChua, DataModelTrangThaiChuanBiBG, DataModelTimeStamp } from '../../core/shared/sua-chua.model';
+import { SuaChua, TrangThaiSuaChua, DataModelSuaChuaTrangThai, DataModelTimeStamp } from '../../core/shared/sua-chua.model';
 import { SuaChuaModelBuilderService } from '../../core/shared/sua-chua-model-builder.service';
 
 declare var moment: any;
@@ -59,7 +59,7 @@ export class NhapLieuUpdateChuanBiBanGiaoFormComponent implements OnInit {
     this.submitting = true;
     let fullData = this.resolveData();
     let simpleData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
-    let preparedData = this.suaChuaModelBuilderService.resolveTrangThaiChuanBiBGData(fullData);
+    let preparedData = this.suaChuaModelBuilderService.resolveTrangThaiData(fullData, { trang_thai: TrangThaiSuaChua.ChuanBiBanGiao });
 
     this.suaChuaService.setTrangThaiChuanBiBanGiao(this.suaChua.$key, preparedData)
       .then(success => this.suaChuaService.syncTrangThaiChuanBiBanGiao(this.suaChua.$key, simpleData))
@@ -77,7 +77,7 @@ export class NhapLieuUpdateChuanBiBanGiaoFormComponent implements OnInit {
     this.submitting = true;
     let fullData = this.resolveData({ reset: true });
     let simpleData = this.suaChuaModelBuilderService.resolveSimpleData(fullData);
-    let preparedData = this.suaChuaModelBuilderService.resolveTrangThaiDangThucHienData(fullData);
+    let preparedData = this.suaChuaModelBuilderService.resolveTrangThaiData(fullData, { trang_thai: TrangThaiSuaChua.DangThucHien });
 
     this.suaChuaService.setTrangThaiDangThucHien(this.suaChua.$key, preparedData)
       .then(success => this.suaChuaService.syncTrangThaiDangThucHien(this.suaChua.$key, simpleData))

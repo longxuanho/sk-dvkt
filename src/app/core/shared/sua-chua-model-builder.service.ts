@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { SuaChua, MaThietBi, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelTrangThaiChuanBiBG, DataModelTimeStamp, DataModelTrangThaiHoanThanh, DataModelTrangThaiDangThucHien } from './sua-chua.model';
+import { SuaChua, MaThietBi, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelSuaChuaTrangThai, DataModelTimeStamp } from './sua-chua.model';
 
 import { AuthService } from './auth.service';
 import { UserProfile } from './user-profile.model';
@@ -63,32 +63,28 @@ export class SuaChuaModelBuilderService {
         this.setTimeStamp(rawData)
     }
 
-    resolveTrangThaiDangThucHienData(rawData: SuaChua): DataModelTrangThaiDangThucHien {
-        const { thoi_gian_ket_thuc_dk, thoi_gian_ket_thuc_dk_str, thoi_gian_ket_thuc_dk_unix, trang_thai, last_update_by, last_update_when } = rawData;
-        return { thoi_gian_ket_thuc_dk, thoi_gian_ket_thuc_dk_str, thoi_gian_ket_thuc_dk_unix, trang_thai, last_update_by, last_update_when };
-    } 
-
-    resolveTrangThaiChuanBiBGData(rawData: SuaChua): DataModelTrangThaiChuanBiBG {
-        const { thoi_gian_ket_thuc_dk, thoi_gian_ket_thuc_dk_str, thoi_gian_ket_thuc_dk_unix, trang_thai, last_update_by, last_update_when } = rawData;
-        return { thoi_gian_ket_thuc_dk, thoi_gian_ket_thuc_dk_str, thoi_gian_ket_thuc_dk_unix, trang_thai, last_update_by, last_update_when };
-    } 
-
-    resolveTrangThaiHoanThanhData(rawData: SuaChua): DataModelTrangThaiHoanThanh {
-        const { thoi_gian_ket_thuc, thoi_gian_ket_thuc_str, thoi_gian_ket_thuc_unix, trang_thai, last_update_by, last_update_when } = rawData;
-        return { thoi_gian_ket_thuc, thoi_gian_ket_thuc_str, thoi_gian_ket_thuc_unix, trang_thai, last_update_by, last_update_when };
+    resolveTrangThaiData(rawData: SuaChua, options: { trang_thai?: number } = {}) {
+        let keys: string[] = [];
+        let result: DataModelSuaChuaTrangThai = {};
+        if (options.trang_thai === TrangThaiSuaChua.HoanThanh)
+            keys = ['thoi_gian_ket_thuc', 'thoi_gian_ket_thuc_str', 'thoi_gian_ket_thuc_unix', 'trang_thai', 'last_update_by', 'last_update_when' ];
+        if (options.trang_thai === TrangThaiSuaChua.DangThucHien || options.trang_thai === TrangThaiSuaChua.ChuanBiBanGiao)
+            keys = ['thoi_gian_ket_thuc_dk', 'thoi_gian_ket_thuc_dk_str', 'thoi_gian_ket_thuc_dk_unix', 'trang_thai', 'last_update_by', 'last_update_when' ];
+        keys.forEach(key => {
+            if (rawData[key])
+                Object.assign(result, { [key]: rawData[key] });
+        });
+        return result;
     }
 
     resolveSimpleData(fullData: SuaChua): DataModelSuaChuaSimple {
-        const { dv_quan_ly, khu_vuc, ma_thiet_bi, noi_dung, thoi_gian_bat_dau, thoi_gian_ket_thuc, thoi_gian_ket_thuc_dk, trang_thai, vi_tri } = fullData;
-
-        let result = { dv_quan_ly, khu_vuc, ma_thiet_bi, noi_dung, thoi_gian_bat_dau, thoi_gian_ket_thuc, thoi_gian_ket_thuc_dk, trang_thai, vi_tri }
-        // Filter kết quả khỏi các giá trị undefined không mong muốn
-        Object.keys(result).forEach((key) => {
-            if (!result[key])
-                delete result[key];
+        let result: DataModelSuaChuaSimple | {} = {};
+        let keys: string[] = ['dv_quan_ly', 'khu_vuc', 'ma_thiet_bi', 'noi_dung', 'thoi_gian_bat_dau', 'thoi_gian_ket_thuc', 'thoi_gian_ket_thuc_dk', 'trang_thai', 'vi_tri'];
+        keys.forEach(key => {
+            if (fullData[key])
+                Object.assign(result, { [key]: fullData[key] });
         });
-
-        return result;
+        return <DataModelSuaChuaSimple>result;
     }
 
 

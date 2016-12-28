@@ -76,26 +76,11 @@ export class DataModelSuaChuaSimple {
     vi_tri: string;
 }
 
-export class DataModelTrangThaiDangThucHien {
-    thoi_gian_ket_thuc_dk: string;
+export class DataModelSuaChuaTrangThai {
+    thoi_gian_ket_thuc_dk?: string;
     thoi_gian_ket_thuc_dk_str?: string;
     thoi_gian_ket_thuc_dk_unix?: number;
-    trang_thai?: number;
-    last_update_when?: string;
-    last_update_by?: string;
-}
-
-export class DataModelTrangThaiChuanBiBG {
-    thoi_gian_ket_thuc_dk: string;
-    thoi_gian_ket_thuc_dk_str?: string;
-    thoi_gian_ket_thuc_dk_unix?: number;
-    trang_thai?: number;
-    last_update_when?: string;
-    last_update_by?: string;
-}
-
-export class DataModelTrangThaiHoanThanh {
-    thoi_gian_ket_thuc: string;
+    thoi_gian_ket_thuc?: string;
     thoi_gian_ket_thuc_str?: string;
     thoi_gian_ket_thuc_unix?: number;
     trang_thai?: number;
