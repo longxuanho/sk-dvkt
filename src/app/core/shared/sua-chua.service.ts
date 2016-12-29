@@ -3,8 +3,10 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-
 import { SuaChua, refSuaChuas, TrangThaiSuaChua, DataModelSuaChuaSimple, DataModelSuaChuaTrangThai } from './sua-chua.model';
+import { displayConfig } from './core.config';
+
+declare var moment: any;
 
 @Injectable()
 export class SuaChuaService {
@@ -118,6 +120,27 @@ export class SuaChuaService {
 
   getSuaChuasDone() {
     return this.handles.suaChuasDone;
+  }
+
+  getSuaChuaDoneToday() {
+    const today: number = moment().startOf('day').valueOf();
+    return this.af.database.list(refSuaChuas.suaChuasDone + refSuaChuas.zone, {
+      query: {
+        orderByChild: 'thoi_gian_ket_thuc_unix',
+        startAt: today
+      }
+    });
+  }
+
+  getSuaChuaDonePast() {
+    const today: number = moment().startOf('day').valueOf();
+    return this.af.database.list(refSuaChuas.suaChuasDone + refSuaChuas.zone, {
+      query: {
+        orderByChild: 'thoi_gian_ket_thuc_unix',
+        endAt: today,
+        limitToFirst: displayConfig.list.hoanThanh.pastItemCount
+      }
+    });
   }
 
   getSuaChuasCurrent() {

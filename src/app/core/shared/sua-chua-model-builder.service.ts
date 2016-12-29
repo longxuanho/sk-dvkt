@@ -79,7 +79,7 @@ export class SuaChuaModelBuilderService {
 
     resolveSimpleData(fullData: SuaChua): DataModelSuaChuaSimple {
         let result: DataModelSuaChuaSimple | {} = {};
-        let keys: string[] = [ 'loai_sua_chua', 'dv_quan_ly', 'khu_vuc', 'ma_thiet_bi', 'noi_dung', 'thoi_gian_bat_dau', 'thoi_gian_ket_thuc', 'thoi_gian_ket_thuc_dk', 'thoi_gian_sua_chua', 'trang_thai', 'vi_tri' ];
+        let keys: string[] = [ 'loai_sua_chua', 'dv_quan_ly', 'khu_vuc', 'ma_thiet_bi', 'noi_dung', 'thoi_gian_bat_dau', 'thoi_gian_ket_thuc', 'thoi_gian_ket_thuc_unix', 'thoi_gian_ket_thuc_dk', 'thoi_gian_sua_chua', 'trang_thai', 'vi_tri' ];
         keys.forEach(key => {
             if (fullData[key] !== undefined)
                 Object.assign(result, { [key]: fullData[key] });

@@ -11,3 +11,11 @@ export const firebaseAuthConfig = {
   provider: AuthProviders.Password,
   method: AuthMethods.Password
 }
+
+export const displayConfig = {
+  list: {
+    hoanThanh: {
+      pastItemCount: 8
+    }
+  }
+}

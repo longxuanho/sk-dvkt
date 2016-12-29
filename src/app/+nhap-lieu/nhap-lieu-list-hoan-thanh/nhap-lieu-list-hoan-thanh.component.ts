@@ -12,8 +12,10 @@ import { dateTimeDisplayFormat } from '../../core/shared/date-time-format.model'
 })
 export class NhapLieuListHoanThanhComponent implements OnInit {
 
-  subscriptions: { suachuas?: Subscription } = {}
-  suachuas: SuaChua[] = [];
+  subscriptions: { suachuasDoneToday?: Subscription, suachuasDonePast?: Subscription } = {}
+  suachuasDoneToday: SuaChua[] = [];
+  suachuasDonePast: SuaChua[] = [];
+  
   trangThaiSuaChua: any;
   dateTimeDisplayFormat: string;
 
@@ -26,15 +28,21 @@ export class NhapLieuListHoanThanhComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscriptions.suachuas = this.suaChuaService.getSuaChuasDone().subscribe(
+    this.subscriptions.suachuasDoneToday = this.suaChuaService.getSuaChuaDoneToday().subscribe(
       snapshots => {
-        this.suachuas = <SuaChua[]>snapshots;
+        this.suachuasDoneToday = <SuaChua[]>snapshots;
+      }, (error: Error) => this.toastrService.error(`Không thể truy vấn dữ liệu. ${error.message}`, 'Opps!')
+    )
+    this.subscriptions.suachuasDonePast = this.suaChuaService.getSuaChuaDonePast().subscribe(
+      snapshots => {
+        this.suachuasDonePast = <SuaChua[]>snapshots;
       }, (error: Error) => this.toastrService.error(`Không thể truy vấn dữ liệu. ${error.message}`, 'Opps!')
     )
   }
 
   ngOnDestroy() {
-    this.subscriptions.suachuas.unsubscribe();
+    this.subscriptions.suachuasDoneToday.unsubscribe();
+    this.subscriptions.suachuasDonePast.unsubscribe();
   } 
 
   
