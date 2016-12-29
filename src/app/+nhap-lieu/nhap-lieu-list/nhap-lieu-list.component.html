@@ -11,6 +11,7 @@
     <sk-nhap-lieu-list-status></sk-nhap-lieu-list-status>
   </div>
 </div>
+<hr/>
 
 <div class="row mt-2" *ngIf="suachuas.length">
   <sk-nhap-lieu-list-all *ngIf="componentDisplayed === trangThaiSuaChua.TatCa"></sk-nhap-lieu-list-all>
@@ -21,8 +22,7 @@
 
 
 <div class="row mt-2" *ngIf="!suachuas.length">
-  <div class="container">
-    <hr/>
+  <div class="col-xs-12">
     <p>Không có lượt sửa chữa tại thời điểm này.</p>
   </div>
 </div>
