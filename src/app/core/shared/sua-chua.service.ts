@@ -138,7 +138,7 @@ export class SuaChuaService {
       query: {
         orderByChild: 'thoi_gian_ket_thuc_unix',
         endAt: today,
-        limitToFirst: displayConfig.list.hoanThanh.pastItemCount
+        limitToFirst: displayConfig.nhapLieuList_pastItemDoneCount
       }
     });
   }
