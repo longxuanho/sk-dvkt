@@ -1,14 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MomentPipe } from './moment.pipe';
+import { DurationPipe } from './duration.pipe';
 
 @NgModule({
   imports: [],
-  declarations: [],
+  declarations: [
+    MomentPipe,
+    DurationPipe
+  ],
   exports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule    
+    ReactiveFormsModule,
+    MomentPipe,
+    DurationPipe
   ]
 })
 export class SharedModule { }

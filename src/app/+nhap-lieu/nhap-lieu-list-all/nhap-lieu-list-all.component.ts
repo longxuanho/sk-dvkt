@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
 import { SuaChua, TrangThaiSuaChua } from '../../core/shared/sua-chua.model';
+import { dateTimeDisplayFormat } from '../../core/shared/date-time-format.model';
 import { Subscription } from 'rxjs/Subscription';
 import { ToastrService } from 'toastr-ng2';
 
@@ -15,12 +16,14 @@ export class NhapLieuListAllComponent implements OnInit {
   suachuasCurrent: SuaChua[] = [];
   suachuasDone: SuaChua[] = [];
   trangThaiSuaChua: any;
+  dateTimeDisplayFormat: string;
 
   constructor(
     private suaChuaService: SuaChuaService,
     private toastrService: ToastrService
   ) {
     this.trangThaiSuaChua = TrangThaiSuaChua;
+    this.dateTimeDisplayFormat = dateTimeDisplayFormat;
   }
 
   ngOnInit() {

@@ -27,7 +27,8 @@ import { LogoutComponent } from './logout/logout.component';
   ],
   declarations: [
     NavbarComponent, 
-    LoginComponent, LogoutComponent
+    LoginComponent,
+    LogoutComponent,
   ],
   providers: [
     AuthService,
@@ -39,7 +40,7 @@ import { LogoutComponent } from './logout/logout.component';
     NavbarComponent,
     LoginComponent,
     ToastrModule,
-    AngularFireModule
+    AngularFireModule,
   ]
 })
 export class CoreModule { 

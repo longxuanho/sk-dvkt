@@ -3,6 +3,7 @@ import { SuaChuaService } from '../../core/shared/sua-chua.service';
 import { SuaChua, TrangThaiSuaChua } from '../../core/shared/sua-chua.model';
 import { Subscription } from 'rxjs/Subscription';
 import { ToastrService } from 'toastr-ng2';
+import { dateTimeDisplayFormat } from '../../core/shared/date-time-format.model';
 
 @Component({
   selector: 'sk-nhap-lieu-list-hoan-thanh',
@@ -14,12 +15,14 @@ export class NhapLieuListHoanThanhComponent implements OnInit {
   subscriptions: { suachuas?: Subscription } = {}
   suachuas: SuaChua[] = [];
   trangThaiSuaChua: any;
+  dateTimeDisplayFormat: string;
 
   constructor(
     private suaChuaService: SuaChuaService,
     private toastrService: ToastrService
   ) {
     this.trangThaiSuaChua = TrangThaiSuaChua;
+    this.dateTimeDisplayFormat = dateTimeDisplayFormat;
   }
 
   ngOnInit() {

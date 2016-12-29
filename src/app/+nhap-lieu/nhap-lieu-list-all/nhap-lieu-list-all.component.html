@@ -12,7 +12,7 @@
         </h5>
         <p class="list-group-item-text">{{suachua.noi_dung}}</p>
         <p class="list-group-item-text text-muted">{{suachua.khu_vuc}}: {{suachua.vi_tri}}</p>
-        <small class="form-text text-muted">{{suachua.loai_sua_chua}} • 3 giờ trước • DK xong vào 4 giờ tới</small>
+        <small class="form-text text-muted">{{suachua.thoi_gian_bat_dau}} • Đã xong vào {{suachua.thoi_gian_ket_thuc | moment:dateTimeDisplayFormat:'fromNow'}} • {{suachua.thoi_gian_sua_chua | duration}}</small>
       </a>
     </div>
   </div>
@@ -32,7 +32,7 @@
         </h5>
         <p class="list-group-item-text">{{suachua.noi_dung}}</p>
         <p class="list-group-item-text text-muted">{{suachua.khu_vuc}}: {{suachua.vi_tri}}</p>
-        <small class="form-text text-muted">{{suachua.loai_sua_chua}} • 3 giờ trước • DK xong vào 4 giờ tới</small>
+        <small class="form-text text-muted">{{suachua.loai_sua_chua}} • {{suachua.thoi_gian_bat_dau | moment:dateTimeDisplayFormat:'fromNow'}} • DK xong vào {{suachua.thoi_gian_ket_thuc_dk | moment:dateTimeDisplayFormat:'fromNow'}}</small>
       </a>
     </div>
   </div>
