@@ -1,4 +1,11 @@
-<h3>Tạo mới sửa chữa</h3>
+<div class="row mt-2">
+  <div class="col-xs-12 clearfix">
+    <h3 class="d-inline-block">Tạo mới sửa chữa</h3>
+    <a class="btn btn-outline-primary float-xs-right" href="" [routerLink]="['/nhap-lieu']">Trở về</a>  
+  </div>
+</div>
+<hr/>
+
 <form class="mt-2 mb-2" [formGroup]="suaChuaNewForm" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="col-sm-6 col-md-4">

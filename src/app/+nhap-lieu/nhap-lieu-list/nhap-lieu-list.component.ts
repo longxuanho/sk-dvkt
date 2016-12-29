@@ -1,10 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SuaChuaService } from '../../core/shared/sua-chua.service';
-import { SuaChua } from '../../core/shared/sua-chua.model';
+import { SuaChua, TrangThaiSuaChua } from '../../core/shared/sua-chua.model';
 import { Subscription } from 'rxjs/Subscription';
 import { ToastrService } from 'toastr-ng2';
-
-
 
 @Component({
   selector: 'sk-nhap-lieu-list',
@@ -15,30 +13,22 @@ export class NhapLieuListComponent implements OnInit {
 
   subscriptions: { suachuas?: Subscription } = {}
   suachuas: SuaChua[] = [];
-  display: any;
-  componentDisplayed: number = Display.DangThucHien;
+  trangThaiSuaChua: any;
+  componentDisplayed: number = TrangThaiSuaChua.DangThucHien;
   currentTitle: string = 'Đang thực hiện'
-  currentComponentText: string = 'Hoàn thành';
 
   constructor(
     private suaChuaService: SuaChuaService,
     private toastrService: ToastrService
   ) { 
-    this.display = Display;
+    this.trangThaiSuaChua = TrangThaiSuaChua;
   }
 
-  onComponentDisplayedChange() {
-    this.componentDisplayed++;
-    if (this.componentDisplayed > Display.HoanThanh)
-      this.componentDisplayed = Display.All;
+  onListChanged(event: number) {
+    const ref = ["Đang thực hiện", "Chuẩn bị bàn giao", "Hoàn thành", "Tất cả"];
+    this.componentDisplayed = event;
+    this.currentTitle = ref[event];
 
-    let refTitle = ['Tất cả', 'Đang thực hiện', 'Hoàn Thành'];
-    this.currentTitle = refTitle[this.componentDisplayed];
-
-    let refText = ['Đang thực hiện', 'Hoàn Thành', 'Tất cả'];
-    this.currentComponentText = refText[this.componentDisplayed];
-
-    
   }
 
   ngOnInit() {
@@ -54,10 +44,4 @@ export class NhapLieuListComponent implements OnInit {
     this.subscriptions.suachuas.unsubscribe();
   } 
 
-}
-
-enum Display {
-  All = 0,
-  DangThucHien = 1,
-  HoanThanh = 2
 }

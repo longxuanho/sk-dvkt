@@ -8,7 +8,8 @@ export const refSuaChuas = {
 export enum TrangThaiSuaChua {
     DangThucHien = 0,
     ChuanBiBanGiao = 1,
-    HoanThanh = 2
+    HoanThanh = 2,
+    TatCa = 3
 }
 
 export class SuaChua {

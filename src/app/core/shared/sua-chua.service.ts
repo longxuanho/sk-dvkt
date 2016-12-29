@@ -16,11 +16,13 @@ export class SuaChuaService {
   handles: {
     suaChuasList?: FirebaseListObservable<SuaChua[]>,
     suaChuasCurrent?: FirebaseListObservable<SuaChua[]>
+    suaChuasDone?: FirebaseListObservable<SuaChua[]>
   } = {}
 
   constructor(private af: AngularFire) {
     this.handles.suaChuasList = this.af.database.list(refSuaChuas.suaChuasList + refSuaChuas.zone);
     this.handles.suaChuasCurrent = this.af.database.list(refSuaChuas.suaChuasCurrent + refSuaChuas.zone);
+    this.handles.suaChuasDone = this.af.database.list(refSuaChuas.suaChuasDone + refSuaChuas.zone);
   }
 
   addNew(newSuaChua: SuaChua) {
@@ -114,7 +116,9 @@ export class SuaChuaService {
     });
   }
 
-
+  getSuaChuasDone() {
+    return this.handles.suaChuasDone;
+  }
 
   getSuaChuasCurrent() {
     return this.handles.suaChuasCurrent;
