@@ -32,7 +32,7 @@ export class NhapLieuListAllComponent implements OnInit {
         this.suachuasCurrent = <SuaChua[]>snapshots;
       }, (error: Error) => this.toastrService.error(`Không thể truy vấn dữ liệu. ${error.message}`, 'Opps!')
     )
-    this.subscriptions.suachuasDone = this.suaChuaService.getSuaChuasDone().subscribe(
+    this.subscriptions.suachuasDone = this.suaChuaService.getSuaChuaDoneToday().subscribe(
       snapshots => {
         this.suachuasDone = <SuaChua[]>snapshots;
       }, (error: Error) => this.toastrService.error(`Không thể truy vấn dữ liệu. ${error.message}`, 'Opps!')

@@ -15,7 +15,7 @@ export const firebaseAuthConfig = {
 export const displayConfig = {
   list: {
     hoanThanh: {
-      pastItemCount: 8
+      pastItemCount: 4
     }
   }
 }
