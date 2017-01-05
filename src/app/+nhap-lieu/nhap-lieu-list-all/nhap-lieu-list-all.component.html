@@ -4,9 +4,9 @@
       <a href="" class="list-group-item list-group-item-action" *ngFor="let suachua of suachuasDone" [routerLink]="['/nhap-lieu', suachua.$key]">
         <h5 class="list-group-item-heading" 
             [ngClass]="{
-              'text-primary': suachua.trang_thai===trangThaiSuaChua.DangThucHien,
-              'text-warning': suachua.trang_thai===trangThaiSuaChua.ChuanBiBanGiao,
-              'text-success': suachua.trang_thai===trangThaiSuaChua.HoanThanh
+              'text-suachuas-danger': suachua.trang_thai===trangThaiSuaChua.DangThucHien,
+              'text-suachuas-warning': suachua.trang_thai===trangThaiSuaChua.ChuanBiBanGiao,
+              'text-suachuas-success': suachua.trang_thai===trangThaiSuaChua.HoanThanh
               }">
             {{suachua.ma_thiet_bi}}: {{suachua.dv_quan_ly}}
         </h5>
@@ -24,9 +24,9 @@
       <a href="" class="list-group-item list-group-item-action" *ngFor="let suachua of suachuasCurrent" [routerLink]="['/nhap-lieu', suachua.$key]">
         <h5 class="list-group-item-heading" 
             [ngClass]="{
-              'text-primary': suachua.trang_thai===trangThaiSuaChua.DangThucHien,
-              'text-warning': suachua.trang_thai===trangThaiSuaChua.ChuanBiBanGiao,
-              'text-success': suachua.trang_thai===trangThaiSuaChua.HoanThanh
+              'text-suachuas-danger': suachua.trang_thai===trangThaiSuaChua.DangThucHien,
+              'text-suachuas-warning': suachua.trang_thai===trangThaiSuaChua.ChuanBiBanGiao,
+              'text-suachuas-success': suachua.trang_thai===trangThaiSuaChua.HoanThanh
               }">
             {{suachua.ma_thiet_bi}}: {{suachua.dv_quan_ly}}
         </h5>

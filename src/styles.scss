@@ -9,15 +9,44 @@
   color: #888888;
 }
 
+body {
+  background-color: #444;
+
+  h1, h2, h3, h4, p, span, label, small {
+    color: #888;
+  }
+
+  hr {
+    border-top-color: #666;
+  }
+
+  .d-title {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-weight: 300;
+    font-size: 2rem;
+  }
+
+  .list-group-item {
+    background-color: #555;
+    border-color: #666;
+    &-text {
+      color: #999;
+    }
+    .text-muted {
+      color: #888 !important;
+    }
+  }
+}
+
 .text-suachuas {
   &-success {
-    color: #9bbf17;
+    color: #9bbf17 !important;
   }
   &-danger {
-    color: #f05a28;
+    color: #f05a28 !important;
   }
   &-warning {
-    color: #ffb400;
+    color: #ffb400 !important;
   }
 }
 
