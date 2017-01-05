@@ -2,6 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DashboardComponent } from './dashboard.component';
+import { DashboardTableComponent } from './dashboard-table/dashboard-table.component';
+import { DashboardClockComponent } from './dashboard-clock/dashboard-clock.component';
+import { DashboardStatusComponent } from './dashboard-status/dashboard-status.component';
+import { DashboardStatisticsComponent } from './dashboard-statistics/dashboard-statistics.component'
 
 const routes: Routes = [
     { 
@@ -22,5 +26,9 @@ const routes: Routes = [
 export class DashboardRoutingModule {}
 
 export const routedComponents = [
-    DashboardComponent
+    DashboardComponent,
+    DashboardTableComponent,
+    DashboardClockComponent,
+    DashboardStatusComponent,
+    DashboardStatisticsComponent
 ]
