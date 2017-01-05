@@ -4,6 +4,23 @@
   margin-top: 60px;
 }
 
+.bg-dashboard {
+  background-color: #444444;
+  color: #888888;
+}
+
+.text-suachuas {
+  &-success {
+    color: #9bbf17;
+  }
+  &-danger {
+    color: #f05a28;
+  }
+  &-warning {
+    color: #ffb400;
+  }
+}
+
 .bd-callout {
     padding: 1.25rem;
     margin-top: 1.25rem;
