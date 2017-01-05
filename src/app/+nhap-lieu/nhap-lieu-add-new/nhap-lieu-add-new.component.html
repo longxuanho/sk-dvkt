@@ -118,7 +118,7 @@
       <div class="form-group" [ngClass]="{'has-danger': suaChuaNewForm.controls.thoi_gian_ket_thuc_dk.invalid && (suaChuaNewForm.controls.thoi_gian_ket_thuc_dk.dirty || suaChuaNewForm.controls.thoi_gian_ket_thuc_dk.touched)}">
         <label class="form-control-label" for="ThoiGianKetThucDKInput">Thời gian kết thúc DK</label>
         <input class="form-control" type="text" id="ThoiGianKetThucDKInput" formControlName="thoi_gian_ket_thuc_dk">
-        <small class="form-text" *ngIf="suaChuaNewForm.controls.thoi_gian_ket_thuc_dk.valid">Dự kiến sửa chữa: {{calcThoiGianDK}}</small>
+        <small class="form-text text-muted" *ngIf="suaChuaNewForm.controls.thoi_gian_ket_thuc_dk.valid">Dự kiến sửa chữa: {{calcThoiGianDK}}</small>
         <div class="form-control-feedback" *ngIf="suaChuaNewForm.controls.thoi_gian_ket_thuc_dk.invalid && (suaChuaNewForm.controls.thoi_gian_ket_thuc_dk.dirty || suaChuaNewForm.controls.thoi_gian_ket_thuc_dk.touched)">
           <small class="form-text" *ngIf="suaChuaNewForm.controls.thoi_gian_ket_thuc_dk.errors.required">Chưa có thông tin về thời gian bắt đầu</small>
           <small class="form-text" *ngIf="suaChuaNewForm.controls.thoi_gian_ket_thuc_dk.errors.pattern">Định dạng thời gian không hợp lệ</small>
