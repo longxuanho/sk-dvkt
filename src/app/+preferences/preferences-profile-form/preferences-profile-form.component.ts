@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'toastr-ng2';
+import { AuthService } from '../../core/shared/auth.service';
 
 @Component({
   selector: 'sk-preferences-profile-form',
@@ -15,6 +16,7 @@ export class PreferencesProfileFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
+    private authService: AuthService
   ) {
     this.buildForm();
   }
@@ -33,8 +35,20 @@ export class PreferencesProfileFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitting = true;
-    
+    let userProfile = {
+      displayName: this.userProfileForm.get('displayName').value,
+      description: this.userProfileForm.get('description').value
+    }
+    this.submitting = true;    
+    this.authService.setUserProfile(userProfile)
+      .then(success => {
+        this.submitting = false;        
+        this.toastrService.success('Hồ sơ của bạn đã được cập nhật thành công', 'Cập nhật thành công');
+      })
+      .catch((error: string) => {
+        this.submitting = false;
+        this.toastrService.error(error, 'Opps!');
+      });
   }
 
   ngOnInit() {

@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
         this.toastrService.success('Welcome back!', 'Đăng nhập thành công');
         setTimeout(() => {
           this.router.navigate(['/nhap-lieu']);
-        }, 1000);       
+        }, 500);       
       }
     ).catch(
       (error: string) => this.toastrService.error(error, 'Opps!')

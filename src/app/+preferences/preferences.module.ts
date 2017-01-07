@@ -6,7 +6,7 @@ import { PreferencesRoutingModule, routedComponents } from './preferences-routin
 @NgModule({
   imports: [
     SharedModule,
-    PreferencesRoutingModule
+    PreferencesRoutingModule,
   ],
   declarations: [
     routedComponents,

@@ -3,6 +3,9 @@ import { AngularFire, FirebaseAuthState } from 'angularfire2';
 import { ToastrService } from 'toastr-ng2';
 import { UserProfile } from './user-profile.model';
 
+import { firebaseConfig } from './core.config';
+import * as firebase from 'firebase';
+
 @Injectable()
 export class AuthService {
 
@@ -13,7 +16,7 @@ export class AuthService {
 
   constructor(
     private af: AngularFire,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
   ) {
     this.af.auth.subscribe(auth => {
       if (auth) {
@@ -29,11 +32,40 @@ export class AuthService {
     });
   }
 
+  setUserProfile(profile: UserProfile) {
+    return new Promise((resolve, reject) => {
+      if (this.uid) {
+        this.af.database.object(`/accounts/users/${this.uid}`).set({
+          displayName: profile.displayName,
+          description: profile.description,
+          email: firebase.auth().currentUser.email
+        })
+          .then((success) => resolve())
+          .catch((error: Error) => reject(`Cập nhật hồ sơ thất bại. ${error.message}`))
+      } else {
+        reject(`Người dùng không tồn tại.`)
+      }
+    });
+  }
+
   syncUserOnlineStatus(uid: string, status: boolean) {
     console.log('set data: ', uid, status);
+
     this.setAuthOnlineStatus(uid, status)
       .then(success => this.setAuthPresenceStatus(uid, status))
       .catch((error: string) => this.toastrService.error(error, 'Opps!'));
+  }
+
+  updatePassword(oldPassword: string, newPassword: string) {
+    const credential = firebase.auth.EmailAuthProvider.credential(firebase.auth().currentUser.email, oldPassword);
+    return new Promise((resolve, reject) => {
+      firebase.auth().currentUser.reauthenticate(credential)
+        .then((success) => {
+          firebase.auth().currentUser.updatePassword(newPassword)
+            .then(success => resolve(success));
+        })
+        .catch((error: Error) => reject(`Xác thực mật khẩu thất bại. ${error.message}`));
+    });
   }
 
   setAuthPresenceStatus(uid: string, status: boolean) {
@@ -81,10 +113,10 @@ export class AuthService {
         email: credential.email,
         password: credential.password
       })
-      .then((success: FirebaseAuthState) => {
-        resolve(success.uid);
-      })
-      .catch((error: Error) => reject(`Đăng nhập thất bại. ${error.message}`));
+        .then((success: FirebaseAuthState) => {
+          resolve(success.uid);
+        })
+        .catch((error: Error) => reject(`Đăng nhập thất bại. ${error.message}`));
     });
   }
 
