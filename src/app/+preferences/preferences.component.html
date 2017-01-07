@@ -1,3 +1,5 @@
-<p>
-  preferences works!
-</p>
+<sk-nav-preferences [selectedNav]="selectedNav"></sk-nav-preferences>
+
+<sk-preferences-profile *ngIf="selectedNav?.name==='userProfile'"></sk-preferences-profile>
+<sk-preferences-change-password *ngIf="selectedNav?.name==='changePassword'"></sk-preferences-change-password>
+<sk-preferences-logout *ngIf="selectedNav?.name==='logout'"></sk-preferences-logout>

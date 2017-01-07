@@ -1,0 +1,20 @@
+.nav-tabs .nav-link.active, .nav-tabs .nav-link.active:focus, .nav-tabs .nav-link.active:hover, .nav-tabs .nav-item.open .nav-link, .nav-tabs .nav-item.open .nav-link:focus, .nav-tabs .nav-item.open .nav-link:hover {
+    color: #aaa;
+    background-color: #555;
+    border-color: #888 #888 transparent;
+}
+
+.nav-tabs .nav-link {
+    padding: 0.5em 1em;
+    border: 1px solid transparent;
+    border-top-right-radius: 0.25rem;
+    border-top-left-radius: 0.25rem;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #888;
+}
+
+a {
+    color: #888;
+}

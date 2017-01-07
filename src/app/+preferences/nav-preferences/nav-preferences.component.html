@@ -1,0 +1,12 @@
+<ul class="nav nav-tabs mt-2">
+
+  <li class="nav-item">
+    <a class="nav-link active" [ngClass]="{active: selectedNav?.name==='userProfile'}" href="" (click)="onSelect($event, 'userProfile')">Hồ sơ cá nhân</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="" [ngClass]="{active: selectedNav?.name==='changePassword'}" (click)="onSelect($event, 'changePassword')">Đổi mật khẩu</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="" [ngClass]="{active: selectedNav?.name==='logout'}" (click)="onSelect($event, 'logout')">Đăng xuất</a>
+  </li>  
+</ul>

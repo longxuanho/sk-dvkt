@@ -92,4 +92,13 @@ body {
     }
 }
 
+.active-panel {
+  background-color: #555;
+  color: #aaa;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border: 1px solid transparent;
+  border-color: transparent #888 #888 ;  
+}
+
 

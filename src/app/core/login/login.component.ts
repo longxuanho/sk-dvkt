@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'toastr-ng2';
-
 import { AuthService } from '../shared/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sk-login',
@@ -16,7 +16,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -34,7 +35,10 @@ export class LoginComponent implements OnInit {
     this.authService.login(Object.assign({}, this.loginForm.value)).then(
       (success: string) => {
         this.loginForm.reset();
-        this.toastrService.success('Welcome back!', 'Đăng nhập thành công');        
+        this.toastrService.success('Welcome back!', 'Đăng nhập thành công');
+        setTimeout(() => {
+          this.router.navigate(['/nhap-lieu']);
+        }, 1000);       
       }
     ).catch(
       (error: string) => this.toastrService.error(error, 'Opps!')

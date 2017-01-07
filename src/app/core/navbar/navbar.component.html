@@ -20,9 +20,9 @@
         <li class="nav-item" *ngIf="!authService.isAuth()">
           <a class="nav-link" href="" [routerLink]="['/dang-nhap']" [routerLinkActive]="['active']">Đăng nhập</a>
         </li>        
-        <li class="nav-item" *ngIf="authService.isAuth()">
+        <!--<li class="nav-item" *ngIf="authService.isAuth()">
           <sk-logout></sk-logout>
-        </li>
+        </li>-->
       </ul>
       <form class="form-inline float-xs-right">
         <input class="form-control" type="text" placeholder="Search">

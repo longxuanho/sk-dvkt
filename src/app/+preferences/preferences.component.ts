@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreferencesComponent implements OnInit {
 
+  // Navs available: userProfile, changePassword, logout
+  selectedNav = {
+    name: 'userProfile' 
+  };
+
   constructor() { }
 
   ngOnInit() {

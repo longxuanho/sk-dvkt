@@ -1,0 +1,37 @@
+<form class="mt-2 mb-2" [formGroup]="userProfileForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <div class="form-group" [ngClass]="{'has-danger': userProfileForm.controls.location_id.invalid && (userProfileForm.controls.location_id.dirty || userProfileForm.controls.location_id.touched)}">
+        <label class="form-control-label" for="locationIdSelect">Mã xưởng</label>
+        <select class="form-control" id="locationIdSelect" formControlName="location_id">
+          <option value="CLA_PXOTO">CLA_PXOTO</option>
+          <!--<option *ngFor="let loaiSuaChua of dataHelper.data.loaiSuaChuas" [value]="loaiSuaChua">{{loaiSuaChua}}</option>-->
+        </select>
+        <div class="form-control-feedback" *ngIf="userProfileForm.controls.location_id.invalid && (userProfileForm.controls.location_id.dirty || userProfileForm.controls.location_id.touched)">
+          <small class="form-text" *ngIf="userProfileForm.controls.location_id.errors.required">Chưa có thông tin mã xưởng sửa chữa</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <div class="form-group" [ngClass]="{'has-danger': userProfileForm.controls.displayName.invalid && (userProfileForm.controls.displayName.dirty || userProfileForm.controls.displayName.touched)}">
+        <label class="form-control-label" for="displayNameInput">Tên hiển thị</label>
+        <input type="text" class="form-control" id="displayNameInput" placeholder="Nhập tên của bạn" formControlName="displayName">
+        <div class="form-control-feedback" *ngIf="userProfileForm.controls.displayName.invalid && (userProfileForm.controls.displayName.dirty || userProfileForm.controls.displayName.touched)">
+          <small class="form-text" *ngIf="userProfileForm.controls.displayName.errors.required">Chưa có thông tin về tên hiển thị</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-8">
+      <div class="form-group" [ngClass]="{'has-danger': userProfileForm.controls.description.invalid && (userProfileForm.controls.description.dirty || userProfileForm.controls.description.touched)}">
+        <label class="form-control-label" for="descriptionInput">Đơn vị công tác</label>
+        <input type="text" class="form-control" id="descriptionInput" placeholder="Nhập đơn vị công tác" formControlName="description">
+        <div class="form-control-feedback" *ngIf="userProfileForm.controls.description.invalid && (userProfileForm.controls.description.dirty || userProfileForm.controls.description.touched)">
+          <small class="form-text" *ngIf="userProfileForm.controls.description.errors.required">Chưa có thông tin về đơn vị công tác</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-outline-secondary mt-2" [disabled]="userProfileForm.invalid || submitting">Cập nhật</button>
+</form>
