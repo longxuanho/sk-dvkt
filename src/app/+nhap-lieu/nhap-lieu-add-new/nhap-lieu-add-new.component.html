@@ -37,7 +37,7 @@
         <label class="form-control-label" for="maThietBiSelect">Mã phương tiện</label>
         <select class="form-control" id="maThietBiSelect" formControlName="ma_thiet_bi">
           <option value=""></option>
-          <option *ngFor="let object of dataHelper.data.maThietBis[suaChuaNewForm.controls.loai_thiet_bi.value]" [ngValue]="object">{{object.maThietBi}}</option>
+          <option *ngFor="let object of dataHelper.data.maThietBis[suaChuaNewForm.controls.loai_thiet_bi.value] | maThietBi:navbarSearchString" [ngValue]="object">{{object.maThietBi}}</option>
         </select>
         <div class="form-control-feedback" *ngIf="suaChuaNewForm.controls.ma_thiet_bi.invalid && (suaChuaNewForm.controls.ma_thiet_bi.dirty || suaChuaNewForm.controls.ma_thiet_bi.touched)">
           <small class="form-text" *ngIf="suaChuaNewForm.controls.ma_thiet_bi.errors.required">Chưa có thông tin về mã phương tiện</small>

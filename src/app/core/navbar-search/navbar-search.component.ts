@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NavbarSearchService } from '../../core/shared/navbar-search.service';
+import { Subscription } from 'rxjs/Subscription';
+
 
 @Component({
   selector: 'sk-navbar-search',
@@ -7,9 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarSearchComponent implements OnInit {
 
-  constructor() { }
+  navbarSearchMode: string;
+  navbarSearchPlaceHolder: string = 'Lọc mã thiết bị';
+  subscriptions: {
+    navbarSearchMode?: Subscription
+  } = {}
+
+  constructor(
+    private navbarSearchService: NavbarSearchService
+  ) { }
+
+  onKey(event: any) {
+    this.navbarSearchService.doSearch(event.target.value);
+  }
+
 
   ngOnInit() {
+    this.subscriptions.navbarSearchMode = this.navbarSearchService.searchMode$.subscribe((searchMode: string) => {
+      this.navbarSearchMode = searchMode? searchMode : '';
+    })
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.navbarSearchMode.unsubscribe();
   }
 
 }

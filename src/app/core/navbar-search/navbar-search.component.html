@@ -1,4 +1,4 @@
 <form class="form-inline float-xs-right">
-  <input class="form-control" type="text" placeholder="Search">
+  <input class="form-control" type="text" [placeholder]="navbarSearchPlaceHolder" (keyup)="onKey($event)">
   <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
 </form>

@@ -10,6 +10,7 @@ import { dateTimeValidator, dateTimeRangeValidator } from '../shared/date-time-v
 import { SuaChuaModelBuilderService } from '../../core/shared/sua-chua-model-builder.service';
 import { NavbarSearchService } from '../../core/shared/navbar-search.service';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/debounceTime';
 
 declare var moment: any;
 
@@ -116,6 +117,7 @@ export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
         this.submitting = false;
         this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
         this.resetForm();
+        this.navbarSearchService.setSearchMode('');
       })
       .catch((error: string) => {
         this.submitting = false;
@@ -128,9 +130,11 @@ export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
     this.resetForm();
 
     this.navbarSearchService.setSearchMode('ma_thiet_bi');    
-    this.subscriptions.navbarSearchString = this.navbarSearchService.searchString$.subscribe((key: string) => {
-      this.navbarSearchString = key;
-    });
+    this.subscriptions.navbarSearchString = this.navbarSearchService.searchString$
+      .debounceTime(500)
+      .subscribe((key: string) => {
+        this.navbarSearchString = key;
+      });
   }
 
   ngOnDestroy() {

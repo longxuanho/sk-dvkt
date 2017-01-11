@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { NhapLieuRoutingModule, routedComponents } from './nhap-lieu-routing.module';
 
 import { NhapLieuHelperService } from './shared/nhap-lieu-helper.service';
+import { MaThietBiPipe } from './shared/ma-thiet-bi.pipe';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { NhapLieuHelperService } from './shared/nhap-lieu-helper.service';
   ],
   declarations: [
     routedComponents,
+    MaThietBiPipe,
   ]
 })
 export class NhapLieuModule { }
