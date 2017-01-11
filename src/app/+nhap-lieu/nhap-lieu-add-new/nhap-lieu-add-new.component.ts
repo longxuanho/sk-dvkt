@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'toastr-ng2';
 
@@ -8,6 +8,8 @@ import { SuaChuaService } from '../../core/shared/sua-chua.service';
 import { dateTimeDisplayFormat, dateTimeStringFormat } from '../../core/shared/date-time-format.model';
 import { dateTimeValidator, dateTimeRangeValidator } from '../shared/date-time-validation.directive';
 import { SuaChuaModelBuilderService } from '../../core/shared/sua-chua-model-builder.service';
+import { NavbarSearchService } from '../../core/shared/navbar-search.service';
+import { Subscription } from 'rxjs/Subscription';
 
 declare var moment: any;
 
@@ -16,7 +18,7 @@ declare var moment: any;
   templateUrl: './nhap-lieu-add-new.component.html',
   styleUrls: ['./nhap-lieu-add-new.component.scss']
 })
-export class NhapLieuAddNewComponent implements OnInit {
+export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
 
   suaChuaNewForm: FormGroup;
   submitting: boolean = false;
@@ -25,13 +27,18 @@ export class NhapLieuAddNewComponent implements OnInit {
   };
   calcStartTimeRef: any = moment();
   calcThoiGianDK: string = '3.00 giờ';
+  navbarSearchString: string = '';
+  subscriptions: {
+    navbarSearchString?: Subscription
+  } = {}
 
   constructor(
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private nhapLieuHelperService: NhapLieuHelperService,
     private suaChuaService: SuaChuaService,
-    private suaChuaModelBuilderService: SuaChuaModelBuilderService
+    private suaChuaModelBuilderService: SuaChuaModelBuilderService,
+    private navbarSearchService: NavbarSearchService
   ) {
     this.buildForm();
     this.subscribeFormChanges();
@@ -119,6 +126,16 @@ export class NhapLieuAddNewComponent implements OnInit {
   ngOnInit() {
     this.dataHelper = this.nhapLieuHelperService.getDataHelper();
     this.resetForm();
+
+    this.navbarSearchService.setSearchMode('ma_thiet_bi');    
+    this.subscriptions.navbarSearchString = this.navbarSearchService.searchString$.subscribe((key: string) => {
+      this.navbarSearchString = key;
+    });
+  }
+
+  ngOnDestroy() {
+    this.navbarSearchService.setSearchMode('');
+    this.subscriptions.navbarSearchString.unsubscribe();
   }
 
 }

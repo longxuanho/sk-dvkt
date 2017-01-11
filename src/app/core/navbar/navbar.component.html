@@ -24,11 +24,7 @@
           <sk-logout></sk-logout>
         </li>-->
       </ul>
-      <!--<form class="form-inline float-xs-right">
-        <input class="form-control" type="text" placeholder="Search">
-        <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
-      </form>-->
-      <sk-navbar-search></sk-navbar-search>
+      <sk-navbar-search *ngIf="authService.isAuth() && navbarSearchMode" ></sk-navbar-search>
     </div>
   </div>
 </nav>
