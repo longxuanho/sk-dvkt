@@ -15,6 +15,8 @@ import { SuaChuaModelBuilderService } from './shared/sua-chua-model-builder.serv
 
 import { throwIfAlreadyLoaded } from './shared/module-import-guard';
 import { LogoutComponent } from './logout/logout.component';
+import { NavbarSearchComponent } from './navbar-search/navbar-search.component';
+import { NavbarSearchService } from './shared/navbar-search.service';
 
 @NgModule({
   imports: [
@@ -29,12 +31,14 @@ import { LogoutComponent } from './logout/logout.component';
     NavbarComponent, 
     LoginComponent,
     LogoutComponent,
+    NavbarSearchComponent,
   ],
   providers: [
     AuthService,
     DateTimeConverterService,
     SuaChuaService,    
-    SuaChuaModelBuilderService
+    SuaChuaModelBuilderService,
+    NavbarSearchService
   ],
   exports: [
     NavbarComponent,

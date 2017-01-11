@@ -9,14 +9,14 @@
           <a class="nav-link" href="" [routerLink]="['/bang-tin']" [routerLinkActive]="['active']">Bảng tin</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="" [routerLink]="['/nhap-lieu']" [routerLinkActive]="['active']">Nhập liệu</a>
+          <a class="nav-link" *ngIf="authService.isAuth()" href="" [routerLink]="['/nhap-lieu']" [routerLinkActive]="['active']">Nhập liệu</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="" [routerLink]="['/thiet-lap']" [routerLinkActive]="['active']">Thiết lập</a>
+          <a class="nav-link" *ngIf="authService.isAuth()" href="" [routerLink]="['/thiet-lap']" [routerLinkActive]="['active']">Thiết lập</a>
         </li>
-        <li class="nav-item" *ngIf="!authService.isAuth()">
+        <!--<li class="nav-item" *ngIf="!authService.isAuth()">
           <a class="nav-link" href="" [routerLink]="['/admin']" [routerLinkActive]="['active']">Admin</a>
-        </li>
+        </li>-->
         <li class="nav-item" *ngIf="!authService.isAuth()">
           <a class="nav-link" href="" [routerLink]="['/dang-nhap']" [routerLinkActive]="['active']">Đăng nhập</a>
         </li>        
@@ -24,10 +24,11 @@
           <sk-logout></sk-logout>
         </li>-->
       </ul>
-      <form class="form-inline float-xs-right">
+      <!--<form class="form-inline float-xs-right">
         <input class="form-control" type="text" placeholder="Search">
         <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
-      </form>
+      </form>-->
+      <sk-navbar-search></sk-navbar-search>
     </div>
   </div>
 </nav>
