@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { NhapLieuHelperService } from './shared/nhap-lieu-helper.service';
 import { ToastrService } from 'toastr-ng2';
+import { MaThietBi } from '../core/shared/sua-chua.model';
+
 
 @Component({
   selector: 'sk-nhap-lieu',
@@ -10,7 +12,12 @@ import { ToastrService } from 'toastr-ng2';
 })
 export class NhapLieuComponent implements OnInit {
 
-  subscriptions: any = {};
+  loaiSuaChuasSub: Subscription;
+  loaiThietBisSub: Subscription;
+  maThietBisSub: Subscription;
+  khuVucsSub: Subscription;
+  viTrisSub: Subscription;
+
   dataHelper: any = {
     loaiSuaChuas: [],
     loaiThietBis: [],
@@ -25,37 +32,39 @@ export class NhapLieuComponent implements OnInit {
   ) { }
 
   getLoaiSuaChuas() {
-    this.subscriptions.loaiSuaChuas = this.nhapLieuHelperService.getLoaiSuaChuas().subscribe(
+    this.loaiSuaChuasSub = this.nhapLieuHelperService.getLoaiSuaChuas().subscribe(
       loaiSuaChuas => this.nhapLieuHelperService.setDataHelper({ loaiSuaChuas }),
-      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!')      
+      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!')
     );
   }
 
   getLoaiThietBis() {
-    this.subscriptions.loaiThietBis = this.nhapLieuHelperService.getLoaiThietBis().subscribe(
+    this.loaiThietBisSub = this.nhapLieuHelperService.getLoaiThietBis().subscribe(
       loaiThietBis => this.nhapLieuHelperService.setDataHelper({ loaiThietBis }),
-      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!') 
+      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!')
     );
   }
 
   getMaThietBis() {
-    this.subscriptions.maThietBis = this.nhapLieuHelperService.getMaThietBis().subscribe(
-      maThietBis => this.nhapLieuHelperService.setDataHelper({ maThietBis }),
-      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!') 
+    this.maThietBisSub = this.nhapLieuHelperService.getMaThietBis().subscribe(
+      (maThietBis: MaThietBi[]) => {
+        this.nhapLieuHelperService.setDataHelper({ maThietBis });
+      },
+      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!')
     );
   }
 
   getKhuVucs() {
-    this.subscriptions.khuVucs = this.nhapLieuHelperService.getKhuVucs().subscribe(
+    this.khuVucsSub = this.nhapLieuHelperService.getKhuVucs().subscribe(
       khuVucs => this.nhapLieuHelperService.setDataHelper({ khuVucs }),
-      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!') 
+      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!')
     );
   }
 
   getViTris() {
-    this.subscriptions.viTris = this.nhapLieuHelperService.getViTris().subscribe(
+    this.viTrisSub = this.nhapLieuHelperService.getViTris().subscribe(
       viTris => this.nhapLieuHelperService.setDataHelper({ viTris }),
-      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!') 
+      error => this.toastrService.error(`Lỗi: ${<any>error}`, 'Opps!')
     );
   }
 
@@ -68,10 +77,15 @@ export class NhapLieuComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscriptions.loaiSuaChuas.unsubscribe();
-    this.subscriptions.loaiThietBis.unsubscribe();
-    this.subscriptions.maThietBis.unsubscribe();
-    this.subscriptions.khuVucs.unsubscribe();
-    this.subscriptions.viTris.unsubscribe();
+    if (this.loaiSuaChuasSub)
+      this.loaiSuaChuasSub.unsubscribe();
+    if (this.loaiThietBisSub)
+      this.loaiThietBisSub.unsubscribe();
+    if (this.maThietBisSub)
+      this.maThietBisSub.unsubscribe();
+    if (this.khuVucsSub)
+      this.khuVucsSub.unsubscribe();
+    if (this.viTrisSub)
+      this.viTrisSub.unsubscribe();
   }
 }

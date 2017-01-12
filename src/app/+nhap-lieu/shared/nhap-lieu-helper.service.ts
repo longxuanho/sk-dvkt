@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -8,7 +9,7 @@ import 'rxjs/add/observable/throw';
 import * as _ from 'lodash';
 
 import { GSheetsConfig } from './gsheets.config';
-import { LoaiSuaChua, LoaiThietBi, KhuVuc, ViTri, MaThietBi } from '../../core/shared/sua-chua.model';
+import { LoaiSuaChua, LoaiThietBi, KhuVuc, ViTri, MaThietBi, currentZone } from '../../core/shared/sua-chua.model';
 
 
 @Injectable()
@@ -32,7 +33,10 @@ export class NhapLieuHelperService {
     }
   };
 
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http,
+    private af: AngularFire
+  ) { }
 
   getLoaiSuaChuas() {
     return this.http.get(this.apis.loaiSuaChuas)
@@ -54,6 +58,7 @@ export class NhapLieuHelperService {
       .map((res: any) => _.groupBy(res, 'loaiThietBi'))
       .catch(this.handleError);
   }
+
 
   getKhuVucs() {
     return this.http.get(this.apis.khuVucs)
@@ -79,7 +84,15 @@ export class NhapLieuHelperService {
 
   resetDataHelper() {
     this.dataHelper.data = {}
-  }  
+  }
+
+  addNewMaThietBi(newMaThietBi: MaThietBi) {
+    return new Promise<string>((resolve, reject) => {
+      this.af.database.list(`sua-chuas/sua-chua-helpers/${currentZone}/ma-thiet-bis/`).push(newMaThietBi)
+        .then((success: { key: string }) => resolve(success.key))
+        .catch((error: Error) => reject('Tạo mới thất bại. ' + error.message));
+    });
+  }
 
   private handleError(error: any) {
     console.log(error);

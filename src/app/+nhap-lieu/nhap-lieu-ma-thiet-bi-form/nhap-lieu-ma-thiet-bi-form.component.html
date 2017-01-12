@@ -12,7 +12,7 @@
         <label class="form-control-label" for="loaiThietBiSelect">Loại phương tiện</label>
         <select class="form-control" id="loaiThietBiSelect" formControlName="loaiThietBi">
           <option value=""></option>
-          <!--<option *ngFor="let loaiThietBi of dataHelper.data.loaiThietBis" [value]="loaiThietBi">{{loaiThietBi}}</option>-->
+          <option *ngFor="let loaiThietBi of dataHelper.data.loaiThietBis" [value]="loaiThietBi">{{loaiThietBi}}</option>
         </select>
         <div class="form-control-feedback" *ngIf="maThietBiNewForm.controls.loaiThietBi.invalid && (maThietBiNewForm.controls.loaiThietBi.dirty || maThietBiNewForm.controls.loaiThietBi.touched)">
           <small class="form-text" *ngIf="maThietBiNewForm.controls.loaiThietBi.errors.required">Chưa có thông tin về loại phương tiện</small>
@@ -35,16 +35,22 @@
       <div class="form-group" [ngClass]="{'has-danger': maThietBiNewForm.controls.dvQuanLy.invalid && (maThietBiNewForm.controls.dvQuanLy.dirty || maThietBiNewForm.controls.dvQuanLy.touched)}">
         <label class="form-control-label" for="dvQuanLyInput">ĐV Quản lý</label>
         <input type="text" class="form-control" id="dvQuanLyInput" placeholder="Nhập tên đơn vị quản lý" formControlName="dvQuanLy">
+        <div class="form-control-feedback" *ngIf="maThietBiNewForm.controls.dvQuanLy.invalid && (maThietBiNewForm.controls.dvQuanLy.dirty || maThietBiNewForm.controls.dvQuanLy.touched)">
+          <small class="form-text" *ngIf="maThietBiNewForm.controls.dvQuanLy.errors.required">Chưa có thông tin về đơn vị quản lý</small>
+        </div>
       </div>
     </div>
     <div class="col-sm-6 hidden-xs-down">
       <div class="form-group" [ngClass]="{'has-danger': maThietBiNewForm.controls.hangSanXuat.invalid && (maThietBiNewForm.controls.hangSanXuat.dirty || maThietBiNewForm.controls.hangSanXuat.touched)}">
         <label class="form-control-label" for="hangSanXuatInput">Hãng sản xuất</label>
         <input type="text" class="form-control" id="hangSanXuatInput" placeholder="Nhập tên hãng sản xuất" formControlName="hangSanXuat">
+        <div class="form-control-feedback" *ngIf="maThietBiNewForm.controls.hangSanXuat.invalid && (maThietBiNewForm.controls.hangSanXuat.dirty || maThietBiNewForm.controls.hangSanXuat.touched)">
+          <small class="form-text" *ngIf="maThietBiNewForm.controls.hangSanXuat.errors.required">Chưa có thông tin về hãng sản xuất</small>
+        </div>
       </div>
     </div>
   </div>
 
   <button type="submit" class="btn btn-outline-primary mt-2" [disabled]="maThietBiNewForm.invalid || submitting">Thêm mới</button>
-  <a class="btn btn-outline-danger mt-2" href="" [routerLink]="['/nhap-lieu']">Reset</a>
+  <button class="btn btn-outline-secondary mt-2" (click)="resetForm()">Reset</button>
 </form>

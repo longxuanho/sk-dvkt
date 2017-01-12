@@ -5,6 +5,8 @@ export const refSuaChuas = {
     zone: '/cla-pxoto'
 }
 
+export const currentZone = 'cla-pxoto';
+
 export enum TrangThaiSuaChua {
     DangThucHien = 0,
     ChuanBiBanGiao = 1,
