@@ -15,6 +15,8 @@ import { NhapLieuUpdateDangThucHienFormComponent } from './nhap-lieu-update-dang
 import { NhapLieuListDangThucHienComponent } from './nhap-lieu-list-dang-thuc-hien/nhap-lieu-list-dang-thuc-hien.component';
 import { NhapLieuListHoanThanhComponent } from './nhap-lieu-list-hoan-thanh/nhap-lieu-list-hoan-thanh.component';
 import { NhapLieuListAllComponent } from './nhap-lieu-list-all/nhap-lieu-list-all.component';
+import { NhapLieuMaThietBiFormComponent } from './nhap-lieu-ma-thiet-bi-form/nhap-lieu-ma-thiet-bi-form.component';
+
 
 
 const routes: Routes = [
@@ -50,4 +52,5 @@ export const routedComponents = [
     NhapLieuListDangThucHienComponent,
     NhapLieuListHoanThanhComponent,
     NhapLieuListAllComponent,
+    NhapLieuMaThietBiFormComponent
 ];

@@ -1,0 +1,50 @@
+<div class="row mt-2">
+  <div class="col-xs-12 clearfix">
+    <h3 class="d-inline-block">Thêm mã thiết bị</h3>
+  </div>
+</div>
+<hr/>
+
+<form class="mt-2 mb-2" [formGroup]="maThietBiNewForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group" [ngClass]="{'has-danger': maThietBiNewForm.controls.loaiThietBi.invalid && (maThietBiNewForm.controls.loaiThietBi.dirty || maThietBiNewForm.controls.loaiThietBi.touched)}">
+        <label class="form-control-label" for="loaiThietBiSelect">Loại phương tiện</label>
+        <select class="form-control" id="loaiThietBiSelect" formControlName="loaiThietBi">
+          <option value=""></option>
+          <!--<option *ngFor="let loaiThietBi of dataHelper.data.loaiThietBis" [value]="loaiThietBi">{{loaiThietBi}}</option>-->
+        </select>
+        <div class="form-control-feedback" *ngIf="maThietBiNewForm.controls.loaiThietBi.invalid && (maThietBiNewForm.controls.loaiThietBi.dirty || maThietBiNewForm.controls.loaiThietBi.touched)">
+          <small class="form-text" *ngIf="maThietBiNewForm.controls.loaiThietBi.errors.required">Chưa có thông tin về loại phương tiện</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group" [ngClass]="{'has-danger': maThietBiNewForm.controls.maThietBi.invalid && (maThietBiNewForm.controls.maThietBi.dirty || maThietBiNewForm.controls.maThietBi.touched)}">
+        <label class="form-control-label" for="maThietBiInput">Mã thiết bị</label>
+        <input type="text" class="form-control" id="maThietBiInput" placeholder="Nhập mã phương tiện" formControlName="maThietBi">
+        <div class="form-control-feedback" *ngIf="maThietBiNewForm.controls.maThietBi.invalid && (maThietBiNewForm.controls.maThietBi.dirty || maThietBiNewForm.controls.maThietBi.touched)">
+          <small class="form-text" *ngIf="maThietBiNewForm.controls.maThietBi.errors.required">Chưa có thông tin về mã phương tiện</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group" [ngClass]="{'has-danger': maThietBiNewForm.controls.dvQuanLy.invalid && (maThietBiNewForm.controls.dvQuanLy.dirty || maThietBiNewForm.controls.dvQuanLy.touched)}">
+        <label class="form-control-label" for="dvQuanLyInput">ĐV Quản lý</label>
+        <input type="text" class="form-control" id="dvQuanLyInput" placeholder="Nhập tên đơn vị quản lý" formControlName="dvQuanLy">
+      </div>
+    </div>
+    <div class="col-sm-6 hidden-xs-down">
+      <div class="form-group" [ngClass]="{'has-danger': maThietBiNewForm.controls.hangSanXuat.invalid && (maThietBiNewForm.controls.hangSanXuat.dirty || maThietBiNewForm.controls.hangSanXuat.touched)}">
+        <label class="form-control-label" for="hangSanXuatInput">Hãng sản xuất</label>
+        <input type="text" class="form-control" id="hangSanXuatInput" placeholder="Nhập tên hãng sản xuất" formControlName="hangSanXuat">
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-outline-primary mt-2" [disabled]="maThietBiNewForm.invalid || submitting">Thêm mới</button>
+  <a class="btn btn-outline-danger mt-2" href="" [routerLink]="['/nhap-lieu']">Reset</a>
+</form>

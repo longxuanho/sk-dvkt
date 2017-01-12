@@ -6,9 +6,11 @@ export class NavbarSearchService {
 
   private searchModeSource = new Subject<string>();
   private searchStringSource = new Subject<string>();
+  private showMaThietBiFormSource = new Subject<boolean>();
 
   searchMode$ = this.searchModeSource.asObservable();
   searchString$ = this.searchStringSource.asObservable();
+  showMaThietBiForm$ = this.showMaThietBiFormSource.asObservable();
 
   constructor() { }
 
@@ -18,6 +20,10 @@ export class NavbarSearchService {
 
   doSearch(searchString: string) {
     this.searchStringSource.next(searchString);
+  }
+
+  toggleMaThietBiForm(state: boolean) {
+    this.showMaThietBiFormSource.next(state);
   }
 
 }

@@ -12,9 +12,10 @@ export class NavbarSearchComponent implements OnInit {
 
   navbarSearchMode: string;
   navbarSearchPlaceHolder: string = 'Lọc mã thiết bị';
-  subscriptions: {
-    navbarSearchMode?: Subscription
-  } = {}
+  showMaThietBiForm: boolean = false;
+
+  navbarSearchModeSub: Subscription;
+  showMaThietBiFormSub: Subscription;
 
   constructor(
     private navbarSearchService: NavbarSearchService
@@ -24,15 +25,26 @@ export class NavbarSearchComponent implements OnInit {
     this.navbarSearchService.doSearch(event.target.value);
   }
 
+  toggleMaThietBiForm() {
+    this.showMaThietBiForm = !this.showMaThietBiForm;
+    this.navbarSearchService.toggleMaThietBiForm(this.showMaThietBiForm)
+  }
+
 
   ngOnInit() {
-    this.subscriptions.navbarSearchMode = this.navbarSearchService.searchMode$.subscribe((searchMode: string) => {
+    this.navbarSearchModeSub = this.navbarSearchService.searchMode$.subscribe((searchMode: string) => {
       this.navbarSearchMode = searchMode? searchMode : '';
-    })
+    });
+    this.showMaThietBiFormSub = this.navbarSearchService.showMaThietBiForm$.subscribe((state: boolean) => {
+      this.showMaThietBiForm = state ? state : false;
+    });
   }
 
   ngOnDestroy() {
-    this.subscriptions.navbarSearchMode.unsubscribe();
+    if (this.navbarSearchModeSub)
+      this.navbarSearchModeSub.unsubscribe();
+    if (this.showMaThietBiFormSub)
+      this.showMaThietBiFormSub.unsubscribe();
   }
 
 }

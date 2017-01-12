@@ -18,7 +18,7 @@ import { MaThietBiPipe } from './shared/ma-thiet-bi.pipe';
   ],
   declarations: [
     routedComponents,
-    MaThietBiPipe,
+    MaThietBiPipe
   ]
 })
 export class NhapLieuModule { }

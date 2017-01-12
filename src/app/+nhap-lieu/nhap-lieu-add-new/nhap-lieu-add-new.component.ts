@@ -29,9 +29,10 @@ export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
   calcStartTimeRef: any = moment();
   calcThoiGianDK: string = '3.00 giờ';
   navbarSearchString: string = '';
-  subscriptions: {
-    navbarSearchString?: Subscription
-  } = {}
+  showMaThietBiForm: boolean = false;
+  
+  navbarSearchStringSub: Subscription;
+  showMaThietBiFormSub: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -130,16 +131,24 @@ export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
     this.resetForm();
 
     this.navbarSearchService.setSearchMode('ma_thiet_bi');    
-    this.subscriptions.navbarSearchString = this.navbarSearchService.searchString$
+    this.navbarSearchStringSub = this.navbarSearchService.searchString$
       .debounceTime(500)
       .subscribe((key: string) => {
         this.navbarSearchString = key;
+      });
+    this.showMaThietBiFormSub = this.navbarSearchService.showMaThietBiForm$
+      .subscribe((state: boolean) => {
+        this.showMaThietBiForm = state ? state : false;
       });
   }
 
   ngOnDestroy() {
     this.navbarSearchService.setSearchMode('');
-    this.subscriptions.navbarSearchString.unsubscribe();
+    this.navbarSearchService.toggleMaThietBiForm(false);
+    if (this.navbarSearchStringSub)
+      this.navbarSearchStringSub.unsubscribe();
+    if (this.showMaThietBiFormSub)
+      this.showMaThietBiFormSub.unsubscribe();
   }
 
 }
