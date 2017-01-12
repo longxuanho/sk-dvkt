@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { SuaChua, TrangThaiSuaChua } from '../../core/shared/sua-chua.model';
+import { dateTimeDisplayFormat } from '../../core/shared/date-time-format.model';
+
+
 
 @Component({
   selector: 'sk-dashboard-table',
@@ -7,7 +11,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardTableComponent implements OnInit {
 
-  constructor() { }
+  @Input() suachuas: SuaChua[];
+  dateTimeDisplayFormat;
+  trangThaiSuaChua;
+
+  constructor() {
+    this.dateTimeDisplayFormat = dateTimeDisplayFormat;
+    this.trangThaiSuaChua = TrangThaiSuaChua;
+  }
 
   ngOnInit() {
   }

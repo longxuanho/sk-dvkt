@@ -10,6 +10,40 @@
       </tr>
     </thead>
     <tbody>
+      <tr *ngFor="let suachua of suachuas">
+        <td>{{suachua.vi_tri}}</td>
+        <td class="display-5" [ngClass]="{
+          'text-suachuas-success': suachua.trang_thai === trangThaiSuaChua.HoanThanh,
+          'text-suachuas-warning': suachua.trang_thai === trangThaiSuaChua.ChuanBiBanGiao,
+          'text-suachuas-danger': suachua.trang_thai === trangThaiSuaChua.DangThucHien
+          }">{{suachua.ma_thiet_bi}}</td>
+        <td>{{suachua.noi_dung}}</td>
+        <td class="text-xs-right">{{suachua.thoi_gian_bat_dau | moment:dateTimeDisplayFormat:'fromNow'}}</td>
+        <td class="text-xs-right" [ngClass]="{
+          'text-suachuas-success': suachua.trang_thai === trangThaiSuaChua.HoanThanh,
+          'text-suachuas-warning': suachua.trang_thai === trangThaiSuaChua.ChuanBiBanGiao,
+          'text-suachuas-danger': suachua.trang_thai === trangThaiSuaChua.DangThucHien
+          }">{{suachua.thoi_gian_ket_thuc_dk | moment:dateTimeDisplayFormat:'fromNow'}}</td>
+      </tr>
+      <tr>
+        <td colspan="5" class="text-xs-right"><small class="d-copyright">©2017 Phòng Kỹ Thuật Vật Tư, Tổng Công Ty Tân Cảng Sài Gòn</small></td>      
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!--<div class="row">
+  <table class="table table-inverse table-hover">
+    <thead>
+      <tr>
+        <th>Khu vực</th>
+        <th>Mã TB</th>
+        <th>Nội dung sửa chữa</th>
+        <th class="text-xs-right">Bắt đầu</th>
+        <th class="text-xs-right">DK bàn giao</th>
+      </tr>
+    </thead>
+    <tbody>
       <tr>
         <td>D04</td>
         <td class="text-suachuas-success display-5">NB190</td>
@@ -50,4 +84,4 @@
       </tr>
     </tbody>
   </table>
-</div>
+</div>-->

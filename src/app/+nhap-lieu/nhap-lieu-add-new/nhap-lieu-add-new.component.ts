@@ -118,7 +118,6 @@ export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
         this.submitting = false;
         this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
         this.resetForm();
-        this.navbarSearchService.setSearchMode('');
       })
       .catch((error: string) => {
         this.submitting = false;

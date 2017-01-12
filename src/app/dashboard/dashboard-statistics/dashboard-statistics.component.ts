@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'sk-dashboard-statistics',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard-statistics.component.scss']
 })
 export class DashboardStatisticsComponent implements OnInit {
+
+  @Input() statistics;
 
   constructor() { }
 
