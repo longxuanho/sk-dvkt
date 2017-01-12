@@ -1,4 +1,4 @@
 <div>
-  <div class="text-xs-right d-clock"><span class="display-2">9:45</span> CH</div>
-  <div class="d-date">Thứ năm, ngày 05 tháng 01 năm 2017</div>
+  <div class="text-xs-right d-clock"><span class="display-2">{{currentTime.hour}}<span [ngClass]="{'hide-collon': !showCollon}">:</span>{{currentTime.minute}}</span> {{currentTime.suffix}}</div>
+  <div class="d-date">{{currentTime.display}}</div>
 </div>
