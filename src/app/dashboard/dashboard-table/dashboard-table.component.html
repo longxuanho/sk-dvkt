@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let suachua of suachuas">
+      <tr *ngFor="let suachua of suaChuaCurrentPage">
         <td>{{suachua.vi_tri}}</td>
         <td class="display-5" [ngClass]="{
           'text-suachuas-success': suachua.trang_thai === trangThaiSuaChua.HoanThanh,
