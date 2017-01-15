@@ -13,5 +13,5 @@ export const firebaseAuthConfig = {
 }
 
 export const displayConfig = {
-  nhapLieuList_pastItemDoneCount: 4
+  nhapLieuList_pastItemDoneCount: 6
 }
