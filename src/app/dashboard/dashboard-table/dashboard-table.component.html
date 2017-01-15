@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let suachua of suaChuaCurrentPage">
+      <tr *ngFor="let suachua of suaChuaCurrentPage" [@flyInOut]="'in'">
         <td>{{suachua.vi_tri}}</td>
         <td class="display-5" [ngClass]="{
           'text-suachuas-success': suachua.trang_thai === trangThaiSuaChua.HoanThanh,
@@ -31,57 +31,3 @@
     </tbody>
   </table>
 </div>
-
-<!--<div class="row">
-  <table class="table table-inverse table-hover">
-    <thead>
-      <tr>
-        <th>Khu vực</th>
-        <th>Mã TB</th>
-        <th>Nội dung sửa chữa</th>
-        <th class="text-xs-right">Bắt đầu</th>
-        <th class="text-xs-right">DK bàn giao</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>D04</td>
-        <td class="text-suachuas-success display-5">NB190</td>
-        <td>Sửa chữa cụm cabin</td>
-        <td class="text-xs-right">25 ngày trước</td>
-        <td class="text-suachuas-success text-xs-right">18 ngày trước</td>
-      </tr>
-      <tr>
-        <td>D01</td>
-        <td class="text-suachuas-warning">NB189</td>
-        <td>Sửa chữa cụm cabin</td>
-        <td class="text-xs-right">25 ngày trước</td>
-        <td class="text-suachuas-warning text-xs-right">18 ngày trước</td>
-      </tr>
-      <tr>
-        <td>D02</td>
-        <td class="text-suachuas-warning">NB153</td>
-        <td>Kiểm tra sửa chữa cụm cabin</td>
-        <td class="text-xs-right">một tháng trước</td>
-        <td class="text-suachuas-warning text-xs-right">một tháng trước</td>
-      </tr>
-      <tr>
-        <td>D02</td>
-        <td class="text-suachuas-danger">NB153</td>
-        <td>Kiểm tra sửa chữa cụm cabin</td>
-        <td class="text-xs-right">một tháng trước</td>
-        <td class="text-suachuas-danger text-xs-right">một tháng trước</td>
-      </tr>
-      <tr>
-        <td>D02</td>
-        <td class="text-suachuas-danger">NB153</td>
-        <td>Kiểm tra sửa chữa cụm cabin</td>
-        <td class="text-xs-right">một tháng trước</td>
-        <td class="text-suachuas-danger text-xs-right">một tháng trước</td>
-      </tr>
-      <tr>
-        <td colspan="5" class="text-xs-right"><small class="d-copyright">©2017 Phòng Kỹ Thuật Vật Tư, Tổng Công Ty Tân Cảng Sài Gòn</small></td>      
-      </tr>
-    </tbody>
-  </table>
-</div>-->

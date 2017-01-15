@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges, trigger, state, style, transition, animate } from '@angular/core';
 import { SuaChua, TrangThaiSuaChua } from '../../core/shared/sua-chua.model';
 import { dateTimeDisplayFormat } from '../../core/shared/date-time-format.model';
 import { DashboardConfigurations } from '../shared/dashboard.config';
@@ -7,7 +7,16 @@ import { DashboardConfigurations } from '../shared/dashboard.config';
 @Component({
   selector: 'sk-dashboard-table',
   templateUrl: './dashboard-table.component.html',
-  styleUrls: ['./dashboard-table.component.scss']
+  styleUrls: ['./dashboard-table.component.scss'],
+  animations: [
+    trigger('flyInOut', [
+      state('in', style({ transform: 'translateX(0)', opacity: 1 })),
+      transition('void => *', [
+        style({ transform: 'translateX(-50px)', opacity: 0 }),
+        animate('500ms 300ms')
+      ])
+    ])
+  ]
 })
 export class DashboardTableComponent implements OnInit, OnChanges {
 
