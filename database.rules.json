@@ -1,0 +1,19 @@
+{
+  "rules": {
+    ".read": "true",
+    "accounts": {
+      ".write": "true"
+    },
+    "sua-chuas": {
+      "$suachuasId": {
+        "$locationId": {
+          ".write": "root.child('rules').child('managers').hasChild(auth.uid)",
+          ".indexOn": [
+            "ma_thiet_bi",
+            "thoi_gian_ket_thuc_unix"
+          ]
+        }
+      }
+    }
+  }
+}

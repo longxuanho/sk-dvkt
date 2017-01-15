@@ -74,12 +74,15 @@ export class AuthService {
         reject('Người dùng chưa đăng nhập');
       });
     if (status && !!this.auth.data) {
+      let userData = {
+        email: this.auth.data.email,
+        displayName: this.auth.data.displayName,
+        description: this.auth.data.description,
+        online: true
+      };
+      Object.keys(userData).forEach((key) => (userData[key] == null) && delete userData[key]);
       return new Promise((resolve, reject) => {
-        this.af.database.object(`/accounts/userPresence/${uid}`).set({
-          email: this.auth.data.email,
-          displayName: this.auth.data.displayName,
-          description: this.auth.data.description
-        })
+        this.af.database.object(`/accounts/userPresence/${uid}`).set(userData)
           .then(success => resolve())
           .catch((error: Error) => reject(`Ghi giá trị userPresence thất bại. ${error.message}`));
       });
