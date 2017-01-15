@@ -11,6 +11,7 @@ import { SuaChuaModelBuilderService } from '../../core/shared/sua-chua-model-bui
 import { NavbarSearchService } from '../../core/shared/navbar-search.service';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/debounceTime';
+import * as _ from 'lodash';
 
 declare var moment: any;
 
@@ -26,6 +27,8 @@ export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
   dataHelper: any = {
     data: {}
   };
+  suachuasCurrent: SuaChua[] = [];
+  suachuasSub: Subscription;
   calcStartTimeRef: any = moment();
   calcThoiGianDK: string = '3.00 giờ';
   navbarSearchString: string = '';
@@ -117,6 +120,7 @@ export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
       .then(success => {
         this.submitting = false;
         this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
+        this.navbarSearchService.doSearch('');
         this.resetForm();
       })
       .catch((error: string) => {
@@ -125,8 +129,33 @@ export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
       });
   }
 
+  resolveAvailableViTris() {
+    if (this.dataHelper.data && this.dataHelper.data.viTris) {
+      if (this.suachuasCurrent.length) {
+        let unavailableViTris = _.map(this.suachuasCurrent, (suachua) => suachua.vi_tri);
+        this.dataHelper.data.availableViTris = {};
+
+        _.forIn(this.dataHelper.data.viTris, (vitris, key) => {
+          this.dataHelper.data.availableViTris[key] = _.reject(vitris, function(vitriObject: { viTri: string }) { 
+            return _.indexOf(unavailableViTris, vitriObject.viTri) >= 0 
+          });
+        });
+
+      } else {
+        this.dataHelper.data.availableViTris = Object.assign({}, this.dataHelper.data.viTris);
+      }
+    }
+  }
+
   ngOnInit() {
+    this.suachuasSub = this.suaChuaService.getSuaChuasCurrent().subscribe(
+      snapshots => {
+        this.suachuasCurrent = <SuaChua[]>snapshots;
+        this.resolveAvailableViTris();
+      }, (error: Error) => this.toastrService.error(`Không thể truy vấn dữ liệu sửa chữa. ${error.message}`, 'Opps!')
+    );
     this.dataHelper = this.nhapLieuHelperService.getDataHelper();
+    this.resolveAvailableViTris();
     this.resetForm();
 
     this.navbarSearchService.setSearchMode('ma_thiet_bi');    
@@ -142,6 +171,8 @@ export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.suachuasSub)
+      this.suachuasSub.unsubscribe();
     this.navbarSearchService.setSearchMode('');
     this.navbarSearchService.toggleMaThietBiForm(false);
     if (this.navbarSearchStringSub)

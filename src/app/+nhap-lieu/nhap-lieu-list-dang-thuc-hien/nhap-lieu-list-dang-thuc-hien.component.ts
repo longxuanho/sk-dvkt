@@ -12,7 +12,7 @@ import { ToastrService } from 'toastr-ng2';
 })
 export class NhapLieuListDangThucHienComponent implements OnInit {
 
-  subscriptions: { suachuas?: Subscription } = {}
+  suachuasSub: Subscription;
   suachuas: SuaChua[] = [];
   trangThaiSuaChua: any;
   dateTimeDisplayFormat: string;
@@ -26,7 +26,7 @@ export class NhapLieuListDangThucHienComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscriptions.suachuas = this.suaChuaService.getSuaChuasCurrent().subscribe(
+    this.suachuasSub = this.suaChuaService.getSuaChuasCurrent().subscribe(
       snapshots => {
         this.suachuas = <SuaChua[]>snapshots;
       }, (error: Error) => this.toastrService.error(`Không thể truy vấn dữ liệu. ${error.message}`, 'Opps!')
@@ -34,7 +34,8 @@ export class NhapLieuListDangThucHienComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscriptions.suachuas.unsubscribe();
+    if (this.suachuasSub)
+      this.suachuasSub.unsubscribe();
   }
 
 }
