@@ -19,6 +19,7 @@ declare var moment: any;
 export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
 
   @Input() suaChua: SuaChua;
+  suaChuaClone: SuaChua;
 
   suaChuaUpdateForm: FormGroup;
   submitting: boolean = false;
@@ -118,6 +119,11 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
       });
   }
 
+  resetForm() {
+    if (this.suaChuaClone)
+      this.setFormValues(this.suaChuaClone);
+  }
+
   ngOnInit() {
     this.dataHelper = this.nhapLieuHelperService.getDataHelper();
   }
@@ -125,8 +131,10 @@ export class NhapLieuUpdateBasicInfoFormComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     // Chú ý ngOnChanges xảy ra trước ngOnInit!
     if (changes.hasOwnProperty('suaChua')) {
-      if (changes['suaChua'].currentValue)
+      if (changes['suaChua'].currentValue) {
+        this.suaChuaClone = changes['suaChua'].currentValue;
         this.setFormValues(changes['suaChua'].currentValue)
+      }
     }
 
   }

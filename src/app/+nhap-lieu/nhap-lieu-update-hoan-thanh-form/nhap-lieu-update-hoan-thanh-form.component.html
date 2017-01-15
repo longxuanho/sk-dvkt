@@ -13,12 +13,12 @@
     <p *ngIf="invalidTime"><code class="text-danger">Thời gian kết thúc trước thời gian bắt đầu??</code> </p>
 
     <ul *ngIf="suaChua">
-      <li>Nội dung: <code>{{suaChua.noi_dung}}</code></li>
-      <li>Bắt đầu lúc: <code>{{suaChua.thoi_gian_bat_dau}}</code></li>
-      <li>Tại vị trí: <code>{{suaChua.khu_vuc}}, {{suaChua.vi_tri}}</code></li>
-      <li>Thời gian sửa chữa: <code>{{timeOverall}}</code></li>
+      <li>Nội dung <code>{{suaChua.noi_dung}}</code></li>
+      <li>Bắt đầu lúc <code>{{suaChua.thoi_gian_bat_dau}}</code></li>
+      <li>Tại vị trí <code>{{suaChua.khu_vuc}}, {{suaChua.vi_tri}}</code></li>
+      <li>Thời gian sửa chữa <code>{{timeOverall}}</code></li>
     </ul>
     <button type="submit" class="btn btn-outline-success" [disabled]="hoanThanhForm.invalid || submitting || invalidTime">Chấp nhận</button>
-    <button type="button" class="btn btn-secondary" (click)="resetForm()">Reset</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">Reset</button>
   </form>
 </div>
