@@ -120,7 +120,6 @@ export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
       .then(success => {
         this.submitting = false;
         this.toastrService.success('Dữ liệu đã được lưu vào hệ thống', 'Tạo mới thành công');
-        this.navbarSearchService.doSearch('');
         this.resetForm();
       })
       .catch((error: string) => {
@@ -171,10 +170,10 @@ export class NhapLieuAddNewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.suachuasSub)
-      this.suachuasSub.unsubscribe();
     this.navbarSearchService.setSearchMode('');
     this.navbarSearchService.toggleMaThietBiForm(false);
+    if (this.suachuasSub)
+      this.suachuasSub.unsubscribe();    
     if (this.navbarSearchStringSub)
       this.navbarSearchStringSub.unsubscribe();
     if (this.showMaThietBiFormSub)

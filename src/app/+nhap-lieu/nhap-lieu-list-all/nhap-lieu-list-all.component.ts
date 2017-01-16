@@ -4,6 +4,7 @@ import { SuaChua, TrangThaiSuaChua } from '../../core/shared/sua-chua.model';
 import { dateTimeDisplayFormat } from '../../core/shared/date-time-format.model';
 import { Subscription } from 'rxjs/Subscription';
 import { ToastrService } from 'toastr-ng2';
+import { NavbarSearchService } from '../../core/shared/navbar-search.service';
 
 @Component({
   selector: 'sk-nhap-lieu-list-all',
@@ -12,37 +13,55 @@ import { ToastrService } from 'toastr-ng2';
 })
 export class NhapLieuListAllComponent implements OnInit {
 
-  subscriptions: { suachuasCurrent?: Subscription, suachuasDone?: Subscription } = {}
+  suachuasCurrentSub: Subscription;
+  suachuasDoneSub: Subscription;
+  navbarSearchStringSub: Subscription;
+
   suachuasCurrent: SuaChua[] = [];
   suachuasDone: SuaChua[] = [];
   trangThaiSuaChua: any;
   dateTimeDisplayFormat: string;
 
+  navbarSearchString: string = '';
+
   constructor(
     private suaChuaService: SuaChuaService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private navbarSearchService: NavbarSearchService
   ) {
     this.trangThaiSuaChua = TrangThaiSuaChua;
     this.dateTimeDisplayFormat = dateTimeDisplayFormat;
   }
 
   ngOnInit() {
-    this.subscriptions.suachuasCurrent = this.suaChuaService.getSuaChuasCurrent().subscribe(
+    this.suachuasCurrentSub = this.suaChuaService.getSuaChuasCurrent().subscribe(
       snapshots => {
         this.suachuasCurrent = <SuaChua[]>snapshots;
       }, (error: Error) => this.toastrService.error(`Không thể truy vấn dữ liệu. ${error.message}`, 'Opps!')
     )
-    this.subscriptions.suachuasDone = this.suaChuaService.getSuaChuaDoneToday().subscribe(
+    this.suachuasDoneSub = this.suaChuaService.getSuaChuaDoneToday().subscribe(
       snapshots => {
         this.suachuasDone = <SuaChua[]>snapshots;
       }, (error: Error) => this.toastrService.error(`Không thể truy vấn dữ liệu. ${error.message}`, 'Opps!')
     )
+    this.navbarSearchService.setSearchMode('ma_thiet_bi');
+    this.navbarSearchStringSub = this.navbarSearchService.searchString$
+      .debounceTime(500)
+      .subscribe((key: string) => {
+        this.navbarSearchString = key;
+      });
   }
 
   ngOnDestroy() {
-    this.subscriptions.suachuasCurrent.unsubscribe();
-    this.subscriptions.suachuasDone.unsubscribe();
+    this.navbarSearchService.setSearchMode('');
+    
+    if (this.suachuasCurrentSub)
+      this.suachuasDoneSub.unsubscribe();
+    if (this.suachuasDoneSub)
+      this.suachuasDoneSub.unsubscribe();
+    if (this.navbarSearchStringSub)
+      this.navbarSearchStringSub.unsubscribe();
   }
-  
+
 
 }

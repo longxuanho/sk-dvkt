@@ -1,7 +1,7 @@
 <div class="row mt-2" *ngIf="suachuasDone.length">
   <div class="container">
     <div class="list-group mt-2">
-      <a href="" class="list-group-item list-group-item-action" *ngFor="let suachua of suachuasDone" [routerLink]="['/nhap-lieu', suachua.$key]">
+      <a href="" class="list-group-item list-group-item-action" *ngFor="let suachua of suachuasDone | suaChua: navbarSearchString" [routerLink]="['/nhap-lieu', suachua.$key]">
         <h5 class="list-group-item-heading" 
             [ngClass]="{
               'text-suachuas-danger': suachua.trang_thai===trangThaiSuaChua.DangThucHien,
@@ -21,7 +21,7 @@
 <div class="row mt-2" *ngIf="suachuasCurrent.length">
   <div class="container">
     <div class="list-group mt-2">
-      <a href="" class="list-group-item list-group-item-action" *ngFor="let suachua of suachuasCurrent" [routerLink]="['/nhap-lieu', suachua.$key]">
+      <a href="" class="list-group-item list-group-item-action" *ngFor="let suachua of suachuasCurrent | suaChua: navbarSearchString" [routerLink]="['/nhap-lieu', suachua.$key]">
         <h5 class="list-group-item-heading" 
             [ngClass]="{
               'text-suachuas-danger': suachua.trang_thai===trangThaiSuaChua.DangThucHien,

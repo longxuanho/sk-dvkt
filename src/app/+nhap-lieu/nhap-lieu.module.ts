@@ -5,6 +5,7 @@ import { NhapLieuRoutingModule, routedComponents } from './nhap-lieu-routing.mod
 
 import { NhapLieuHelperService } from './shared/nhap-lieu-helper.service';
 import { MaThietBiPipe } from './shared/ma-thiet-bi.pipe';
+import { SuaChuaPipe } from './shared/sua-chua.pipe';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { MaThietBiPipe } from './shared/ma-thiet-bi.pipe';
   ],
   declarations: [
     routedComponents,
-    MaThietBiPipe
+    MaThietBiPipe,
+    SuaChuaPipe
   ]
 })
 export class NhapLieuModule { }
